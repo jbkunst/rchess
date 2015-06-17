@@ -1,0 +1,10 @@
+dependencies:
+  - name: chessboardjs
+    version: 1
+    src: htmlwidgets/lib
+    script:
+      - jquery-1.10.1.min.js
+      - json3.min.js
+      - chessboard.js
+      - chessboard.css
+      - img/*
