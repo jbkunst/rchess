@@ -1,10 +1,8 @@
 dependencies:
-  - name: chessboardjs
-    version: 1
+  - name: chessboard
+    version: 0.1.2
     src: htmlwidgets/lib
     script:
-      - jquery-1.10.1.min.js
-      - json3.min.js
-      - chessboard.js
-      - chessboard.css
-      - img/*
+      - d3-chessboard.js
+      - chess.js
+      - d3.min.js

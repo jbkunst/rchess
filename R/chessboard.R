@@ -5,11 +5,12 @@
 #' @import htmlwidgets
 #'
 #' @export
-chessboard <- function(message, width = NULL, height = NULL) {
+chessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+                       width = NULL, height = NULL) {
 
   # forward options using x
   x = list(
-    message = message
+    fen = fen
   )
 
   # create widget

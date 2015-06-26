@@ -14,8 +14,14 @@ HTMLWidgets.widget({
 
   renderValue: function(el, x, instance) {
 
+    console.log(x);
     console.log(el);
-    var board = new ChessBoard(el.id, 'start');
+
+    var sel = d3.select("#" + el.id);
+    var board = d3chessboard()
+                  .fen(x.fen)
+                  .size(parseInt(el.style.width));
+    sel.call(board);
 
   },
 
