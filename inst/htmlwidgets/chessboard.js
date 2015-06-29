@@ -16,11 +16,12 @@ HTMLWidgets.widget({
 
     console.log(x);
     console.log(el);
+    console.log(parseInt(el.clientWidth));
 
     var sel = d3.select("#" + el.id);
     var board = d3chessboard()
                   .fen(x.fen)
-                  .size(parseInt(el.style.width));
+                  .size(parseInt(el.clientWidth));
     sel.call(board);
 
   },
