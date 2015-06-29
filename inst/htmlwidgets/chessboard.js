@@ -18,10 +18,14 @@ HTMLWidgets.widget({
     console.log(el);
     console.log(parseInt(el.clientWidth));
 
+    var w = document.getElementById(el.id).clientWidth;
+
+    console.log(w);
+
     var sel = d3.select("#" + el.id);
     var board = d3chessboard()
                   .fen(x.fen)
-                  .size(parseInt(el.clientWidth));
+                  .size(parseInt(w));
     sel.call(board);
 
   },

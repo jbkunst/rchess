@@ -29,7 +29,7 @@ function d3chessboard() {
 
       var chess = new Chess();
       
-      var margin = size*0.06
+      var margin = size * 0.06
       
       chess.load(fen);
 
@@ -37,8 +37,8 @@ function d3chessboard() {
       selection.selectAll("*").remove();
 
       var svg = selection.append("svg")
-        .attr("width", size)
-        .attr("height", size)
+        .attr("width", size + "px")
+        .attr("height", size + "px")
         .append("g")
         .attr("transform", "translate(" + margin + "," + margin + ")");
 
