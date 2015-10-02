@@ -4,5 +4,5 @@ dependencies:
     src: htmlwidgets/lib
     script:
       - d3-chessboard.js
-      - chess.js
+      - chess.min.js
       - d3.min.js
