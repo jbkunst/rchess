@@ -11,12 +11,13 @@ Chess <- R6::R6Class(
   ),
   public = list(
     initialize = function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
+      # assertthat::assert_that(is_valid_fen(fen))
       self$init_ct(fen)
     },
     init_ct = function(fen){
       private$ct <- .get_context_chess_from_fen(fen)
     },
-    # chessjs api
+    ### chessjs api
     ascii = function(){
       cat(private$ct$get("chess.ascii()"))
     },
@@ -31,12 +32,16 @@ Chess <- R6::R6Class(
       private$ct$get(V8::JS("chess.game_over()"))
     },
     get = function(square){
-      assert_that(is_chess_square(square))
+      assertthat::assert_that(is_chess_square(square))
       strg <- sprintf("chess.get('%s')", square)
       piece <- private$ct$get(V8::JS(strg))
       piece
     },
-    history = function(options){},
+    history = function(verbose = FALSE){
+      private$ct$assign("verb", verbose)
+      histry <- private$ct$get("chess.history({ verbose: verb})")
+      histry
+    },
     in_check = function(){
       private$ct$get(V8::JS("chess.in_check()"))
     },
@@ -52,13 +57,12 @@ Chess <- R6::R6Class(
     in_threefold_repetition = function(){
       private$ct$get(V8::JS("chess.in_threefold_repetition()"))
     },
-    header = function(){},
     insufficient_material = function(){
       private$ct$get(V8::JS("chess.insufficient_material()"))
     },
-    load = function(fen){},
-    load_pgn = function(pgn, options){},
     move = function(move){
+      mvs <- self$moves()
+      assertthat::assert_that(is_valid_move(move, mvs))
       strg <- sprintf("chess.move('%s')", move)
       private$ct$eval(V8::JS(strg))
       invisible(self)
@@ -67,6 +71,14 @@ Chess <- R6::R6Class(
       moves <- private$ct$get("chess.moves()")
       moves
     },
+    validate_fen = function(fen){
+      assertthat::is.string(fen)
+      private$ct$assign("fen", fen)
+      val <- private$ct$get("chess.validate_fen(fen)")
+      val
+    },
+    load = function(fen){},
+    load_pgn = function(pgn, options){},
     pgn = function(options){},
     put = function(piece, square){},
     remove = function(square){},
@@ -74,9 +86,10 @@ Chess <- R6::R6Class(
     square_color = function(square){},
     turn = function(){},
     undo = function(){},
-    validate_fen = function(fen){},
-
-    # generic methods
+    header = function(){},
+    #### htmlwidgets
+    plot_html = function(){},
+    #### generic methods
     summary = function(){ cat("summary Chess object")},
     plot    = function(){ cat("plot Chess object")},
     print   = function(){ cat("print Chess object") }))
