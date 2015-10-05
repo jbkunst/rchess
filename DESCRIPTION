@@ -13,4 +13,5 @@ Imports:
     htmlwidgets,
     V8,
     R6,
-    ggplot2
+    ggplot2,
+    assertthat
