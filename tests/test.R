@@ -4,7 +4,15 @@ rm(list = ls())
 ### INTERNAL ###
 ct <- rchess:::.get_context_chess_from_fen()
 ct$get(V8::JS("chess.get('a2')"))
+ct$eval(V8::JS("chess.move('a3')"))
+ct$eval(V8::JS("chess.move('d5')"))
+ct$get(V8::JS("chess.get('a3')"))
+cat(ct$get(V8::JS("chess.ascii()")))
+ct$assign("verb", TRUE)
+ct$get("chess.history({ verbose: verb})")
 
+ct$assign("fen", "no fen")
+ct$get("chess.validate_fen(fen)")
 #### Creating Chess object ####
 chss <- Chess$new()
 
@@ -25,7 +33,12 @@ chss$ascii()
 chss$fen()
 
 chss$get("e5")
-chss$get("z5")
+
+chss$history()
+
+chss$history(verbose = TRUE)
+
+
 
 
 #### Methods ####
@@ -35,6 +48,10 @@ plot(chss)
 
 print(chss)
 
+### Example validation FEN ###
+chsserror <- Chess$new(fen = "something is not fen")
+
+chss$validate_fen("asda")
 
 #### Example State validation #####
 chss2 <- Chess$new("rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3")
