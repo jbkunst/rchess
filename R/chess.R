@@ -30,7 +30,12 @@ Chess <- R6::R6Class(
     game_over = function(){
       private$ct$get(V8::JS("chess.game_over()"))
     },
-    get = function(square){},
+    get = function(square){
+      assert_that(is_chess_square(square))
+      strg <- sprintf("chess.get('%s')", square)
+      piece <- private$ct$get(V8::JS(strg))
+      piece
+    },
     history = function(options){},
     in_check = function(){
       private$ct$get(V8::JS("chess.in_check()"))
@@ -84,7 +89,6 @@ Chess <- R6::R6Class(
   ct$assign("chess", V8::JS("new Chess(fen);"))
   ct
 }
-
 
 summary.Chess <- function(x, ...) {
   x$summary()
