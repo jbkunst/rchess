@@ -3,6 +3,7 @@ is_valid_fen <- function(x) {
   ct <- .get_context_chess_from_fen()
   ct$assign("fen", x)
   val <- ct$get("chess.validate_fen(fen)")
+  if (!val$valid) message(val$error)
   val$valid
 }
 
@@ -16,8 +17,6 @@ assertthat::on_failure(is_valid_fen) <- function(call, env) {
 
 # assertthat::assert_that(is_valid_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"))
 # assertthat::assert_that(is_valid_fen("asdas"))
-
-
 
 
 is_valid_move <- function(x, mvs){
