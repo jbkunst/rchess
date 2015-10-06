@@ -1,6 +1,6 @@
 # rchess
 
-A chess pckage for R powered by:
+A chess package for R powered by:
 
 - V8 package and chessjs javascript library
 - OO system by R6 package
