@@ -6,7 +6,7 @@
 #'
 #' @export
 chessboardjs <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-                       width = NULL, height = NULL) {
+                       width = 300, height = 300) {
 
   # forward options using x
   x = list(
