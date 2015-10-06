@@ -1,8 +1,0 @@
-dependencies:
-  - name: chessboard
-    version: 0.1.2
-    src: htmlwidgets/lib
-    script:
-      - d3-chessboard.js
-      - chess.min.js
-      - d3.min.js
