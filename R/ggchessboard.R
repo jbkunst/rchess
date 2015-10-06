@@ -11,7 +11,7 @@
 ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
                          cellcols = c("#D2B48C", "#F5F5DC"),
                          perspective = "white",
-                         piecesize = 16){
+                         piecesize = 15){
 
   stopifnot(perspective %in% c("white", "black"))
 
