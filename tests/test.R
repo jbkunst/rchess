@@ -2,17 +2,17 @@ library(rchess)
 rm(list = ls())
 
 ### INTERNAL ###
-ct <- rchess:::.get_context_chess_from_fen()
-ct$get(V8::JS("chess.get('a2')"))
-ct$eval(V8::JS("chess.move('a3')"))
-ct$eval(V8::JS("chess.move('d5')"))
-ct$get(V8::JS("chess.get('a3')"))
-cat(ct$get(V8::JS("chess.ascii()")))
-ct$assign("verb", TRUE)
-ct$get("chess.history({ verbose: verb})")
+# ct <- rchess:::.get_context_chess_from_fen()
+# ct$get(V8::JS("chess.get('a2')"))
+# ct$eval(V8::JS("chess.move('a3')"))
+# ct$eval(V8::JS("chess.move('d5')"))
+# ct$get(V8::JS("chess.get('a3')"))
+# cat(ct$get(V8::JS("chess.ascii()")))
+# ct$assign("verb", TRUE)
+# ct$get("chess.history({ verbose: verb})")
+# ct$assign("fen", "no fen")
+# ct$get("chess.validate_fen(fen)")
 
-ct$assign("fen", "no fen")
-ct$get("chess.validate_fen(fen)")
 #### Creating Chess object ####
 chss <- Chess$new()
 
@@ -44,7 +44,18 @@ chss$history(verbose = TRUE)
 #### Methods ####
 summary(chss)
 
+#' Via ggchessboard function
 plot(chss)
+
+#' Via ggchessboard function
+plot(chss, cellcols = c("#CCCCCC", "#FAFAFA"), piecesize = 17, perspective = "black")
+
+#' Via chessboardjs htmlwidget implmentation
+plot(chss, type = "chessboardjs", width = 400, height = 400)
+
+#' Or just ascii
+plot(chss, type = "ascii")
+
 
 print(chss)
 
