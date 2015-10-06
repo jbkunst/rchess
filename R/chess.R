@@ -11,7 +11,7 @@ Chess <- R6::R6Class(
   ),
   public = list(
     initialize = function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
-      # assertthat::assert_that(is_valid_fen(fen))
+      stopifnot(is_valid_fen(fen))
       self$init_ct(fen)
     },
     init_ct = function(fen){
@@ -23,24 +23,24 @@ Chess <- R6::R6Class(
     },
     clear = function(){
       private$ct$eval(V8::JS("chess.clear()"))
-      invisible(self)
     },
     fen = function(){
       private$ct$get(V8::JS("chess.fen()"))
     },
-    game_over = function(){
-      private$ct$get(V8::JS("chess.game_over()"))
+    pgn = function(){
+      private$ct$get("chess.pgn()")
     },
     get = function(square){
       assertthat::assert_that(is_chess_square(square))
       strg <- sprintf("chess.get('%s')", square)
-      piece <- private$ct$get(V8::JS(strg))
-      piece
+      private$ct$get(V8::JS(strg))
     },
     history = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
-      histry <- private$ct$get("chess.history({ verbose: verb})")
-      histry
+      private$ct$get("chess.history({ verbose: verb})")
+    },
+    game_over = function(){
+      private$ct$get(V8::JS("chess.game_over()"))
     },
     in_check = function(){
       private$ct$get(V8::JS("chess.in_check()"))
@@ -64,40 +64,91 @@ Chess <- R6::R6Class(
       assertthat::assert_that(is_valid_move(move, self$moves()))
       strg <- sprintf("chess.move('%s')", move)
       private$ct$eval(V8::JS(strg))
+      # Only function return invisible(self) to concatenate moves
       invisible(self)
     },
-    moves = function(options){
-      moves <- private$ct$get("chess.moves()")
-      moves
+    moves = function(verbose = FALSE){
+      private$ct$assign("verb", verbose)
+      private$ct$get("chess.moves({ verbose: verb})")
     },
     validate_fen = function(fen){
-      assertthat::is.string(fen)
+      stopifnot((is_valid_fen(fen)))
       private$ct$assign("fen", fen)
-      val <- private$ct$get("chess.validate_fen(fen)")
-      val
+      private$ct$get("chess.validate_fen(fen)")
     },
-    load = function(fen){},
-    load_pgn = function(pgn, options){},
-    pgn = function(options){},
-    put = function(piece, square){},
-    remove = function(square){},
-    reset = function(){},
-    square_color = function(square){},
-    turn = function(){},
-    undo = function(){},
-    header = function(){},
-    #### htmlwidgets
-    plot_html = function(){},
+    load = function(fen){
+      stopifnot((is_valid_fen(fen)))
+      private$ct$assign("fen", fen)
+      private$ct$get("chess.load(fen)")
+    },
+    load_pgn = function(pgn){
+      assertthat::is.string(pgn)
+      private$ct$assign("pgn", pgn)
+      private$ct$get("chess.load_pgn(pgn)")
+    },
+    put = function(type, color, square){
+      assertthat::assert_that(is_chess_square(square))
+      stopifnot(color %in% c("w", "b"))
+      stopifnot(type %in% c("k", "q", "p", "n", "r", "b"))
+      private$ct$assign("type", type)
+      private$ct$assign("color", color)
+      private$ct$assign("square", square)
+      private$ct$get("chess.put({ type: type, color: color }, square)")
+    },
+    remove = function(square){
+      assertthat::assert_that(is_chess_square(square))
+      strg <- sprintf("chess.remove('%s')", square)
+      private$ct$get(strg)
+    },
+    reset = function(){
+      private$ct$eval("chess.reset();")
+    },
+    square_color = function(square){
+      assertthat::assert_that(is_chess_square(square))
+      strg <- sprintf("chess.square_color('%s')", square)
+      private$ct$get(V8::JS(strg))
+    },
+    turn = function(){
+      private$ct$get(V8::JS("chess.turn()"))
+    },
+    undo = function(){
+      private$ct$get(V8::JS("chess.undo()"))
+    },
+    header = function(key, value){
+      stopifnot(key %in% c("White", "Black", "Date", "Site", "Event", "Round", "Result"))
+      private$ct$assign("key", key)
+      private$ct$assign("value", value)
+      private$ct$eval("chess.header(key, value)")
+      invisible(self)
+    },
     #### generic methods
-    summary = function(){ cat("summary Chess object")},
-    plot    = function(type = "ggplot2", ...){
-      if(type == "ascii") e <- self$ascii()
-      if(type == "ggplot2") e <- ggchessboard(self$fen(), ...)
-      if(type == "chessboardjs") e <- chessboardjs(self$fen(), ...)
-      e
+    summary = function(){
 
+      cat("\nTurn\n")
+      cat(self$turn())
+
+      cat("\n\nNumber of moves\n")
+      cat(length(self$history()))
+
+      cat("\n\nHistory\n")
+      cat(self$history())
+
+      cat("\n\nFen representation\n")
+      cat(self$fen())
+
+      cat("\n\nBoard\n")
+      cat(self$ascii())
+
+      },
+    plot    = function(type = "chessboardjs", ...){
+      stopifnot(type %in% c("chessboardjs", "ggplot"))
+      if (type == "ggplot") e <- ggchessboard(self$fen(), ...)
+      if (type == "chessboardjs") e <- chessboardjs(self$fen(), ...)
+      e
     },
-    print   = function(){ cat("print Chess object") }))
+    print   = function(){
+      self$summary()
+    }))
 
 
 .get_context_chess_from_fen <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
