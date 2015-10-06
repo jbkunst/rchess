@@ -25,7 +25,8 @@ is_valid_move <- function(x, mvs){
 }
 
 assertthat::on_failure(is_valid_move) <- function(call, env) {
-  paste0(call$x, " is not a posible move")
+  x <- call$x
+  paste0(x, " is not a posible move")
 }
 
 # assertthat::assert_that(is_valid_move('a5', c('a5', 'd4')))
