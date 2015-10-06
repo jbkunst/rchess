@@ -61,8 +61,7 @@ Chess <- R6::R6Class(
       private$ct$get(V8::JS("chess.insufficient_material()"))
     },
     move = function(move){
-      mvs <- self$moves()
-      assertthat::assert_that(is_valid_move(move, mvs))
+      assertthat::assert_that(is_valid_move(move, self$moves()))
       strg <- sprintf("chess.move('%s')", move)
       private$ct$eval(V8::JS(strg))
       invisible(self)
@@ -91,7 +90,13 @@ Chess <- R6::R6Class(
     plot_html = function(){},
     #### generic methods
     summary = function(){ cat("summary Chess object")},
-    plot    = function(){ cat("plot Chess object")},
+    plot    = function(type = "ggplot2", ...){
+      if(type == "ascii") e <- self$ascii()
+      if(type == "ggplot2") e <- ggchessboard(self$fen(), ...)
+      if(type == "chessboardjs") e <- chessboardjs(self$fen(), ...)
+      e
+
+    },
     print   = function(){ cat("print Chess object") }))
 
 
@@ -108,7 +113,7 @@ summary.Chess <- function(x, ...) {
 }
 
 plot.Chess <- function(x, ...) {
-  x$plot()
+  x$plot(...)
 }
 
 print.Chess <- function(x, ...) {
