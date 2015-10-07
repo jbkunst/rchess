@@ -1,19 +1,6 @@
 # rchess
 <!-- README.md is generated from README.Rmd -->
 
-<!--
-<a href="https://github.com/jbkunst/rchess"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
-
-<style>
-  table, .table {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 0.8em;
-  }
-</style>
---> 
-
 
 
 [![travis-status](https://api.travis-ci.org/jbkunst/rchess.svg)](https://travis-ci.org/jbkunst/rchess)
@@ -88,19 +75,24 @@ head(chss$moves(verbose = TRUE))
 ```r
 
 chss$move("a3")
+```
 
-#' We can concate some moves and a capture
+
+We can concate some moves (and a captures)
+
+
+```r
 chss$move("e5")$move("f4")$move("Qe7")$move("fxe5")
 ```
 
 
 
 ```r
-# this is an image for the readme. The real one is a html.
 plot(chss)
 ```
 
 ![alt text](inst/extimg/plot_chssbrdjs.png)
+*This is an image for the readme. The real one is a html document powered by [cheesboarjs](http://chessboardjs.com/).*
 
 
 ```r
@@ -187,6 +179,10 @@ chss$ascii()
 ##    +------------------------+
 ##      a  b  c  d  e  f  g  h
 ```
+
+## More functions?
+
+You can see [this link](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html) for checkother funcionalities.
 
 ## Under the hood
 

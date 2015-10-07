@@ -8,19 +8,6 @@ output:
 ---
 <!-- README.md is generated from README.Rmd -->
 
-<!--
-<a href="https://github.com/jbkunst/rchess"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
-
-<style>
-  table, .table {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 0.8em;
-  }
-</style>
---> 
-
 ```{r setup, echo = FALSE, warning=FALSE}
 library("rchess")
 library("printr")
@@ -61,18 +48,22 @@ head(chss$moves(verbose = TRUE))
 
 chss$move("a3")
 
-#' We can concate some moves and a capture
-chss$move("e5")$move("f4")$move("Qe7")$move("fxe5")
+```
 
+
+We can concate some moves (and a captures)
+
+```{r}
+chss$move("e5")$move("f4")$move("Qe7")$move("fxe5")
 ```
 
 
 ```{r, eval=FALSE}
-# this is an image for the readme. The real one is a html.
 plot(chss)
 ```
 
 ![alt text](inst/extimg/plot_chssbrdjs.png)
+*This is an image for the readme. The real one is a html document powered by [cheesboarjs](http://chessboardjs.com/).*
 
 ```{r}
 
@@ -101,17 +92,21 @@ cat(chss$pgn())
 chss$ascii()
 ```
 
+## More functions?
+
+You can see [this link](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html) for checkother funcionalities.
+
 ## Under the hood
 
-This package is basically a wrapper of Ñchessjs](https://github.com/jhlywa/chess.js) by [jhlywa](https://github.com/jhlywa).
+This package is basically a wrapper of [chessjs](https://github.com/jhlywa/chess.js) by [jhlywa](https://github.com/jhlywa).
 
-The main part in this package are:
+The main parts in this package are:
 
 - V8 package and chessjs javascript library.
 - R6 package for the OO system.
 - htmlwidget package and chessboardjs javascript library.
 
-So, thanks to the creators and maintainers.
+Thanks to the creators and maintainers of these packages and libraries.
 
 
 ## Session Info
