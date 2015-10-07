@@ -1,6 +1,9 @@
 language: r
 sudo: required
 
+r_packages:
+ - V8
+
 notifications:
   email:
     on_failure: change
