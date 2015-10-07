@@ -28,7 +28,7 @@ Chess <- R6::R6Class(
       private$ct$get(V8::JS("chess.fen()"))
     },
     pgn = function(){
-      private$ct$get("chess.pgn()")
+      private$ct$get("chess.pgn({ max_width: 60 })")
     },
     get = function(square){
       assertthat::assert_that(is_chess_square(square))
