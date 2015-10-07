@@ -1,13 +1,12 @@
 language: r
+
+
+warnings_are_errors: false
 sudo: required
 
-before_install:
- - sudo apt-get install libv8-3.14-dev
-
-
-r_packages:
- - V8
+apt_packages:
+ - libv8-dev
 
 notifications:
-  email:
-    on_failure: change
+ email:
+  on_failure: change
