@@ -10,12 +10,10 @@ output:
 
 ```{r setup, echo = FALSE, warning=FALSE}
 library("rchess")
-library("printr")
 options(digits = 3, knitr.table.format = "markdown")
 knitr::opts_chunk$set(collapse = TRUE, warning = FALSE,
-                      fig.path = "vignettes/figures/",
-                      fig.width = 6, fig.height = 6,
-                      fig.align = "center", dpi = 72)
+                      fig.path = "inst/extimg/",
+                      fig.width = 5.5, fig.height = 5.5, dpi = 72)
 ```
 
 [![travis-status](https://api.travis-ci.org/jbkunst/rchess.svg)](https://travis-ci.org/jbkunst/rchess)
@@ -44,7 +42,7 @@ chss
 
 chss$moves()
 
-head(chss$moves(verbose = TRUE))
+chss$moves(verbose = TRUE)
 
 chss$move("a3")
 
@@ -63,7 +61,15 @@ plot(chss)
 ```
 
 ![alt text](inst/extimg/plot_chssbrdjs.png)
-*This is an image for the readme. The real one is a html document powered by [cheesboarjs](http://chessboardjs.com/).*
+(This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).
+See [here](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html))
+
+Or a ggplot2 version
+
+```{r}
+plot(chss, type = "ggplot")
+```
+
 
 ```{r}
 
@@ -73,7 +79,7 @@ chss$square_color("h1")
 
 chss$get("e5")
 
-head(chss$history(verbose = TRUE))
+chss$history(verbose = TRUE)
 
 chss$history()
 
@@ -92,10 +98,98 @@ cat(chss$pgn())
 chss$ascii()
 ```
 
-## Ohter funcionalities
+## Load PGN and FEN
 
-Other functions for validation and load position and games you
-can see  in [this link](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html).
+### Fen
+
+```{r}
+chssfen <- Chess$new()
+
+fen <- "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
+
+chssfen$load(fen)
+
+chssfen$ascii()
+```
+
+### PGN
+
+```{r}
+pgn <- system.file("extdata/kasparov_vs_topalov.pgn", package = "rchess")
+pgn <- readLines(pgn, warn = FALSE)
+pgn <- paste(pgn, collapse = "\n")
+cat(pgn)
+
+chsspgn <- Chess$new()
+
+chsspgn$load_pgn(pgn)
+
+cat(chsspgn$pgn())
+
+chsspgn$history()
+
+chsspgn$history(verbose = TRUE)
+```
+
+## Validation Functions
+
+### State validation
+
+```{r}
+chss2 <- Chess$new("rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3")
+
+```
+
+```{r, eval=FALSE}
+plot(chss2)
+```
+![alt text](inst/extimg/plot_chssbrdjs_check.png)
+*This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).*
+
+
+```{r}
+chss2$in_check()
+
+chss2$in_checkmate()
+```
+
+### Slatemate validation
+
+```{r}
+chss3 <- Chess$new("4k3/4P3/4K3/8/8/8/8/8 b - - 0 78")
+
+chss3$ascii()
+
+chss3$in_stalemate()
+```
+
+### Three fold repetition
+
+```{r}
+chss4 <- Chess$new("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+
+chss4$in_threefold_repetition()
+
+chss4$move('Nf3')$move('Nf6')$move('Ng1')$move('Ng8')
+
+chss4$in_threefold_repetition()
+
+chss4$move('Nf3')$move('Nf6')$move('Ng1')$move('Ng8')
+
+chss4$in_threefold_repetition()
+
+chss4$history()
+```
+
+### Insufficient material
+```{r}
+chess5 <- Chess$new("k7/8/n7/8/8/8/8/7K b - - 0 1")
+
+plot(chess5, type = "ggplot")
+
+chess5$insufficient_material()
+```
+
 
 ## Under the hood
 
