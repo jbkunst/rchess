@@ -91,7 +91,7 @@ chss2$load(fen)
 chss2$plot()
 
 #' ### Load PGN
-pgn <- system.file("data/kasparov_vs_topalov.pgn", package = "rchess")
+pgn <- system.file("extdata/kasparov_vs_topalov.pgn", package = "rchess")
 pgn <- readLines(pgn, warn = FALSE)
 pgn <- paste(pgn, collapse = "\n")
 cat(pgn)
