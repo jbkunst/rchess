@@ -3,7 +3,7 @@ Joshua Kunst
 
 
 ```r
-library(rchess)
+library("rchess")
 rm(list = ls())
 ```
 
@@ -58,27 +58,30 @@ chss$moves(verbose = TRUE)
 ```
 
 ```
-##    color from to flags piece san
-## 1      w   a2 a3     n     p  a3
-## 2      w   a2 a4     b     p  a4
-## 3      w   b2 b3     n     p  b3
-## 4      w   b2 b4     b     p  b4
-## 5      w   c2 c3     n     p  c3
-## 6      w   c2 c4     b     p  c4
-## 7      w   d2 d3     n     p  d3
-## 8      w   d2 d4     b     p  d4
-## 9      w   e2 e3     n     p  e3
-## 10     w   e2 e4     b     p  e4
-## 11     w   f2 f3     n     p  f3
-## 12     w   f2 f4     b     p  f4
-## 13     w   g2 g3     n     p  g3
-## 14     w   g2 g4     b     p  g4
-## 15     w   h2 h3     n     p  h3
-## 16     w   h2 h4     b     p  h4
-## 17     w   b1 a3     n     n Na3
-## 18     w   b1 c3     n     n Nc3
-## 19     w   g1 f3     n     n Nf3
-## 20     w   g1 h3     n     n Nh3
+## Source: local data frame [20 x 6]
+## 
+##    color  from    to flags piece   san
+##    (chr) (chr) (chr) (chr) (chr) (chr)
+## 1      w    a2    a3     n     p    a3
+## 2      w    a2    a4     b     p    a4
+## 3      w    b2    b3     n     p    b3
+## 4      w    b2    b4     b     p    b4
+## 5      w    c2    c3     n     p    c3
+## 6      w    c2    c4     b     p    c4
+## 7      w    d2    d3     n     p    d3
+## 8      w    d2    d4     b     p    d4
+## 9      w    e2    e3     n     p    e3
+## 10     w    e2    e4     b     p    e4
+## 11     w    f2    f3     n     p    f3
+## 12     w    f2    f4     b     p    f4
+## 13     w    g2    g3     n     p    g3
+## 14     w    g2    g4     b     p    g4
+## 15     w    h2    h3     n     p    h3
+## 16     w    h2    h4     b     p    h4
+## 17     w    b1    a3     n     n   Na3
+## 18     w    b1    c3     n     n   Nc3
+## 19     w    g1    f3     n     n   Nf3
+## 20     w    g1    h3     n     n   Nh3
 ```
 
 ```r
@@ -94,8 +97,8 @@ chss$move("e5")$move("f4")$move("Qe7")$move("fxe5")
 plot(chss)
 ```
 
-<!--html_preserve--><div id="htmlwidget-947" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-947">{"x":{"fen":"rnb1kbnr/ppppqppp/8/4P3/8/P7/1PPPP1PP/RNBQKBNR b KQkq - 0 3"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-3234" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-3234">{"x":{"fen":"rnb1kbnr/ppppqppp/8/4P3/8/P7/1PPPP1PP/RNBQKBNR b KQkq - 0 3"},"evals":[]}</script><!--/html_preserve-->
 
 ```r
 chss$turn()
@@ -130,12 +133,15 @@ chss$history(verbose = TRUE)
 ```
 
 ```
-##   color from to flags piece  san captured
-## 1     w   a2 a3     n     p   a3     <NA>
-## 2     b   e7 e5     b     p   e5     <NA>
-## 3     w   f2 f4     b     p   f4     <NA>
-## 4     b   d8 e7     n     q  Qe7     <NA>
-## 5     w   f4 e5     c     p fxe5        p
+## Source: local data frame [5 x 7]
+## 
+##   color  from    to flags piece   san captured
+##   (chr) (chr) (chr) (chr) (chr) (chr)    (chr)
+## 1     w    a2    a3     n     p    a3       NA
+## 2     b    e7    e5     b     p    e5       NA
+## 3     w    f2    f4     b     p    f4       NA
+## 4     b    d8    e7     n     q   Qe7       NA
+## 5     w    f4    e5     c     p  fxe5        p
 ```
 
 ```r
@@ -268,27 +274,14 @@ Via `chessboardjs` htmlwidget implementation
 plot(chss)
 ```
 
-<!--html_preserve--><div id="htmlwidget-8987" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-8987">{"x":{"fen":"rnb1kbnr/ppppqppp/8/4p3/5P2/P7/1PPPP1PP/RNBQKBNR w KQkq - 1 3"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-8023" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-8023">{"x":{"fen":"rnb1kbnr/ppppqppp/8/4p3/5P2/P7/1PPPP1PP/RNBQKBNR w KQkq - 1 3"},"evals":[]}</script><!--/html_preserve-->
 
 If you dont like so much `chessboarjs` you can do vía ggplot2 with the `ggchessboard` function.
 
 
 ```r
 plot(chss, type = "ggplot")
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
 ```
 
 ![](test_files/figure-html/unnamed-chunk-6-1.png) 
@@ -308,8 +301,8 @@ fen <- "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
 chessboardjs(fen)
 ```
 
-<!--html_preserve--><div id="htmlwidget-6115" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-6115">{"x":{"fen":"rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-9795" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-9795">{"x":{"fen":"rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"},"evals":[]}</script><!--/html_preserve-->
 
 ```r
 ggchessboard(fen)
@@ -365,8 +358,8 @@ chss2 <- Chess$new()
 chss2$plot()
 ```
 
-<!--html_preserve--><div id="htmlwidget-4725" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-4725">{"x":{"fen":"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-8" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-8">{"x":{"fen":"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"},"evals":[]}</script><!--/html_preserve-->
 
 ```r
 fen <- "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
@@ -382,14 +375,14 @@ chss2$load(fen)
 chss2$plot()
 ```
 
-<!--html_preserve--><div id="htmlwidget-8371" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-8371">{"x":{"fen":"rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-3914" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-3914">{"x":{"fen":"rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"},"evals":[]}</script><!--/html_preserve-->
 
 ### Load PGN
 
 
 ```r
-pgn <- system.file("data/kasparov_vs_topalov.pgn", package = "rchess")
+pgn <- system.file("extdata/kasparov_vs_topalov.pgn", package = "rchess")
 pgn <- readLines(pgn, warn = FALSE)
 pgn <- paste(pgn, collapse = "\n")
 cat(pgn)
@@ -470,17 +463,25 @@ chsspgn$history()
 ```
 
 ```r
-head(chsspgn$history(verbose = TRUE), 6)
+chsspgn$history(verbose = TRUE)
 ```
 
 ```
-##   color from to flags piece san captured
-## 1     w   e2 e4     b     p  e4     <NA>
-## 2     b   d7 d6     n     p  d6     <NA>
-## 3     w   d2 d4     b     p  d4     <NA>
-## 4     b   g8 f6     n     n Nf6     <NA>
-## 5     w   b1 c3     n     n Nc3     <NA>
-## 6     b   g7 g6     n     p  g6     <NA>
+## Source: local data frame [87 x 7]
+## 
+##    color  from    to flags piece   san captured
+##    (chr) (chr) (chr) (chr) (chr) (chr)    (chr)
+## 1      w    e2    e4     b     p    e4       NA
+## 2      b    d7    d6     n     p    d6       NA
+## 3      w    d2    d4     b     p    d4       NA
+## 4      b    g8    f6     n     n   Nf6       NA
+## 5      w    b1    c3     n     n   Nc3       NA
+## 6      b    g7    g6     n     p    g6       NA
+## 7      w    c1    e3     n     b   Be3       NA
+## 8      b    f8    g7     n     b   Bg7       NA
+## 9      w    d1    d2     n     q   Qd2       NA
+## 10     b    c7    c6     n     p    c6       NA
+## ..   ...   ...   ...   ...   ...   ...      ...
 ```
 
 ### State validation
@@ -492,8 +493,8 @@ chss2 <- Chess$new("rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3
 plot(chss2)
 ```
 
-<!--html_preserve--><div id="htmlwidget-2934" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-2934">{"x":{"fen":"rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-6278" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-6278">{"x":{"fen":"rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3"},"evals":[]}</script><!--/html_preserve-->
 
 ```r
 chss2$in_check()
@@ -520,8 +521,8 @@ chss3 <- Chess$new("4k3/4P3/4K3/8/8/8/8/8 b - - 0 78")
 plot(chss3)
 ```
 
-<!--html_preserve--><div id="htmlwidget-3763" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-3763">{"x":{"fen":"4k3/4P3/4K3/8/8/8/8/8 b - - 0 78"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-9691" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-9691">{"x":{"fen":"4k3/4P3/4K3/8/8/8/8/8 b - - 0 78"},"evals":[]}</script><!--/html_preserve-->
 
 ```r
 chss3$in_stalemate()
@@ -578,8 +579,8 @@ chess5 <- Chess$new("k7/8/n7/8/8/8/8/7K b - - 0 1")
 plot(chess5)
 ```
 
-<!--html_preserve--><div id="htmlwidget-5597" style="width:300px;height:300px;" class="chessboardjs"></div>
-<script type="application/json" data-for="htmlwidget-5597">{"x":{"fen":"k7/8/n7/8/8/8/8/7K b - - 0 1"},"evals":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-2660" style="width:300px;height:300px;" class="chessboardjs"></div>
+<script type="application/json" data-for="htmlwidget-2660">{"x":{"fen":"k7/8/n7/8/8/8/8/7K b - - 0 1"},"evals":[]}</script><!--/html_preserve-->
 
 ```r
 chess5$insufficient_material()
@@ -607,5 +608,5 @@ chess5$insufficient_material()
 ---
 title: "test.R"
 author: "Joshua K"
-date: "Tue Oct 06 23:15:34 2015"
+date: "Wed Oct 07 01:05:12 2015"
 ---

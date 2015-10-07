@@ -104,7 +104,7 @@ cat(chsspgn$pgn())
 
 chsspgn$history()
 
-head(chsspgn$history(verbose = TRUE), 6)
+chsspgn$history(verbose = TRUE)
 
 
 #' ### State validation
