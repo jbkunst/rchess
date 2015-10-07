@@ -1,6 +1,10 @@
 language: r
 sudo: required
 
+before_install:
+ - sudo apt-get install libv8-3.14-dev
+
+
 r_packages:
  - V8
 
