@@ -180,21 +180,22 @@ chss$ascii()
 ##      a  b  c  d  e  f  g  h
 ```
 
-## More functions?
+## Ohter funcionalities
 
-You can see [this link](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html) for checkother funcionalities.
+Other functions for validation and load position and games you
+can see  in [this link](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html).
 
 ## Under the hood
 
-This package is basically a wrapper of Ñchessjs](https://github.com/jhlywa/chess.js) by [jhlywa](https://github.com/jhlywa).
+This package is basically a wrapper of [chessjs](https://github.com/jhlywa/chess.js) by [jhlywa](https://github.com/jhlywa).
 
-The main part in this package are:
+The main parts in this package are:
 
 - V8 package and chessjs javascript library.
 - R6 package for the OO system.
 - htmlwidget package and chessboardjs javascript library.
 
-So, thanks to the creators and maintainers.
+Thanks to the creators and maintainers of these packages and libraries.
 
 
 ## Session Info

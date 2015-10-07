@@ -92,9 +92,10 @@ cat(chss$pgn())
 chss$ascii()
 ```
 
-## More functions?
+## Ohter funcionalities
 
-You can see [this link](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html) for checkother funcionalities.
+Other functions for validation and load position and games you
+can see  in [this link](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html).
 
 ## Under the hood
 
