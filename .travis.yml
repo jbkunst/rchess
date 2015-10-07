@@ -1,0 +1,10 @@
+language: r
+sudo: required
+
+# for build vignettes
+r_packages:
+
+
+notifications:
+  email:
+    on_failure: change
