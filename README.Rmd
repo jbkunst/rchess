@@ -65,7 +65,7 @@ plot(chss)
 (This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).
 See [here](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html))
 
-Or a ggplot2 version
+Or a ggplot2 version (I know, I need to change the [chess pieces symbols in unicode](https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode); maybe use a chess typeface)
 
 ```{r}
 plot(chss, type = "ggplot")
@@ -101,7 +101,7 @@ chss$ascii()
 
 ## Load PGN and FEN
 
-### Fen
+### FEN
 
 ```{r}
 chssfen <- Chess$new()
