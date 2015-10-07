@@ -12,6 +12,8 @@
 #'              piecesize = 17,
 #'              perspective = "black")
 #'}
+#'
+#' @export
 ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
                          cellcols = c("#D2B48C", "#F5F5DC"),
                          perspective = "white",
@@ -32,7 +34,8 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
     ggplot2::geom_text(ggplot2::aes_string(label = "text"), size = piecesize) +
     ggplot2::scale_fill_manual(values = cellcols) +
     ggplot2::coord_equal() +
-    theme_null()
+    ggthemes::theme_map() +
+    ggplot2::theme(legend.position = "none")
 
   p
 
@@ -91,27 +94,4 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
   stopifnot(length(fen) == 64)
 
   fen
-}
-
-#' Theme null
-#'
-#' A ggplot2 theme null for ggchessboard
-#'
-#'
-#' @export
-theme_null <- function(){
-
-  ggplot2::theme(axis.line = element_blank(),
-                 axis.text.x = element_blank(),
-                 axis.text.y = element_blank(),
-                 axis.ticks = element_blank(),
-                 axis.title.x = element_blank(),
-                 axis.title.y = element_blank(),
-                 legend.position = "none",
-                 panel.background = element_blank(),
-                 panel.border = element_blank(),
-                 panel.grid.major = element_blank(),
-                 panel.grid.minor = element_blank(),
-                 plot.background = element_blank()
-  )
 }
