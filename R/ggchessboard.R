@@ -1,4 +1,8 @@
+#' Plot a chessboard via ggplot2
+#'
 #' @examples
+#'
+#' \dontrun{
 #' ggchessboard()
 #'
 #' ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
@@ -7,7 +11,7 @@
 #'              cellcols = c("#CCCCCC", "#FAFAFA"),
 #'              piecesize = 17,
 #'              perspective = "black")
-#'
+#'}
 ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
                          cellcols = c("#D2B48C", "#F5F5DC"),
                          perspective = "white",
@@ -15,21 +19,20 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
 
   stopifnot(perspective %in% c("white", "black"))
 
-  library("ggplot2")
-  library("dplyr")
-
   dchess <- .chessboarddata(fen = fen)
 
   lvls <- if (perspective == "white") 1:8 else 8:1
 
   dchess <- dchess %>%
-    mutate(x = factor(x, levels = lvls),
-           y = factor(y, levels = lvls))
+    dplyr::mutate(x = factor(x, levels = lvls),
+				  y = factor(y, levels = lvls))
 
-  p <- ggplot(dchess, aes(x, y)) +
-    geom_tile(aes(fill = cc)) + scale_fill_manual(values = cellcols) +
-    geom_text(aes(label = text), size = piecesize) +
-    coord_equal() + theme_null()
+  p <- ggplot2::ggplot(dchess, ggplot2::aes_string("x", "y")) +
+    ggplot2::geom_tile(ggplot2::aes_string(fill = "cc")) +
+    ggplot2::geom_text(ggplot2::aes_string(label = "text"), size = piecesize) +
+    ggplot2::scale_fill_manual(values = cellcols) +
+    ggplot2::coord_equal() +
+    theme_null()
 
   p
 
@@ -37,8 +40,6 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
 
 
 .chessboarddata <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"){
-
-  library("dplyr")
 
   rows <- seq(8)
   cols <- letters[rows]
@@ -50,26 +51,26 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
               B  = "\u2657", b = "\u265D",
               N  = "\u2658", n = "\u265E")
 
-  dpieces <- data_frame(piece = names(pieces),
-                        text = pieces)
+  dpieces <- dplyr::data_frame(piece = names(pieces),
+                               text = pieces)
 
-  dchess <- data_frame(idcell = seq(64),
-                       col    = rep(cols, times = 8),
-                       row    = rep(seq(8), each = 8),
-                       x      = rep(rows, times = 8),
-                       y      = rep(seq(8), each = 8),
-                       cell   = paste0(col, row),
-                       cc     = ifelse((x + y) %% 2, "w", "b"))
+  dchess <- dplyr::data_frame(idcell = seq(64),
+                              col    = rep(cols, times = 8),
+                              row    = rep(seq(8), each = 8),
+                              x      = rep(rows, times = 8),
+                              y      = rep(seq(8), each = 8),
+                              cell   = paste0(col, row),
+                              cc     = ifelse((x + y) %% 2, "w", "b"))
 
-  dfen <- data_frame(idcell = rep(seq(8), 8) + rep(7:0, each = 8)*8,
-                     piece  = .parse_fen(fen))
-
-  dchess <- dchess %>%
-    left_join(dfen, by = "idcell") %>%
-    left_join(dpieces, by = "piece")
+  dfen <- dplyr::data_frame(idcell = rep(seq(8), 8) + rep(7:0, each = 8)*8,
+                            piece  = .parse_fen(fen))
 
   dchess <- dchess %>%
-    mutate(text = ifelse(is.na(text), "", text))
+    dplyr::left_join(dfen, by = "idcell") %>%
+    dplyr::left_join(dpieces, by = "piece")
+
+  dchess <- dchess %>%
+    dplyr::mutate(text = ifelse(is.na(text), "", text))
 
   dchess
 
@@ -90,4 +91,27 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
   stopifnot(length(fen) == 64)
 
   fen
+}
+
+#' Theme null
+#'
+#' A ggplot2 theme null for ggchessboard
+#'
+#'
+#' @export
+theme_null <- function(){
+
+  ggplot2::theme(axis.line = element_blank(),
+                 axis.text.x = element_blank(),
+                 axis.text.y = element_blank(),
+                 axis.ticks = element_blank(),
+                 axis.title.x = element_blank(),
+                 axis.title.y = element_blank(),
+                 legend.position = "none",
+                 panel.background = element_blank(),
+                 panel.border = element_blank(),
+                 panel.grid.major = element_blank(),
+                 panel.grid.minor = element_blank(),
+                 plot.background = element_blank()
+  )
 }

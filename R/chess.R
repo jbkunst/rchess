@@ -159,14 +159,19 @@ Chess <- R6::R6Class(
   ct
 }
 
-summary.Chess <- function(x, ...) {
-  x$summary()
+
+#' @export
+summary.Chess <- function(object, ...) {
+  object$summary()
 }
 
-plot.Chess <- function(x, ...) {
+
+#' @export
+plot.Chess <- function(x, y=NULL, ...) {
   x$plot(...)
 }
 
+#' @export
 print.Chess <- function(x, ...) {
   x$print()
 }

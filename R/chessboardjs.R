@@ -1,6 +1,4 @@
-#' <Add Title>
-#'
-#' <Add Description>
+#' #' Plot a chessboard via chessboardjs
 #'
 #' @import htmlwidgets
 #'
