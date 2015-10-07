@@ -37,7 +37,10 @@ Chess <- R6::R6Class(
     },
     history = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
-      private$ct$get("chess.history({ verbose: verb})")
+      res <- private$ct$get("chess.history({ verbose: verb })")
+      if (verbose) res <- dplyr::tbl_df(res)
+      res
+
     },
     game_over = function(){
       private$ct$get(V8::JS("chess.game_over()"))
@@ -69,7 +72,9 @@ Chess <- R6::R6Class(
     },
     moves = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
-      private$ct$get("chess.moves({ verbose: verb})")
+      res <- private$ct$get("chess.moves({ verbose: verb })")
+      if (verbose) res <- dplyr::tbl_df(res)
+      res
     },
     validate_fen = function(fen){
       stopifnot((is_valid_fen(fen)))
