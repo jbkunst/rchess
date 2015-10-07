@@ -61,6 +61,7 @@ plot(chss)
 ```
 
 ![alt text](inst/extimg/plot_chssbrdjs.png)
+
 (This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).
 See [here](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html))
 
@@ -144,6 +145,7 @@ chss2 <- Chess$new("rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3
 plot(chss2)
 ```
 ![alt text](inst/extimg/plot_chssbrdjs_check.png)
+
 *This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).*
 
 
