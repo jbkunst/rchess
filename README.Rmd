@@ -1,0 +1,121 @@
+---
+title: "rchess"
+output:
+  html_document:
+    keep_md: yes
+    theme: cosmo
+    toc: yes
+---
+<!-- README.md is generated from README.Rmd -->
+
+<!--
+<a href="https://github.com/jbkunst/rchess"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+<style>
+  table, .table {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.8em;
+  }
+</style>
+--> 
+
+```{r setup, echo = FALSE, warning=FALSE}
+library("rchess")
+library("printr")
+options(digits = 3, knitr.table.format = "markdown")
+knitr::opts_chunk$set(collapse = TRUE, warning = FALSE,
+                      fig.path = "vignettes/figures/",
+                      fig.width = 6, fig.height = 6,
+                      fig.align = "center", dpi = 72)
+```
+
+[![travis-status](https://api.travis-ci.org/jbkunst/rchess.svg)](https://travis-ci.org/jbkunst/rchess)
+[![version](http://www.r-pkg.org/badges/version/rchess)](http://www.r-pkg.org/pkg/rchess)
+[![downloads](http://cranlogs.r-pkg.org/badges/rchess)](http://www.r-pkg.org/pkg/rchess)
+
+## Introduction
+
+The `rchess` package is a chess move, generation/validation, piece placement/movement, and check/checkmate/stalemate detection.
+ 
+
+## Installation
+
+You can install the latest development version from github with:
+
+```{r, eval=FALSE}
+devtools::install_github("jbkunst/rchess")
+```
+
+## Basic Usage
+
+```{r}
+chss <- Chess$new()
+
+chss
+
+chss$moves()
+
+head(chss$moves(verbose = TRUE))
+
+chss$move("a3")
+
+#' We can concate some moves and a capture
+chss$move("e5")$move("f4")$move("Qe7")$move("fxe5")
+
+```
+
+
+```{r, eval=FALSE}
+# this is an image for the readme. The real one is a html.
+plot(chss)
+```
+
+![alt text](inst/extimg/plot_chssbrdjs.png)
+
+```{r}
+
+chss$turn()
+
+chss$square_color("h1")
+
+chss$get("e5")
+
+head(chss$history(verbose = TRUE))
+
+chss$history()
+
+chss$undo()
+
+chss$history()
+
+chss$fen()
+
+chss$header("White", "You")
+
+chss$header("Black", "Me")
+
+cat(chss$pgn())
+
+chss$ascii()
+```
+
+## Under the hood
+
+This package is basically a wrapper of Ñchessjs](https://github.com/jhlywa/chess.js) by [jhlywa](https://github.com/jhlywa).
+
+The main part in this package are:
+
+- V8 package and chessjs javascript library.
+- R6 package for the OO system.
+- htmlwidget package and chessboardjs javascript library.
+
+So, thanks to the creators and maintainers.
+
+
+## Session Info
+
+```{r}
+print(sessionInfo())
+```
