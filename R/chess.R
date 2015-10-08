@@ -2,7 +2,7 @@
 #'
 #' Chees class.
 #'
-#'
+#' @import R6
 #' @export
 Chess <- R6::R6Class(
   "Chess",

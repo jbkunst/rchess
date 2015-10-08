@@ -1,9 +1,10 @@
 Package: rchess
 Version: 0.1
 Title: A package por chess move, generation/validation, piece placement/movement, and
- check/checkmate/stalemate detection.
+ check/checkmate/stalemate detection
 Description: This Packages is a wrapper for the chess.js javascript library by
-  Jeff Hlywa.
+  Jeff Hlywa. Also rchess integrates htmlwidget for plot chessboard using
+  chessboardjs library.
 Author: Joshua Kunst <jbkunst@gmail.com>
 Maintainer: Joshua Kunst <jbkunst@gmail.com>
 License: MIT + file LICENSE

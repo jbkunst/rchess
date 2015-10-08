@@ -7,9 +7,11 @@
 renderChessboardjs(expr, env = parent.frame(), quoted = FALSE)
 }
 \arguments{
-\item{width}{Width in pixels}
+\item{expr}{Expression}
 
-\item{height}{Height in pixels}
+\item{env}{Environment}
+
+\item{quoted}{Quoted}
 }
 \description{
 Widget render function for use in Shiny
