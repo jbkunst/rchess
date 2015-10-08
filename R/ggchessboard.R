@@ -1,5 +1,12 @@
 #' Plot a chessboard via ggplot2
-#'
+#' @description Function to show the fen string in ggplot2.
+#' @param fen Fen notation of a chessboard
+#' @param cellcols A 2 length vector fot the cell colors
+#' @param perspective A string to show the perspective (black, white)
+#' @param piecesize Size of the the unicode texts
+#' @return A ggplot object
+#' @import ggplot2
+#' @export
 #' @examples
 #'
 #' \dontrun{
@@ -29,13 +36,13 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
     dplyr::mutate(x = factor(x, levels = lvls),
 				  y = factor(y, levels = lvls))
 
-  p <- ggplot2::ggplot(dchess, ggplot2::aes_string("x", "y")) +
-    ggplot2::geom_tile(ggplot2::aes_string(fill = "cc")) +
-    ggplot2::geom_text(ggplot2::aes_string(label = "text"), size = piecesize) +
-    ggplot2::scale_fill_manual(values = cellcols) +
-    ggplot2::coord_equal() +
+  p <- ggplot(dchess, aes_string("x", "y")) +
+    geom_tile(aes_string(fill = "cc")) +
+    geom_text(aes_string(label = "text"), size = piecesize) +
+    scale_fill_manual(values = cellcols) +
+    coord_equal() +
     ggthemes::theme_map() +
-    ggplot2::theme(legend.position = "none")
+    theme(legend.position = "none")
 
   p
 
@@ -81,6 +88,7 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
 
 
 .parse_fen <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"){
+
   fen <- strsplit(fen, "\\s")[[1]][[1]]
   fen <- unlist(strsplit(fen, "/"))
   fen <- unlist(setdiff(paste0(fen, collapse = ""), ""))

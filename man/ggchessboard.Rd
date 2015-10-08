@@ -9,8 +9,20 @@
   cellcols = c("#D2B48C", "#F5F5DC"), perspective = "white",
   piecesize = 15)
 }
+\arguments{
+\item{fen}{Fen notation of a chessboard}
+
+\item{cellcols}{A 2 length vector fot the cell colors}
+
+\item{perspective}{A string to show the perspective (black, white)}
+
+\item{piecesize}{Size of the the unicode texts}
+}
+\value{
+A ggplot object
+}
 \description{
-Plot a chessboard via ggplot2
+Function to show the fen string in ggplot2.
 }
 \examples{
 \dontrun{

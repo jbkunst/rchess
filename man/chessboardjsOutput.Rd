@@ -6,6 +6,13 @@
 \usage{
 chessboardjsOutput(outputId, width = "100\%", height = "400px")
 }
+\arguments{
+\item{outputId}{Id of the div tag}
+
+\item{width}{Width in pixels}
+
+\item{height}{Height in pixels}
+}
 \description{
 Widget output function for use in Shiny
 }

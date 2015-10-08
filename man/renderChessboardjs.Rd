@@ -6,6 +6,11 @@
 \usage{
 renderChessboardjs(expr, env = parent.frame(), quoted = FALSE)
 }
+\arguments{
+\item{width}{Width in pixels}
+
+\item{height}{Height in pixels}
+}
 \description{
 Widget render function for use in Shiny
 }
