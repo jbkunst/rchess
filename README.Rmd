@@ -63,7 +63,7 @@ plot(chss)
 ![alt text](inst/extimg/plot_chssbrdjs.png)
 
 (This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).
-See [here](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html))
+See [here](http://rpubs.com/jbkunst/rchess2))
 
 Or a ggplot2 version (I know, I need to change the [chess pieces symbols in unicode](https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode); maybe use a chess typeface)
 
@@ -146,7 +146,8 @@ plot(chss2)
 ```
 ![alt text](inst/extimg/plot_chssbrdjs_check.png)
 
-*This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).*
+(This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).
+See [here](http://rpubs.com/jbkunst/rchess2))
 
 
 ```{r}

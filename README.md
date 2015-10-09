@@ -104,7 +104,7 @@ plot(chss)
 ![alt text](inst/extimg/plot_chssbrdjs.png)
 
 (This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).
-See [here](https://rawgit.com/jbkunst/rchess/master/dontrun/test.html))
+See [here](http://rpubs.com/jbkunst/rchess2))
 
 Or a ggplot2 version (I know, I need to change the [chess pieces symbols in unicode](https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode); maybe use a chess typeface)
 
@@ -332,7 +332,8 @@ plot(chss2)
 ```
 ![alt text](inst/extimg/plot_chssbrdjs_check.png)
 
-*This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).*
+(This is an image for the readme. The real one is a html document powered by [chessboarjs](http://chessboardjs.com/).
+See [here](http://rpubs.com/jbkunst/rchess2))
 
 
 
@@ -425,9 +426,9 @@ Thanks to the creators and maintainers of these packages and libraries.
 
 ```r
 print(sessionInfo())
-## R version 3.1.3 (2015-03-09)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 8 x64 (build 9200)
+## R version 3.2.0 (2015-04-16)
+## Platform: i386-w64-mingw32/i386 (32-bit)
+## Running under: Windows 7 (build 7601) Service Pack 1
 ## 
 ## locale:
 ## [1] LC_COLLATE=Spanish_Chile.1252  LC_CTYPE=Spanish_Chile.1252   
@@ -441,13 +442,13 @@ print(sessionInfo())
 ## [1] rchess_0.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] assertthat_0.1   colorspace_1.2-6 curl_0.9.3       DBI_0.3.1       
-##  [5] digest_0.6.8     dplyr_0.4.3      evaluate_0.8     formatR_1.2.1   
-##  [9] ggplot2_1.0.1    ggthemes_2.2.1   grid_3.1.3       gtable_0.1.2    
-## [13] htmltools_0.2.6  htmlwidgets_0.5  jsonlite_0.9.17  knitr_1.11      
-## [17] lazyeval_0.1.10  magrittr_1.5     MASS_7.3-39      munsell_0.4.2   
-## [21] parallel_3.1.3   plyr_1.8.3       proto_0.3-10     R6_2.1.1        
-## [25] Rcpp_0.12.1      reshape2_1.4.1   rmarkdown_0.8    rstudioapi_0.3.1
-## [29] scales_0.3.0     stringi_0.5-5    stringr_1.0.0    tools_3.1.3     
-## [33] V8_0.8           yaml_2.1.13
+##  [1] Rcpp_0.12.1      rstudioapi_0.3.1 knitr_1.11       magrittr_1.5    
+##  [5] MASS_7.3-44      munsell_0.4.2    colorspace_1.2-6 R6_2.1.1        
+##  [9] dplyr_0.4.3      stringr_1.0.0    plyr_1.8.3       tools_3.2.0     
+## [13] parallel_3.2.0   grid_3.2.0       gtable_0.1.2     DBI_0.3.1       
+## [17] ggthemes_2.2.1   htmltools_0.2.6  lazyeval_0.1.10  yaml_2.1.13     
+## [21] digest_0.6.8     assertthat_0.1   reshape2_1.4.1   ggplot2_1.0.1   
+## [25] formatR_1.2.1    htmlwidgets_0.5  curl_0.9.3       evaluate_0.8    
+## [29] rmarkdown_0.8    V8_0.8           stringi_0.5-5    scales_0.3.0    
+## [33] jsonlite_0.9.17  proto_0.3-10
 ```
