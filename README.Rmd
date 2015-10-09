@@ -3,7 +3,7 @@ title: "rchess"
 output:
   html_document:
     keep_md: yes
-    theme: cosmo
+    theme: null
     toc: yes
 ---
 <!-- README.md is generated from README.Rmd -->
@@ -116,7 +116,7 @@ chssfen$ascii()
 ### PGN
 
 ```{r}
-pgn <- system.file("extdata/kasparov_vs_topalov.pgn", package = "rchess")
+pgn <- system.file("extdata/pgn/kasparov_vs_topalov.pgn", package = "rchess")
 pgn <- readLines(pgn, warn = FALSE)
 pgn <- paste(pgn, collapse = "\n")
 cat(pgn)

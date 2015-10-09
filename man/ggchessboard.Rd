@@ -25,8 +25,8 @@ A ggplot object
 Function to show the fen string in ggplot2.
 }
 \examples{
-\dontrun{
 ggchessboard()
+\dontrun{
 
 ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
 

@@ -10,8 +10,8 @@ x <- y <- NULL
 #' @export
 #' @examples
 #'
-#' \dontrun{
 #' ggchessboard()
+#' \dontrun{
 #'
 #' ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
 #'
@@ -34,8 +34,8 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
   lvls <- if (perspective == "white") 1:8 else 8:1
 
   dchess <- dchess %>%
-    dplyr::mutate_(x = factor(x, levels = lvls),
-                   y = factor(y, levels = lvls))
+    dplyr::mutate(x = factor(x, levels = lvls),
+                  y = factor(y, levels = lvls))
 
   p <- ggplot(dchess, aes_string("x", "y")) +
     geom_tile(aes_string(fill = "cc")) +
