@@ -40,5 +40,10 @@ chessboardjsOutput <- function(outputId, width = '100%', height = '400px'){
 #' @export
 renderChessboardjs <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
-  shinyRenderWidget(expr, chessboardOutput, env, quoted = TRUE)
+  shinyRenderWidget(expr, chessboardjsOutput, env, quoted = TRUE)
 }
+
+
+
+
+
