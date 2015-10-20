@@ -13,6 +13,7 @@ Chess <- R6::R6Class(
     initialize = function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
       stopifnot(is_valid_fen(fen))
       self$init_ct(fen)
+      invisible(self)
     },
     init_ct = function(fen){
       private$ct <- .get_context_chess_from_fen(fen)
@@ -38,9 +39,8 @@ Chess <- R6::R6Class(
     history = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
       res <- private$ct$get("chess.history({ verbose: verb })")
-      if (verbose) res <- dplyr::tbl_df(res)
+      if (verbose) res <- dplyr::tbl_df(res) %>% mutate(number_move = seq(nrow(.)))
       res
-
     },
     game_over = function(){
       private$ct$get(V8::JS("chess.game_over()"))
@@ -67,7 +67,7 @@ Chess <- R6::R6Class(
       assertthat::assert_that(is_valid_move(move, self$moves()))
       strg <- sprintf("chess.move('%s')", move)
       private$ct$eval(V8::JS(strg))
-      # Only function return invisible(self) to concatenate moves
+      # return invisible(self) to concatenate moves
       invisible(self)
     },
     moves = function(verbose = FALSE){
@@ -93,8 +93,8 @@ Chess <- R6::R6Class(
     },
     put = function(type, color, square){
       assertthat::assert_that(is_chess_square(square))
-      stopifnot(color %in% c("w", "b"))
-      stopifnot(type %in% c("k", "q", "p", "n", "r", "b"))
+      assertthat::assert_that(color %in% c("w", "b"))
+      assertthat::assert_that(type %in% c("k", "q", "p", "n", "r", "b"))
       private$ct$assign("type", type)
       private$ct$assign("color", color)
       private$ct$assign("square", square)
@@ -120,7 +120,6 @@ Chess <- R6::R6Class(
       private$ct$get(V8::JS("chess.undo()"))
     },
     header = function(key, value){
-      stopifnot(key %in% c("White", "Black", "Date", "Site", "Event", "Round", "Result"))
       private$ct$assign("key", key)
       private$ct$assign("value", value)
       private$ct$eval("chess.header(key, value)")
