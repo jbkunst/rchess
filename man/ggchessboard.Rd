@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggchessboard.R
 \name{ggchessboard}
 \alias{ggchessboard}
-\title{Plot a chessboard via ggplot2}
+\title{Plot a fen representation chessboard via ggplot2}
 \usage{
 
   ggchessboard(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
@@ -26,7 +26,6 @@ Function to show the fen string in ggplot2.
 }
 \examples{
 ggchessboard()
-\dontrun{
 
 ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
 
@@ -34,6 +33,5 @@ ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 
              cellcols = c("#CCCCCC", "#FAFAFA"),
              piecesize = 17,
              perspective = "black")
-}
 }
 

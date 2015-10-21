@@ -21,4 +21,7 @@ The chessboardjs board
 \description{
 Function to show the fen string in a chessboard widget.
 }
+\examples{
+chessboardjs()
+}
 
