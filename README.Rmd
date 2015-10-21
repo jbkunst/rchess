@@ -193,6 +193,22 @@ plot(chess5, type = "ggplot")
 chess5$insufficient_material()
 ```
 
+## Not api functions
+
+## History for move of each piece
+
+We can check the final board status with the (last) fen and the
+`history_moves_pieces` filtering by `status == "game over"`
+
+```{r}
+chsspgn$history_moves_pieces()
+
+ggchessboard(chsspgn$fen())
+
+library("dplyr")
+chss$history_moves_pieces() %>% filter(status == "game over")
+```
+
 
 ## Under the hood
 

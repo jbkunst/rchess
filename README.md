@@ -133,15 +133,15 @@ chss$get("e5")
 ## [1] "w"
 
 chss$history(verbose = TRUE)
-## Source: local data frame [5 x 7]
+## Source: local data frame [5 x 8]
 ## 
-##   color  from    to flags piece   san captured
-##   (chr) (chr) (chr) (chr) (chr) (chr)    (chr)
-## 1     w    a2    a3     n     p    a3       NA
-## 2     b    e7    e5     b     p    e5       NA
-## 3     w    f2    f4     b     p    f4       NA
-## 4     b    d8    e7     n     q   Qe7       NA
-## 5     w    f4    e5     c     p  fxe5        p
+##   color  from    to flags piece   san captured number_move
+##   (chr) (chr) (chr) (chr) (chr) (chr)    (chr)       (int)
+## 1     w    a2    a3     n     p    a3       NA           1
+## 2     b    e7    e5     b     p    e5       NA           2
+## 3     w    f2    f4     b     p    f4       NA           3
+## 4     b    d8    e7     n     q   Qe7       NA           4
+## 5     w    f4    e5     c     p  fxe5        p           5
 
 chss$history()
 ## [1] "a3"   "e5"   "f4"   "Qe7"  "fxe5"
@@ -300,21 +300,21 @@ chsspgn$history()
 ## [81] "Qa4+"  "Ke1"   "f4"    "f5"    "Kc1"   "Rd2"   "Qa7"
 
 chsspgn$history(verbose = TRUE)
-## Source: local data frame [87 x 7]
+## Source: local data frame [87 x 8]
 ## 
-##    color  from    to flags piece   san captured
-##    (chr) (chr) (chr) (chr) (chr) (chr)    (chr)
-## 1      w    e2    e4     b     p    e4       NA
-## 2      b    d7    d6     n     p    d6       NA
-## 3      w    d2    d4     b     p    d4       NA
-## 4      b    g8    f6     n     n   Nf6       NA
-## 5      w    b1    c3     n     n   Nc3       NA
-## 6      b    g7    g6     n     p    g6       NA
-## 7      w    c1    e3     n     b   Be3       NA
-## 8      b    f8    g7     n     b   Bg7       NA
-## 9      w    d1    d2     n     q   Qd2       NA
-## 10     b    c7    c6     n     p    c6       NA
-## ..   ...   ...   ...   ...   ...   ...      ...
+##    color  from    to flags piece   san captured number_move
+##    (chr) (chr) (chr) (chr) (chr) (chr)    (chr)       (int)
+## 1      w    e2    e4     b     p    e4       NA           1
+## 2      b    d7    d6     n     p    d6       NA           2
+## 3      w    d2    d4     b     p    d4       NA           3
+## 4      b    g8    f6     n     n   Nf6       NA           4
+## 5      w    b1    c3     n     n   Nc3       NA           5
+## 6      b    g7    g6     n     p    g6       NA           6
+## 7      w    c1    e3     n     b   Be3       NA           7
+## 8      b    f8    g7     n     b   Bg7       NA           8
+## 9      w    d1    d2     n     q   Qd2       NA           9
+## 10     b    c7    c6     n     p    c6       NA          10
+## ..   ...   ...   ...   ...   ...   ...      ...         ...
 ```
 
 ## Validation Functions
@@ -407,6 +407,70 @@ chess5$insufficient_material()
 ## [1] TRUE
 ```
 
+## Not api functions
+
+## History for move of each piece
+
+We can check the final board status with the (last) fen and the
+`history_moves_pieces` filtering by `status == "game over"`
+
+
+```r
+chsspgn$history_moves_pieces()
+## Source: local data frame [92 x 7]
+## 
+##           name start_position  from    to number_move   status
+##          (chr)          (chr) (chr) (chr)       (int)    (chr)
+## 1      a1 Rook             a1    a1    d1          21       NA
+## 2      a1 Rook             a1    d1    d4          29       NA
+## 3      a1 Rook             a1    d4    d1          31       NA
+## 4      a1 Rook             a1    d1    d4          47 captured
+## 5    b1 Knight             b1    b1    c3           5       NA
+## 6    b1 Knight             b1    c3    d5          43 captured
+## 7    c3 Bishop             c1    c1    e3           7       NA
+## 8    c3 Bishop             c1    e3    h6          15 captured
+## 9  White Queen             d1    d1    d2           9       NA
+## 10 White Queen             d1    d2    h6          17       NA
+## ..         ...            ...   ...   ...         ...      ...
+## Variables not shown: piece_number_move (int)
+
+ggchessboard(chsspgn$fen())
+```
+
+![](inst/extimg/unnamed-chunk-15-1.png) 
+
+```r
+
+library("dplyr")
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+chss$history_moves_pieces() %>% filter(status == "game over")
+## Source: local data frame [32 x 7]
+## 
+##           name start_position  from    to number_move    status
+##          (chr)          (chr) (chr) (chr)       (int)     (chr)
+## 1      a1 Rook             a1    a1    NA          NA game over
+## 2    b1 Knight             b1    b1    NA          NA game over
+## 3    c3 Bishop             c1    c1    NA          NA game over
+## 4  White Queen             d1    d1    NA          NA game over
+## 5   White King             e1    e1    NA          NA game over
+## 6    f1 Bishop             f1    f1    NA          NA game over
+## 7    g1 Knight             g1    g1    NA          NA game over
+## 8      h1 Rook             h1    h1    NA          NA game over
+## 9      a2 Pawn             a2    a2    a3           1 game over
+## 10     b2 Pawn             b2    b2    NA          NA game over
+## ..         ...            ...   ...   ...         ...       ...
+## Variables not shown: piece_number_move (int)
+```
+
 
 ## Under the hood
 
@@ -439,16 +503,15 @@ print(sessionInfo())
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] rchess_0.1
+## [1] dplyr_0.4.3        ggplot2_1.0.1.9003 rchess_0.1        
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.1      rstudioapi_0.3.1 knitr_1.11       magrittr_1.5    
-##  [5] MASS_7.3-44      munsell_0.4.2    colorspace_1.2-6 R6_2.1.1        
-##  [9] dplyr_0.4.3      stringr_1.0.0    plyr_1.8.3       tools_3.2.0     
-## [13] parallel_3.2.0   grid_3.2.0       gtable_0.1.2     DBI_0.3.1       
-## [17] ggthemes_2.2.1   htmltools_0.2.6  lazyeval_0.1.10  yaml_2.1.13     
-## [21] digest_0.6.8     assertthat_0.1   reshape2_1.4.1   ggplot2_1.0.1   
-## [25] formatR_1.2.1    htmlwidgets_0.5  curl_0.9.3       evaluate_0.8    
-## [29] rmarkdown_0.8    V8_0.8           stringi_0.5-5    scales_0.3.0    
-## [33] jsonlite_0.9.17  proto_0.3-10
+##  [5] munsell_0.4.2    colorspace_1.2-6 R6_2.1.1         stringr_1.0.0   
+##  [9] plyr_1.8.3       tools_3.2.0      parallel_3.2.0   grid_3.2.0      
+## [13] gtable_0.1.2     DBI_0.3.1        ggthemes_3.0.0   htmltools_0.2.6 
+## [17] lazyeval_0.1.10  yaml_2.1.13      assertthat_0.1   digest_0.6.8    
+## [21] formatR_1.2.1    htmlwidgets_0.5  curl_0.9.3       evaluate_0.8    
+## [25] rmarkdown_0.8.1  V8_0.9           stringi_0.5-5    scales_0.3.0    
+## [29] jsonlite_0.9.17
 ```
