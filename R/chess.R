@@ -2,7 +2,7 @@
 #'
 #' Chees class.
 #'
-#' @import R6
+#' @import R6 dplyr
 #' @export
 Chess <- R6::R6Class(
   "Chess",
@@ -125,6 +125,11 @@ Chess <- R6::R6Class(
       private$ct$eval("chess.header(key, value)")
       invisible(self)
     },
+    #### internals
+    history_moves_pieces = function(){
+      resp <- .history_moves_pieces(self$history(verbose = TRUE))
+      resp
+    },
     #### generic methods
     summary = function(){
 
@@ -162,6 +167,142 @@ Chess <- R6::R6Class(
   ct$assign("chess", V8::JS("new Chess(fen);"))
   ct
 }
+
+.add_castlings_rows_to_history <- function(dfhist) {
+  # check if there are castlings
+  if (nrow(dfhist %>% filter(color == "w", san == "O-O")) == 1) {
+    row <- dfhist %>% filter(color == "w", san == "O-O") %>% .[["number_move"]]
+    dfhist <- plyr::rbind.fill(
+      dfhist[1:row, ],
+      data_frame(color = "w", from = "h1", to = "f1", flags = "r",
+                 piece = "r", san = "O-O", captured = NA, number_move = row),
+      dfhist[(row + 1):nrow(dfhist), ])
+  }
+  if (nrow(dfhist %>% filter(color == "w", san == "O-O-O")) == 1) {
+    row <- dfhist %>% filter(color == "w", san == "O-O-O") %>% .[["number_move"]]
+    dfhist <- plyr::rbind.fill(
+      dfhist[1:row, ],
+      data_frame(color = "w", from = "a1", to = "d1", flags = "r",
+                 piece = "r", san = "O-O-O", captured = NA, number_move = row),
+      dfhist[(row + 1):nrow(dfhist), ])
+  }
+  if (nrow(dfhist %>% filter(color == "b", san == "O-O")) == 1) {
+    row <- dfhist %>% filter(color == "b", san == "O-O") %>% .[["number_move"]]
+    dfhist <- plyr::rbind.fill(
+      dfhist[1:row, ],
+      data_frame(color = "b", from = "h8", to = "f8", flags = "r",
+                 piece = "r", san = "O-O", captured = NA, number_move = row),
+      dfhist[(row + 1):nrow(dfhist), ])
+  }
+  if (nrow(dfhist %>% filter(color == "b", san == "O-O-O")) == 1) {
+    row <- dfhist %>% filter(color == "b", san == "O-O-O") %>% .[["number_move"]]
+    dfhist <- plyr::rbind.fill(
+      dfhist[1:row, ],
+      data_frame(color = "b", from = "a8", to = "d8", flags = "r",
+                 piece = "r", san = "O-O-O", captured = NA, number_move = row),
+      dfhist[(row + 1):nrow(dfhist), ])
+  }
+
+  dfhist <- tbl_df(dfhist)
+
+  dfhist
+}
+
+.history_moves_pieces <- function(dfhist) {
+
+  dfhist <- .add_castlings_rows_to_history(dfhist)
+
+  start_positions <- c(paste0(letters[seq(8)], 8),
+                       paste0(letters[seq(8)], 7),
+                       paste0(letters[seq(8)], 2),
+                       paste0(letters[seq(8)], 1))
+
+  df_start_positions <- data_frame(start_position = start_positions)
+
+  names(start_positions) <- start_positions
+
+  df_paths <- plyr::ldply(start_positions,  function(start_position = "g1", dfhist) {
+    # start_position <- "h1"
+    pos_current <- start_position
+    pos_nummove <- 0
+    piece_was_captured <- FALSE
+    game_is_over <- FALSE
+
+    df_path <- NULL
+
+    while (!piece_was_captured & !game_is_over) {
+
+      dfhist_aux <- dfhist %>%
+        filter(from == pos_current | to == pos_current,
+               number_move > pos_nummove) %>%
+        head(1)
+
+      # game is over?
+      if (nrow(dfhist_aux) == 0) {
+        game_is_over <- TRUE
+
+        if (is.null(nrow(df_path))) {
+          df_path <- data_frame(from = pos_current, status = "game over")
+        } else {
+          df_path <- df_path %>% mutate(status = c(rep(NA, nrow(.) - 1), "game over"))
+        }
+
+        break
+      }
+
+      # pieces was captured
+      if (dfhist_aux$to == pos_current) {
+        piece_was_captured <- TRUE
+
+        if (is.null(nrow(df_path))) {
+          df_path <- data_frame(from = pos_current, status = "captured")
+        } else {
+          df_path <- df_path %>% mutate(status = c(rep(NA, nrow(.) - 1), "captured"))
+        }
+
+        break
+      }
+
+      df_path <- rbind(df_path,
+                       data_frame(from = pos_current,
+                                  to = dfhist_aux$to,
+                                  number_move = dfhist_aux$number_move))
+
+      pos_current <- dfhist_aux$to
+      pos_nummove <- dfhist_aux$number_move
+
+    }
+
+    df_path
+
+  }, dfhist)
+
+  # rename id var
+  df_paths <- tbl_df(df_paths) %>% rename(start_position = .id)
+
+  df_paths <- df_paths %>% select(-status) %>% mutate(status = df_paths[["status"]])
+
+  df_paths
+
+  # count(df_paths, start_position)
+
+  # calculating moves per pieces
+  df_paths <- df_paths %>%
+    group_by(start_position) %>%
+    mutate(piece_number_move = row_number()) %>%
+    ungroup() %>%
+    arrange(start_position)
+
+  df_paths <- full_join(rchess:::.chesspiecedata() %>% select(name, start_position),
+                        df_paths,
+                        by = "start_position")
+
+  # df_paths %>% filter(status== "game over")
+
+  df_paths
+
+}
+
 
 
 #' @export
