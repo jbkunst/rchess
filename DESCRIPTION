@@ -16,6 +16,5 @@ Imports:
     R6,
     ggplot2,
     ggthemes,
-    magrittr,
     dplyr,
     assertthat
