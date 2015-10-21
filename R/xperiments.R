@@ -1,144 +1,75 @@
-library("rchess")
-library("dplyr")
-library("ggplot2")
-
-
-rm(list = ls())
-pgn <- system.file("extdata/pgn/kasparov_vs_topalov.pgn", package = "rchess")
-pgn <- readLines(pgn, warn = FALSE)
-pgn <- paste(pgn, collapse = "\n")
-cat(pgn)
-
-
-chsspgn <- Chess$new()
-chsspgn$load_pgn(pgn)
-plot(chsspgn)
-
-dfhist <- chsspgn$history(verbose = TRUE)
-
-rm(chsspgn, pgn)
-
-pieces_path <- function(dfhist) {
-
-  start_positions <- c(paste0(letters[seq(8)], 8),
-                       paste0(letters[seq(8)], 7),
-                       paste0(letters[seq(8)], 2),
-                       paste0(letters[seq(8)], 1))
-
-  df_start_positions <- data_frame(start_position = start_positions)
-
-  names(start_positions) <- start_positions
-
-  df_paths <- plyr::ldply(start_positions,  function(start_position = "g1", dfhist) {
-    # start_position <- "g1"
-    pos_current <- start_position
-    pos_nummove <- 0
-    piece_was_captured <- FALSE
-    game_is_over <- FALSE
-
-    df_path <- NULL
-
-    while(!piece_was_captured & !game_is_over) {
-
-      dfhist_aux <- dfhist %>%
-        filter(from == pos_current | to == pos_current,
-               number_move > pos_nummove) %>%
-        head(1)
-
-      if (nrow(dfhist_aux) == 0){
-        game_is_over <- TRUE
-        break
-      }
-
-      if (dfhist_aux$to == pos_current){
-        piece_was_captured <- TRUE
-        break
-      }
-
-      df_path <- rbind(df_path,
-                       data_frame(from = pos_current,
-                                  to = dfhist_aux$to,
-                                  number_move = dfhist_aux$number_move))
-
-      pos_current <- dfhist_aux$to
-      pos_nummove <- dfhist_aux$number_move
-
-    }
-
-    df_path
-
-  }, dfhist)
-
-  # rename id var
-  df_paths <- tbl_df(df_paths) %>% rename(start_position = .id)
-
-  # count(df_paths, start_position)
-
-  # calculating moves per pieces
-  df_paths <- df_paths %>%
-    group_by(start_position) %>%
-    mutate(piece_number_move = row_number()) %>%
-    ungroup() %>%
-    arrange(start_position)
-
-  pieces_no_hist <- start_positions[which(!start_positions %in% df_paths$start_position)]
-
-  df_paths <- plyr::rbind.fill(df_paths, data_frame(start_position = pieces_no_hist))
-
-  df_paths <- df_paths %>%
-    mutate(start_position = factor(start_position, levels = start_positions))
-
-  df_paths <- df_paths %>% arrange(start_position) %>% tbl_df()
-
-  df_paths
-
-}
-
-pieces_path(dfhist)
-
-pieces_path(dfhist) %>%
-  ggplot() +
-  geom_density(aes(number_move)) +
-  facet_wrap(~start_position, nrow = 4)
-
-summary <- pieces_path(dfhist) %>%
-  group_by(start_position) %>%
-  summarise(first_move = min(number_move),
-            moves = max(piece_number_move)) %>%
-  arrange(start_position)
-
-View(summary)
-
-
-
-.chesspiecedata <- function() {
-
-  name_long <- c(
-    "White's Queen's Rook", "White's Queen's Knight", "White's Queen's Bishop", "White's Queen",
-    "White's King", "White's King's Bishop", "White's King's Knight", "White's King's Rook",
-    "White's Queen's Rook's Pawn", "White's Queen's Knight's Pawn", "White's Queen's Bishop's Pawn", "White's Queen's Pawn",
-    "White's King's Pawn", "White's King's Bishop's Pawn", "White's King's Knight's Pawn", "White's King's Rook's Pawn",
-    "Black's Queen's Rook's Pawn", "Black's Queen's Knight's Pawn", "Black's Queen's Bishop's Pawn", "Black's Queen's Pawn",
-    "Black's King's Pawn", "Black's King's Bishop's Pawn", "Black's King's Knight's Pawn", "Black's King's Rook's Pawn",
-    "Black's Queen's Rook", "Black's Queen's Knight", "Black's Queen's Bishop", "Black's Queen",
-    "Black's King'", "Black's King's Bishop", "Black's King's Knight", "Black's King's Rook")
-
-  name_short <- c(
-    "a1 Rook", "b1 Knight", "c3 Bishop", "White Queen",
-    "White King", "f1 Bishop", "g1 Knight", "h1 Rook",
-    "a2 Pawn", "b2 Pawn", "c2 Pawn", "d2 Pawn", "e2 Pawn", "f2 Pawn", "q2 Pawn", "h2 Pawn",
-    "a7 Pawn", "b7 Pawn", "c7 Pawn", "d7 Pawn", "e7 Pawn", "f7 Pawn", "q7 Pawn", "h7 Pawn",
-    "a8 Rook", "b8 Knight", "c8 Bishop", "Black Queen",
-    "Black King", "f8 Bishop", "g8 Knight", "h8 Rook")
-
-  pieces <- rchess:::.chessboarddata() %>%
-    filter(text != "") %>%
-    select(piece, text, cell) %>%
-    rename(unicode = text, start_position = cell) %>%
-    mutate(color = ifelse(piece == toupper(piece), "white", "black"),
-           name_long = name_long,
-           name_short)
-
-  pieces
-
-}
+# library("rchess")
+# library("dplyr")
+# library("ggplot2")
+#
+#
+# rm(list = ls())
+# pgn <- system.file("extdata/pgn/kasparov_vs_topalov.pgn", package = "rchess")
+# pgn <- readLines(pgn, warn = FALSE)
+# pgn <- paste(pgn, collapse = "\n")
+# cat(pgn)
+#
+#
+# chsspgn <- Chess$new()
+# chsspgn$load_pgn(pgn)
+# chsspgn$ascii()
+# plot(chsspgn)
+#
+# chsspgn$history_moves_pieces() %>% count(start_position)
+# chsspgn$history_moves_pieces() %>% filter(status == "game over")
+#
+#
+# pgn <- '[Event "F/S Return Match"]
+# [Site "Belgrade, Serbia Yugoslavia|JUG"]
+# [Date "1992.11.04"]
+# [Round "29"]
+# [White "Fischer, Robert J."]
+# [Black "Spassky, Boris V."]
+# [Result "1/2-1/2"]
+#
+# 1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 {This opening is called the Ruy Lopez.}
+# 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8  10. d4 Nbd7
+# 11. c4 c6 12. cxb5 axb5 13. Nc3 Bb7 14. Bg5 b4 15. Nb1 h6 16. Bh4 c5 17. dxe5
+# Nxe4 18. Bxe7 Qxe7 19. exd6 Qf6 20. Nbd2 Nxd6 21. Nc4 Nxc4 22. Bxc4 Nb6
+# 23. Ne5 Rae8 24. Bxf7+ Rxf7 25. Nxf7 Rxe1+ 26. Qxe1 Kxf7 27. Qe3 Qg5 28. Qxg5
+# hxg5 29. b3 Ke6 30. a3 Kd6 31. axb4 cxb4 32. Ra5 Nd5 33. f3 Bc8 34. Kf2 Bf5
+# 35. Ra7 g6 36. Ra6+ Kc5 37. Ke1 Nf4 38. g3 Nxh3 39. Kd2 Kb5 40. Rd6 Kc5 41. Ra6
+# Nf2 42. g4 Bd3 43. Re6 1/2-1/2'
+#
+# chsspgn <- Chess$new()
+# chsspgn$load_pgn(pgn)
+# chsspgn$ascii()
+# plot(chsspgn)
+#
+# chsspgn$history_moves_pieces() %>% count(start_position)
+# chsspgn$history_moves_pieces() %>% filter(status == "game over")
+#
+# dfhist <- chsspgn$history(verbose = TRUE)
+#
+# chss <- Chess$new()
+# chss$move("a3")$move("e5")$move("f4")$move("Qe7")$move("fxe5")$move("Qxe5")
+# plot(chss)
+#
+# chss$history_moves_pieces()
+#
+# chss$history_moves_pieces() %>% filter(status == "game over")
+# chss$history_moves_pieces() %>% filter(status == "captured")
+#
+# pieces_path(dfhist)
+#
+# pieces_path(dfhist) %>%
+#   ggplot() +
+#   geom_density(aes(number_move)) +
+#   facet_wrap(~start_position, nrow = 4)
+#
+# summary <- pieces_path(dfhist) %>%
+#   group_by(start_position) %>%
+#   summarise(first_move = min(number_move),
+#             moves = max(piece_number_move)) %>%
+#   arrange(start_position)
+#
+# View(summary)
+#
+#
+#
+#
