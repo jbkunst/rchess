@@ -69,7 +69,3 @@
 #   arrange(start_position)
 #
 # View(summary)
-#
-#
-#
-#

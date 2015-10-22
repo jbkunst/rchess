@@ -126,8 +126,8 @@ Chess <- R6::R6Class(
       invisible(self)
     },
     #### internals
-    history_moves_pieces = function(){
-      resp <- .history_moves_pieces(self$history(verbose = TRUE))
+    history_detail = function(){
+      resp <- .history_detail(self$history(verbose = TRUE))
       resp
     },
     #### generic methods
@@ -158,7 +158,6 @@ Chess <- R6::R6Class(
     print   = function(){
       self$summary()
     }))
-
 
 .get_context_chess_from_fen <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
   ct <- V8::new_context();
@@ -208,7 +207,7 @@ Chess <- R6::R6Class(
   dfhist
 }
 
-.history_moves_pieces <- function(dfhist) {
+.history_detail <- function(dfhist) {
 
   dfhist <- .add_castlings_rows_to_history(dfhist)
 
@@ -222,7 +221,7 @@ Chess <- R6::R6Class(
   names(start_positions) <- start_positions
 
   df_paths <- plyr::ldply(start_positions,  function(start_position = "g1", dfhist) {
-    # start_position <- "h1"
+    # start_position <- "g1"
     pos_current <- start_position
     pos_nummove <- 0
     piece_was_captured <- FALSE
@@ -255,9 +254,13 @@ Chess <- R6::R6Class(
         piece_was_captured <- TRUE
 
         if (is.null(nrow(df_path))) {
-          df_path <- data_frame(from = pos_current, status = "captured")
+          df_path <- data_frame(from = pos_current,
+                                status = "captured",
+                                number_move_capture = dfhist_aux$number_move)
         } else {
-          df_path <- df_path %>% mutate(status = c(rep(NA, nrow(.) - 1), "captured"))
+          df_path <- df_path %>%
+            mutate(status = c(rep(NA, nrow(df_path) - 1), "captured"),
+                   number_move_capture = c(rep(NA, nrow(df_path) - 1), dfhist_aux$number_move))
         }
 
         break
@@ -280,12 +283,6 @@ Chess <- R6::R6Class(
   # rename id var
   df_paths <- tbl_df(df_paths) %>% rename(start_position = .id)
 
-  df_paths <- df_paths %>% select(-status) %>% mutate(status = df_paths[["status"]])
-
-  df_paths
-
-  # count(df_paths, start_position)
-
   # calculating moves per pieces
   df_paths <- df_paths %>%
     group_by(start_position) %>%
@@ -293,23 +290,31 @@ Chess <- R6::R6Class(
     ungroup() %>%
     arrange(start_position)
 
-  df_paths <- full_join(rchess:::.chesspiecedata() %>% select(name, start_position),
+  df_paths <- full_join(rchess:::.chesspiecedata() %>% select(piece = name, start_position),
                         df_paths,
                         by = "start_position")
 
-  # df_paths %>% filter(status== "game over")
+  df_paths <- cbind(df_paths %>% select(-start_position, -status, -number_move_capture),
+                    df_paths %>% select(status, number_move_capture))
+
+  df_paths <- tbl_df(df_paths)
+
+  # adding the pieces was capture the others
+  df_caputre <- df_paths %>%
+    filter(number_move %in% na.omit(df_paths$number_move_capture)) %>%
+    select(captured_by = piece, number_move_capture = number_move)
+
+  df_paths <- df_paths %>%
+    left_join(df_caputre, by = "number_move_capture")
 
   df_paths
 
 }
 
-
-
 #' @export
 summary.Chess <- function(object, ...) {
   object$summary()
 }
-
 
 #' @export
 plot.Chess <- function(x, y=NULL, ...) {
@@ -320,4 +325,3 @@ plot.Chess <- function(x, y=NULL, ...) {
 print.Chess <- function(x, ...) {
   x$print()
 }
-

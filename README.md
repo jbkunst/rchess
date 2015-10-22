@@ -407,37 +407,44 @@ chess5$insufficient_material()
 ## [1] TRUE
 ```
 
-## Not api functions
+## Other (not from chessjs) Functions
 
-## History for move of each piece
+Not all from the package is the wrapper for *chessjs*. There are some interesting functions.
 
-We can check the final board status with the (last) fen and the
-`history_moves_pieces` filtering by `status == "game over"`
+### History Detail
+
+This functions is a detailed version from the `history(verbose = TRUE)`.
 
 
 ```r
-chsspgn$history_moves_pieces()
-## Source: local data frame [92 x 7]
+chsspgn$history_detail()
+## Source: local data frame [92 x 8]
 ## 
-##           name start_position  from    to number_move   status
-##          (chr)          (chr) (chr) (chr)       (int)    (chr)
-## 1      a1 Rook             a1    a1    d1          21       NA
-## 2      a1 Rook             a1    d1    d4          29       NA
-## 3      a1 Rook             a1    d4    d1          31       NA
-## 4      a1 Rook             a1    d1    d4          47 captured
-## 5    b1 Knight             b1    b1    c3           5       NA
-## 6    b1 Knight             b1    c3    d5          43 captured
-## 7    c3 Bishop             c1    c1    e3           7       NA
-## 8    c3 Bishop             c1    e3    h6          15 captured
-## 9  White Queen             d1    d1    d2           9       NA
-## 10 White Queen             d1    d2    h6          17       NA
-## ..         ...            ...   ...   ...         ...      ...
-## Variables not shown: piece_number_move (int)
+##          piece  from    to number_move piece_number_move   status
+##          (chr) (chr) (chr)       (int)             (int)    (chr)
+## 1      a1 Rook    a1    d1          21                 1       NA
+## 2      a1 Rook    d1    d4          29                 2       NA
+## 3      a1 Rook    d4    d1          31                 3       NA
+## 4      a1 Rook    d1    d4          47                 4 captured
+## 5    b1 Knight    b1    c3           5                 1       NA
+## 6    b1 Knight    c3    d5          43                 2 captured
+## 7    c3 Bishop    c1    e3           7                 1       NA
+## 8    c3 Bishop    e3    h6          15                 2 captured
+## 9  White Queen    d1    d2           9                 1       NA
+## 10 White Queen    d2    h6          17                 2       NA
+## ..         ...   ...   ...         ...               ...      ...
+## Variables not shown: number_move_capture (int), captured_by (chr)
+```
 
+We can check the final board status with the (last) fen and the
+`history_detail` filtering by `status == "game over"`
+
+
+```r
 ggchessboard(chsspgn$fen())
 ```
 
-![](inst/extimg/unnamed-chunk-15-1.png) 
+![](inst/extimg/unnamed-chunk-16-1.png) 
 
 ```r
 
@@ -452,23 +459,23 @@ library("dplyr")
 ## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
-chss$history_moves_pieces() %>% filter(status == "game over")
-## Source: local data frame [32 x 7]
+chsspgn$history_detail() %>% filter(status == "game over")
+## Source: local data frame [11 x 8]
 ## 
-##           name start_position  from    to number_move    status
-##          (chr)          (chr) (chr) (chr)       (int)     (chr)
-## 1      a1 Rook             a1    a1    NA          NA game over
-## 2    b1 Knight             b1    b1    NA          NA game over
-## 3    c3 Bishop             c1    c1    NA          NA game over
-## 4  White Queen             d1    d1    NA          NA game over
-## 5   White King             e1    e1    NA          NA game over
-## 6    f1 Bishop             f1    f1    NA          NA game over
-## 7    g1 Knight             g1    g1    NA          NA game over
-## 8      h1 Rook             h1    h1    NA          NA game over
-## 9      a2 Pawn             a2    a2    a3           1 game over
-## 10     b2 Pawn             b2    b2    NA          NA game over
-## ..         ...            ...   ...   ...         ...       ...
-## Variables not shown: piece_number_move (int)
+##          piece  from    to number_move piece_number_move    status
+##          (chr) (chr) (chr)       (int)             (int)     (chr)
+## 1  White Queen    a4    a7          87                13 game over
+## 2   White King    b1    c1          85                 3 game over
+## 3      f2 Pawn    f3    f4          83                 2 game over
+## 4      g2 Pawn    g2    g3          33                 1 game over
+## 5      h2 Pawn    h2    NA          NA                 1 game over
+## 6      b7 Pawn    c4    c3          80                 3 game over
+## 7      f7 Pawn    f7    f5          84                 1 game over
+## 8      g7 Pawn    g7    g6           6                 1 game over
+## 9      h7 Pawn    h7    NA          NA                 1 game over
+## 10     a8 Rook    d3    d2          86                 5 game over
+## 11  Black King    d1    e1          82                12 game over
+## Variables not shown: number_move_capture (int), captured_by (chr)
 ```
 
 

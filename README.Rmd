@@ -193,20 +193,26 @@ plot(chess5, type = "ggplot")
 chess5$insufficient_material()
 ```
 
-## Not api functions
+## Other (not from chessjs) Functions
 
-## History for move of each piece
+Not all from the package is the wrapper for *chessjs*. There are some interesting functions.
 
-We can check the final board status with the (last) fen and the
-`history_moves_pieces` filtering by `status == "game over"`
+### History Detail
+
+This functions is a detailed version from the `history(verbose = TRUE)`.
 
 ```{r}
-chsspgn$history_moves_pieces()
+chsspgn$history_detail()
+```
 
+We can check the final board status with the (last) fen and the
+`history_detail` filtering by `status == "game over"`
+
+```{r}
 ggchessboard(chsspgn$fen())
 
 library("dplyr")
-chss$history_moves_pieces() %>% filter(status == "game over")
+chsspgn$history_detail() %>% filter(status == "game over")
 ```
 
 

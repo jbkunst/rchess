@@ -56,15 +56,16 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#three-fold-repetition">Three fold repetition</a></li>
 <li><a href="#insufficient-material">Insufficient material</a></li>
 </ul></li>
-<li><a href="#not-api-functions">Not api functions</a></li>
-<li><a href="#history-for-move-of-each-piece">History for move of each piece</a></li>
+<li><a href="#other-not-from-chessjs-functions">Other (not from chessjs) Functions</a><ul>
+<li><a href="#history-detail">History Detail</a></li>
+</ul></li>
 <li><a href="#under-the-hood">Under the hood</a></li>
 <li><a href="#session-info">Session Info</a></li>
 </ul>
 </div>
 
 <!-- README.md is generated from README.Rmd -->
-<p><a href="https://travis-ci.org/jbkunst/rchess"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MSIgaGVpZ2h0PSIyMCI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4Mj0iMCIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPjwvbGluZWFyR3JhZGllbnQ+PHJlY3Qgcng9IjMiIHdpZHRoPSI4MSIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHJ4PSIzIiB4PSIzNyIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjIwIiBmaWxsPSIjZTA1ZDQ0Ii8+PHBhdGggZmlsbD0iI2UwNWQ0NCIgZD0iTTM3IDBoNHYyMGgtNHoiLz48cmVjdCByeD0iMyIgd2lkdGg9IjgxIiBoZWlnaHQ9IjIwIiBmaWxsPSJ1cmwoI2EpIi8+PGcgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPjx0ZXh0IHg9IjE5LjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5idWlsZDwvdGV4dD48dGV4dCB4PSIxOS41IiB5PSIxNCI+YnVpbGQ8L3RleHQ+PHRleHQgeD0iNTgiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5mYWlsaW5nPC90ZXh0Pjx0ZXh0IHg9IjU4IiB5PSIxNCI+ZmFpbGluZzwvdGV4dD48L2c+PC9zdmc+" alt="travis-status" /></a> <a href="http://www.r-pkg.org/pkg/rchess"><img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQiIGhlaWdodD0iMjAiPgogIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDI9IjAiIHkyPSIxMDAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8bWFzayBpZD0iYSI+CiAgICA8cmVjdCB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIvPgogIDwvbWFzaz4KICA8ZyBtYXNrPSJ1cmwoI2EpIj4KICAgIDxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoNDN2MjBIMHoiLz4KICAgIDxwYXRoIGZpbGw9IiNlMDVkNDQiIGQ9Ik00MyAwaDEyN3YyMEg0M3oiLz4KICAgIDxwYXRoIGZpbGw9InVybCgjYikiIGQ9Ik0wIDBoMTQ0djIwSDB6Ii8+CiAgPC9nPgogIDxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiCiAgICAgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgPHRleHQgeD0iMjEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPgogICAgICBDUkFOCiAgICA8L3RleHQ+CiAgICA8dGV4dCB4PSIyMS41IiB5PSIxNCI+CiAgICAgIENSQU4KICAgIDwvdGV4dD4KICAgIDx0ZXh0IHg9IjkyLjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj4KICAgICAgbm90IHB1Ymxpc2hlZAogICAgPC90ZXh0PgogICAgPHRleHQgeD0iOTIuNSIgeT0iMTQiPgogICAgICBub3QgcHVibGlzaGVkCiAgICA8L3RleHQ+CiAgPC9nPgo8L3N2Zz4=" alt="version" /></a> <a href="http://www.r-pkg.org/pkg/rchess"><img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDkiIGhlaWdodD0iMjAiPgogIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDI9IjAiIHkyPSIxMDAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8bWFzayBpZD0iYSI+CiAgICA8cmVjdCB3aWR0aD0iMTQ5IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIvPgogIDwvbWFzaz4KICA8ZyBtYXNrPSJ1cmwoI2EpIj48cGF0aCBmaWxsPSIjNTU1IiBkPSJNMCAwaDcwdjIwSDB6Ii8+CiAgICA8cGF0aCBmaWxsPSIjMDA3ZWM2IiBkPSJNNzAgMGg3OXYyMEg3MHoiLz4KICAgIDxwYXRoIGZpbGw9InVybCgjYikiIGQ9Ik0wIDBoMTQ5djIwSDB6Ii8+CiAgPC9nPgogIDxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiCiAgICAgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgPHRleHQgeD0iMzYiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj4KICAgICAgZG93bmxvYWRzCiAgICA8L3RleHQ+CiAgICA8dGV4dCB4PSIzNiIgeT0iMTQiPgogICAgICBkb3dubG9hZHMKICAgIDwvdGV4dD4KICAgIDx0ZXh0IHg9IjEwOC41IiB5PSIxNSIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+CiAgICAgIDAvbW9udGgKICAgIDwvdGV4dD4KICAgIDx0ZXh0IHg9IjEwOC41IiB5PSIxNCI+CiAgICAgIDAvbW9udGgKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="downloads" /></a></p>
+<p><a href="https://travis-ci.org/jbkunst/rchess"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MCIgaGVpZ2h0PSIyMCI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4Mj0iMCIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPjwvbGluZWFyR3JhZGllbnQ+PHJlY3Qgcng9IjMiIHdpZHRoPSI5MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHJ4PSIzIiB4PSIzNyIgd2lkdGg9IjUzIiBoZWlnaHQ9IjIwIiBmaWxsPSIjNGMxIi8+PHBhdGggZmlsbD0iIzRjMSIgZD0iTTM3IDBoNHYyMGgtNHoiLz48cmVjdCByeD0iMyIgd2lkdGg9IjkwIiBoZWlnaHQ9IjIwIiBmaWxsPSJ1cmwoI2EpIi8+PGcgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPjx0ZXh0IHg9IjE5LjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5idWlsZDwvdGV4dD48dGV4dCB4PSIxOS41IiB5PSIxNCI+YnVpbGQ8L3RleHQ+PHRleHQgeD0iNjIuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPnBhc3Npbmc8L3RleHQ+PHRleHQgeD0iNjIuNSIgeT0iMTQiPnBhc3Npbmc8L3RleHQ+PC9nPjwvc3ZnPg==" alt="travis-status" /></a> <a href="http://www.r-pkg.org/pkg/rchess"><img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQiIGhlaWdodD0iMjAiPgogIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDI9IjAiIHkyPSIxMDAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8bWFzayBpZD0iYSI+CiAgICA8cmVjdCB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIvPgogIDwvbWFzaz4KICA8ZyBtYXNrPSJ1cmwoI2EpIj4KICAgIDxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoNDN2MjBIMHoiLz4KICAgIDxwYXRoIGZpbGw9IiNlMDVkNDQiIGQ9Ik00MyAwaDEyN3YyMEg0M3oiLz4KICAgIDxwYXRoIGZpbGw9InVybCgjYikiIGQ9Ik0wIDBoMTQ0djIwSDB6Ii8+CiAgPC9nPgogIDxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiCiAgICAgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgPHRleHQgeD0iMjEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPgogICAgICBDUkFOCiAgICA8L3RleHQ+CiAgICA8dGV4dCB4PSIyMS41IiB5PSIxNCI+CiAgICAgIENSQU4KICAgIDwvdGV4dD4KICAgIDx0ZXh0IHg9IjkyLjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj4KICAgICAgbm90IHB1Ymxpc2hlZAogICAgPC90ZXh0PgogICAgPHRleHQgeD0iOTIuNSIgeT0iMTQiPgogICAgICBub3QgcHVibGlzaGVkCiAgICA8L3RleHQ+CiAgPC9nPgo8L3N2Zz4=" alt="version" /></a> <a href="http://www.r-pkg.org/pkg/rchess"><img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDkiIGhlaWdodD0iMjAiPgogIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDI9IjAiIHkyPSIxMDAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8bWFzayBpZD0iYSI+CiAgICA8cmVjdCB3aWR0aD0iMTQ5IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIvPgogIDwvbWFzaz4KICA8ZyBtYXNrPSJ1cmwoI2EpIj48cGF0aCBmaWxsPSIjNTU1IiBkPSJNMCAwaDcwdjIwSDB6Ii8+CiAgICA8cGF0aCBmaWxsPSIjMDA3ZWM2IiBkPSJNNzAgMGg3OXYyMEg3MHoiLz4KICAgIDxwYXRoIGZpbGw9InVybCgjYikiIGQ9Ik0wIDBoMTQ5djIwSDB6Ii8+CiAgPC9nPgogIDxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiCiAgICAgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgPHRleHQgeD0iMzYiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj4KICAgICAgZG93bmxvYWRzCiAgICA8L3RleHQ+CiAgICA8dGV4dCB4PSIzNiIgeT0iMTQiPgogICAgICBkb3dubG9hZHMKICAgIDwvdGV4dD4KICAgIDx0ZXh0IHg9IjEwOC41IiB5PSIxNSIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+CiAgICAgIDAvbW9udGgKICAgIDwvdGV4dD4KICAgIDx0ZXh0IHg9IjEwOC41IiB5PSIxNCI+CiAgICAgIDAvbW9udGgKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="downloads" /></a></p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>The <code>rchess</code> package is a chess move, generation/validation, piece placement/movement, and check/checkmate/stalemate detection.</p>
@@ -402,31 +403,31 @@ chess5$insufficient_material()
 ## [1] TRUE</code></pre>
 </div>
 </div>
-<div id="not-api-functions" class="section level2">
-<h2>Not api functions</h2>
-</div>
-<div id="history-for-move-of-each-piece" class="section level2">
-<h2>History for move of each piece</h2>
-<p>We can check the final board status with the (last) fen and the <code>history_moves_pieces</code> filtering by <code>status == &quot;game over&quot;</code></p>
-<pre class="r"><code>chsspgn$history_moves_pieces()
-## Source: local data frame [92 x 7]
+<div id="other-not-from-chessjs-functions" class="section level2">
+<h2>Other (not from chessjs) Functions</h2>
+<p>Not all from the package is the wrapper for <em>chessjs</em>. There are some interesting functions.</p>
+<div id="history-detail" class="section level3">
+<h3>History Detail</h3>
+<p>This functions is a detailed version from the <code>history(verbose = TRUE)</code>.</p>
+<pre class="r"><code>chsspgn$history_detail()
+## Source: local data frame [92 x 8]
 ## 
-##           name start_position  from    to number_move   status
-##          (chr)          (chr) (chr) (chr)       (int)    (chr)
-## 1      a1 Rook             a1    a1    d1          21       NA
-## 2      a1 Rook             a1    d1    d4          29       NA
-## 3      a1 Rook             a1    d4    d1          31       NA
-## 4      a1 Rook             a1    d1    d4          47 captured
-## 5    b1 Knight             b1    b1    c3           5       NA
-## 6    b1 Knight             b1    c3    d5          43 captured
-## 7    c3 Bishop             c1    c1    e3           7       NA
-## 8    c3 Bishop             c1    e3    h6          15 captured
-## 9  White Queen             d1    d1    d2           9       NA
-## 10 White Queen             d1    d2    h6          17       NA
-## ..         ...            ...   ...   ...         ...      ...
-## Variables not shown: piece_number_move (int)
-
-ggchessboard(chsspgn$fen())</code></pre>
+##          piece  from    to number_move piece_number_move   status
+##          (chr) (chr) (chr)       (int)             (int)    (chr)
+## 1      a1 Rook    a1    d1          21                 1       NA
+## 2      a1 Rook    d1    d4          29                 2       NA
+## 3      a1 Rook    d4    d1          31                 3       NA
+## 4      a1 Rook    d1    d4          47                 4 captured
+## 5    b1 Knight    b1    c3           5                 1       NA
+## 6    b1 Knight    c3    d5          43                 2 captured
+## 7    c3 Bishop    c1    e3           7                 1       NA
+## 8    c3 Bishop    e3    h6          15                 2 captured
+## 9  White Queen    d1    d2           9                 1       NA
+## 10 White Queen    d2    h6          17                 2       NA
+## ..         ...   ...   ...         ...               ...      ...
+## Variables not shown: number_move_capture (int), captured_by (chr)</code></pre>
+<p>We can check the final board status with the (last) fen and the <code>history_detail</code> filtering by <code>status == &quot;game over&quot;</code></p>
+<pre class="r"><code>ggchessboard(chsspgn$fen())</code></pre>
 <p><img src="data:image/png;base64,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" /></p>
 <pre class="r"><code>
 library(&quot;dplyr&quot;)
@@ -440,23 +441,24 @@ library(&quot;dplyr&quot;)
 ## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
-chss$history_moves_pieces() %&gt;% filter(status == &quot;game over&quot;)
-## Source: local data frame [32 x 7]
+chsspgn$history_detail() %&gt;% filter(status == &quot;game over&quot;)
+## Source: local data frame [11 x 8]
 ## 
-##           name start_position  from    to number_move    status
-##          (chr)          (chr) (chr) (chr)       (int)     (chr)
-## 1      a1 Rook             a1    a1    NA          NA game over
-## 2    b1 Knight             b1    b1    NA          NA game over
-## 3    c3 Bishop             c1    c1    NA          NA game over
-## 4  White Queen             d1    d1    NA          NA game over
-## 5   White King             e1    e1    NA          NA game over
-## 6    f1 Bishop             f1    f1    NA          NA game over
-## 7    g1 Knight             g1    g1    NA          NA game over
-## 8      h1 Rook             h1    h1    NA          NA game over
-## 9      a2 Pawn             a2    a2    a3           1 game over
-## 10     b2 Pawn             b2    b2    NA          NA game over
-## ..         ...            ...   ...   ...         ...       ...
-## Variables not shown: piece_number_move (int)</code></pre>
+##          piece  from    to number_move piece_number_move    status
+##          (chr) (chr) (chr)       (int)             (int)     (chr)
+## 1  White Queen    a4    a7          87                13 game over
+## 2   White King    b1    c1          85                 3 game over
+## 3      f2 Pawn    f3    f4          83                 2 game over
+## 4      g2 Pawn    g2    g3          33                 1 game over
+## 5      h2 Pawn    h2    NA          NA                 1 game over
+## 6      b7 Pawn    c4    c3          80                 3 game over
+## 7      f7 Pawn    f7    f5          84                 1 game over
+## 8      g7 Pawn    g7    g6           6                 1 game over
+## 9      h7 Pawn    h7    NA          NA                 1 game over
+## 10     a8 Rook    d3    d2          86                 5 game over
+## 11  Black King    d1    e1          82                12 game over
+## Variables not shown: number_move_capture (int), captured_by (chr)</code></pre>
+</div>
 </div>
 <div id="under-the-hood" class="section level2">
 <h2>Under the hood</h2>
