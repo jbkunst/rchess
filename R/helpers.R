@@ -18,7 +18,7 @@
     "Black's King'", "Black's King's Bishop", "Black's King's Knight", "Black's King's Rook")
 
   name <- c(
-    "a1 Rook", "b1 Knight", "c3 Bishop", "White Queen",
+    "a1 Rook", "b1 Knight", "c1 Bishop", "White Queen",
     "White King", "f1 Bishop", "g1 Knight", "h1 Rook",
     "a2 Pawn", "b2 Pawn", "c2 Pawn", "d2 Pawn", "e2 Pawn", "f2 Pawn", "g2 Pawn", "h2 Pawn",
     "a7 Pawn", "b7 Pawn", "c7 Pawn", "d7 Pawn", "e7 Pawn", "f7 Pawn", "g7 Pawn", "h7 Pawn",
