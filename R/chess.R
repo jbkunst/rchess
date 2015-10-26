@@ -1,3 +1,4 @@
+from <- to <- number_move <- NULL
 #' Chess Class
 #'
 #' Chees class.
@@ -216,7 +217,7 @@ Chess <- R6::R6Class(
                        paste0(letters[seq(8)], 2),
                        paste0(letters[seq(8)], 1))
 
-  df_start_positions <- data_frame(start_position = start_positions)
+  df_start_positions <- data_frame("start_position" = start_positions)
 
   names(start_positions) <- start_positions
 
@@ -243,7 +244,7 @@ Chess <- R6::R6Class(
         if (is.null(nrow(df_path))) {
           df_path <- data_frame(from = pos_current, status = "game over")
         } else {
-          df_path <- df_path %>% mutate(status = c(rep(NA, nrow(.) - 1), "game over"))
+          df_path <- df_path %>% mutate(status = c(rep(NA, nrow(df_path) - 1), "game over"))
         }
 
         break
@@ -281,28 +282,28 @@ Chess <- R6::R6Class(
   }, dfhist)
 
   # rename id var
-  df_paths <- tbl_df(df_paths) %>% rename(start_position = .id)
+  df_paths <- tbl_df(df_paths) %>% rename_("start_position" = ".id")
 
   # calculating moves per pieces
   df_paths <- df_paths %>%
-    group_by(start_position) %>%
+    group_by_("start_position") %>%
     mutate(piece_number_move = row_number()) %>%
     ungroup() %>%
-    arrange(start_position)
+    arrange_("start_position")
 
-  df_paths <- full_join(rchess:::.chesspiecedata() %>% select(piece = name, start_position),
+  df_paths <- full_join(.chesspiecedata() %>% select_("piece" = "name", "start_position"),
                         df_paths,
                         by = "start_position")
 
-  df_paths <- cbind(df_paths %>% select(-start_position, -status, -number_move_capture),
-                    df_paths %>% select(status, number_move_capture))
+  df_paths <- cbind(df_paths %>% select_("-start_position", "-status", "-number_move_capture"),
+                    df_paths %>% select_("status", "number_move_capture"))
 
   df_paths <- tbl_df(df_paths)
 
   # adding the pieces was capture the others
   df_caputre <- df_paths %>%
     filter(number_move %in% na.omit(df_paths$number_move_capture)) %>%
-    select(captured_by = piece, number_move_capture = number_move)
+    select_("captured_by" = "piece", "number_move_capture" = "number_move")
 
   df_paths <- df_paths %>%
     left_join(df_caputre, by = "number_move_capture")

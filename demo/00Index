@@ -1,1 +1,2 @@
 shiny-ex    Using chessboardjs widget on a shiny app
+load-pgn-ex Load text pgn file and load into Chess object
