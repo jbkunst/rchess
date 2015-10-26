@@ -169,32 +169,32 @@ Chess <- R6::R6Class(
 
 .add_castlings_rows_to_history <- function(dfhist) {
   # check if there are castlings
-  if (nrow(dfhist %>% filter(color == "w", san == "O-O")) == 1) {
-    row <- dfhist %>% filter(color == "w", san == "O-O") %>% .[["number_move"]]
+  if (nrow(dfhist %>% filter_("color == \"w\"", "san == \"O-O\"")) == 1) {
+    row <- (dfhist %>% filter_("color == \"w\"", "san == \"O-O\""))[["number_move"]]
     dfhist <- plyr::rbind.fill(
       dfhist[1:row, ],
       data_frame(color = "w", from = "h1", to = "f1", flags = "r",
                  piece = "r", san = "O-O", captured = NA, number_move = row),
       dfhist[(row + 1):nrow(dfhist), ])
   }
-  if (nrow(dfhist %>% filter(color == "w", san == "O-O-O")) == 1) {
-    row <- dfhist %>% filter(color == "w", san == "O-O-O") %>% .[["number_move"]]
+  if (nrow(dfhist %>% filter_("color == \"w\"", "san == \"O-O-O\"")) == 1) {
+    row <- (dfhist %>% filter_("color == \"w\"", "san == \"O-O-O\""))[["number_move"]]
     dfhist <- plyr::rbind.fill(
       dfhist[1:row, ],
       data_frame(color = "w", from = "a1", to = "d1", flags = "r",
                  piece = "r", san = "O-O-O", captured = NA, number_move = row),
       dfhist[(row + 1):nrow(dfhist), ])
   }
-  if (nrow(dfhist %>% filter(color == "b", san == "O-O")) == 1) {
-    row <- dfhist %>% filter(color == "b", san == "O-O") %>% .[["number_move"]]
+  if (nrow(dfhist %>% filter_("color == \"b\"", "san == \"O-O\"")) == 1) {
+    row <- (dfhist %>% filter_("color == \"b\"", "san == \"O-O\""))[["number_move"]]
     dfhist <- plyr::rbind.fill(
       dfhist[1:row, ],
       data_frame(color = "b", from = "h8", to = "f8", flags = "r",
                  piece = "r", san = "O-O", captured = NA, number_move = row),
       dfhist[(row + 1):nrow(dfhist), ])
   }
-  if (nrow(dfhist %>% filter(color == "b", san == "O-O-O")) == 1) {
-    row <- dfhist %>% filter(color == "b", san == "O-O-O") %>% .[["number_move"]]
+  if (nrow(dfhist %>% filter_("color == \"b\"", "san == \"O-O-O\"")) == 1) {
+    row <- (dfhist %>% filter_("color == \"b\"", "san == \"O-O-O\""))[["number_move"]]
     dfhist <- plyr::rbind.fill(
       dfhist[1:row, ],
       data_frame(color = "b", from = "a8", to = "d8", flags = "r",
