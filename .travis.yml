@@ -1,0 +1,12 @@
+language: r
+
+
+warnings_are_errors: false
+sudo: required
+
+apt_packages:
+ - libv8-dev
+
+notifications:
+ email:
+  on_failure: change
