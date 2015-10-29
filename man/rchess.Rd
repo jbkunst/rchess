@@ -4,9 +4,10 @@
 \name{rchess}
 \alias{rchess}
 \alias{rchess-package}
-\title{rchess: A package por chess move, generation/validation, piece placement/movement, and
+\title{Package por chess move, generation/validation, piece placement/movement, and
 check/checkmate/stalemate detection}
 \description{
-a simpler code
+Package por chess move, generation/validation, piece placement/movement, and
+check/checkmate/stalemate detection
 }
 
