@@ -1,6 +1,6 @@
 Package: rchess
 Version: 0.1
-Title: A Package Por Chess Move, Generation/Validation, Piece Placement/
+Title: Chess Move, Generation/Validation, Piece Placement/
     Movement, and Check/Checkmate/Stalemate Detection
 Description: R package for chess validations, pieces movements and check
     detection. This Packages is a wrapper for the chess.js javascript library
