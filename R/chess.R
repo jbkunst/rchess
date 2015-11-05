@@ -208,6 +208,9 @@ Chess <- R6::R6Class(
   dfhist
 }
 
+#' @importFrom graphics text
+#' @importFrom stats na.omit
+#' @importFrom utils head
 .history_detail <- function(dfhist) {
 
   dfhist <- .add_castlings_rows_to_history(dfhist)
