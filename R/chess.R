@@ -2,9 +2,49 @@ from <- to <- number_move <- NULL
 #' Chess Class
 #'
 #' Chees class.
-#'
+#' @docType class
 #' @import R6 dplyr
+#' @format An \code{\link{R6Class}} generator object
 #' @export
+#' @section Methods:
+#' \itemize{
+#'   \item{\code{new}} Creating a new instance of Chess class.
+#'   \item{\code{ascii}} Print the board via console.
+#'   \item{\code{clear}} Remove all pieces from the board.
+#'   \item{\code{fen}} Return the actual Forsyth–Edwards notation.
+#'   \item{\code{pgn}} Return Portable Game notation.
+#'   \item{\code{get}} Return the piece in a spicific square (argument)
+#'   \item{\code{history}} Return a vector containing the moves of the current game. If the
+#'        argument \code{verbose=TRUE} is added the method return a data frame.
+#'   \item{\code{game_over}} Returns TRUE if the game has ended via checkmate, stalemate,
+#'        draw, threefold repetition, or insufficient material. Otherwise, returns FALSE.
+#'   \item{\code{in_check}} Returns true or false if the side to move is in check.
+#'   \item{\code{in_checkmate}} Returns true or false if the side to move has been checkmated.
+#'   \item{\code{in_draw}} Returns true or false if the game is drawn (50-move rule or insufficient material).
+#'   \item{\code{in_stalemate}} Returns true or false if the side to move has been stalemated.
+#'   \item{\code{in_threefold_repetition}} Returns true or false if the current board position has occurred three or more times.
+#'   \item{\code{insufficient_material}} Returns true if the game is drawn due to insufficient material (K vs. K, K vs. KB, or K vs. KN); otherwise false.
+#'   \item{\code{move}} Attempts to make a move on the board, returning a move object
+#'        if the move was legal, otherwise null. The .move function can be called two ways,
+#'        by passing a string in Standard Algebraic Notation (SAN):
+#'   \item{\code{moves}} Returns a vector of legals moves from the current position.
+#'        The function takes an optional parameter which controls the single-square move generation and verbosity.
+#'   \item{\code{validate_fen}} Returns a validation object specifying validity or the errors found within the FEN string.
+#'   \item{\code{load}}
+#'   \item{\code{load_pgn}} Load the moves of a game stored in Portable Game Notation.
+#'   \item{\code{put}} Place a piece on square where piece is an object.
+#'   \item{\code{remove}} Remove and return the piece on square.
+#'   \item{\code{reset}} Reset the board to the initial starting position.
+#'   \item{\code{square_color}} Returns the color of the square ('light' or 'dark').
+#'   \item{\code{turn}} Returns the current side to move.
+#'   \item{\code{undo}} Takeback the last half-move, returning a move object if successful.
+#'   \item{\code{header}} Allows header information to be added to PGN output.
+#'        Any number of key/value pairs can be passed to \code{header()}.
+#'   \item{\code{history_detail}} Return a detailed version for \code{history(verbose=TRUE)}.
+#'   \item{\code{summary}} Print a summary of the object.
+#'   \item{\code{plot}} Plot the object via chessboarjs. You can add \code{type="ggplot"}.
+#'   \item{\code{print}} Print the summary ob the Chess object.
+#' }
 Chess <- R6::R6Class(
   "Chess",
   private = list(
