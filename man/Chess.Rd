@@ -4,7 +4,7 @@
 \name{Chess}
 \alias{Chess}
 \title{Chess Class}
-\format{\preformatted{Class 'R6ClassGenerator' <environment: 0x03e4b540> 
+\format{\preformatted{Class 'R6ClassGenerator' <environment: 0x0591c010> 
  - attr(*, "name")= chr "Chess_generator"
 }}
 \usage{
