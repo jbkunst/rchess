@@ -11,6 +11,9 @@
 
 The `rchess` package is a chess move, generation/validation, piece placement/movement, and check/checkmate/stalemate detection.
  
+This Packages is a wrapper for the chess.js javascript library
+by Jeff Hlywa. Also rchess integrates htmlwidget for plot chessboard using chessboardjs library.
+ 
 
 ## Installation
 
