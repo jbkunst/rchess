@@ -428,8 +428,8 @@ chsspgn$history_detail()
 ## 4      a1 Rook    d1    d4          47                 4 captured
 ## 5    b1 Knight    b1    c3           5                 1       NA
 ## 6    b1 Knight    c3    d5          43                 2 captured
-## 7    c3 Bishop    c1    e3           7                 1       NA
-## 8    c3 Bishop    e3    h6          15                 2 captured
+## 7    c1 Bishop    c1    e3           7                 1       NA
+## 8    c1 Bishop    e3    h6          15                 2 captured
 ## 9  White Queen    d1    d2           9                 1       NA
 ## 10 White Queen    d2    h6          17                 2       NA
 ## ..         ...   ...   ...         ...               ...      ...
@@ -497,7 +497,7 @@ Thanks to the creators and maintainers of these packages and libraries.
 
 ```r
 print(sessionInfo())
-## R version 3.2.0 (2015-04-16)
+## R version 3.2.2 (2015-08-14)
 ## Platform: i386-w64-mingw32/i386 (32-bit)
 ## Running under: Windows 7 (build 7601) Service Pack 1
 ## 
@@ -510,15 +510,17 @@ print(sessionInfo())
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] dplyr_0.4.3        ggplot2_1.0.1.9003 rchess_0.1        
+## [1] dplyr_0.4.3 rchess_0.1 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.1      rstudioapi_0.3.1 knitr_1.11       magrittr_1.5    
-##  [5] munsell_0.4.2    colorspace_1.2-6 R6_2.1.1         stringr_1.0.0   
-##  [9] plyr_1.8.3       tools_3.2.0      parallel_3.2.0   grid_3.2.0      
-## [13] gtable_0.1.2     DBI_0.3.1        ggthemes_3.0.0   htmltools_0.2.6 
-## [17] lazyeval_0.1.10  yaml_2.1.13      assertthat_0.1   digest_0.6.8    
-## [21] formatR_1.2.1    htmlwidgets_0.5  curl_0.9.3       evaluate_0.8    
-## [25] rmarkdown_0.8.1  V8_0.9           stringi_0.5-5    scales_0.3.0    
-## [29] jsonlite_0.9.17
+##  [1] Rcpp_0.12.1        rstudioapi_0.3.1   knitr_1.11        
+##  [4] magrittr_1.5       munsell_0.4.2      colorspace_1.2-6  
+##  [7] R6_2.1.1           stringr_1.0.0      plyr_1.8.3        
+## [10] tools_3.2.2        parallel_3.2.2     grid_3.2.2        
+## [13] gtable_0.1.2       DBI_0.3.1          htmltools_0.2.6   
+## [16] lazyeval_0.1.10    yaml_2.1.13        assertthat_0.1    
+## [19] digest_0.6.8       ggplot2_1.0.1.9003 formatR_1.2.1     
+## [22] htmlwidgets_0.5    curl_0.9.3         evaluate_0.8      
+## [25] rmarkdown_0.8.1    V8_0.9             stringi_1.0-1     
+## [28] scales_0.3.0       jsonlite_0.9.17
 ```
