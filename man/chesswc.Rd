@@ -10,7 +10,7 @@ chesswc
 }
 \description{
 This data comes from the \url{http://www.theweekinchess.com/} site and
-represent 1,266 games in the FIDE World Cupo 11, 13 & 15.  The data
+represent 1,266 games in the FIDE World Cupo 11, 13 and 15.  The data
 has been parsed from the downloaded pgn files using \url{https://github.com/jbkunst/chess-db}
 scripts.
 }

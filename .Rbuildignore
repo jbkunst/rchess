@@ -5,10 +5,10 @@
 inst/db
 man-roxygen
 NEWS\.md
-demo/pandas
 ^\.httr-oauth$
 ^cran-comments\.md$
 ^README\.Rmd$
 ^README\.html$
 ^revdep$
 ^README-.*\.png$
+no_build_thiz/*
