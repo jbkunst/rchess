@@ -27,7 +27,7 @@ chessopenings <- ldply(urls, function(url){ # url <- sample(urls, size = 1)
   }) %>% unlist()
 
   eco <- str_extract(data, "^\\w{1}\\d{2}")
-  variant <- str_sub(data, 5, last_1. - 1)
+  variant <- str_sub(data, 5, last_1. - 1) %>% str_trim()
   pgn <- str_sub(data, last_1.) %>% str_replace_all(":", "") %>% str_trim()
 
   data_frame(eco, variant, pgn)
