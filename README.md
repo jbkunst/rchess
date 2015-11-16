@@ -1,4 +1,4 @@
-# `rchess` A package for R
+# ♛ `rchess` A chess package for R
 
 [![travis-status](https://api.travis-ci.org/jbkunst/rchess.svg)](https://travis-ci.org/jbkunst/rchess)
 [![version](http://www.r-pkg.org/badges/version/rchess)](http://www.r-pkg.org/pkg/rchess)
