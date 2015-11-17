@@ -172,14 +172,19 @@ chss$fen()
 You can edit the header.
 ```{r}
 chss$header("White", "You")
-
+chss$header("WhiteElo", 1800)
 chss$header("Black", "Me")
+chss$header("Date", Sys.Date())
+chss$header("Site", "This R session")
 ```
 
-Get the pgn and plot the board in ascii format:
+And get the pgn. 
 ```{r}
 cat(chss$pgn())
+```
 
+Or plot the board in ascii format:
+```{r}
 chss$ascii()
 ```
 
