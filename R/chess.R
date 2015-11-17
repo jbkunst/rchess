@@ -354,12 +354,12 @@ Chess <- R6::R6Class(
   df_paths <- tbl_df(df_paths)
 
   # adding the pieces was capture the others
-  df_caputre <- df_paths %>%
+  df_capture <- df_paths %>%
     filter(number_move %in% na.omit(df_paths$number_move_capture)) %>%
     select_("captured_by" = "piece", "number_move_capture" = "number_move")
 
   df_paths <- df_paths %>%
-    left_join(df_caputre, by = "number_move_capture")
+    left_join(df_capture, by = "number_move_capture")
 
   df_paths
 
