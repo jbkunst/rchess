@@ -17,5 +17,6 @@ Imports:
     ggplot2,
     plyr,
     dplyr,
-    assertthat
+    assertthat,
+    stringr
 RoxygenNote: 5.0.0

@@ -193,7 +193,7 @@ Chess <- R6::R6Class(
       cat("\n\nBoard\n")
       cat(self$ascii())
 
-      },
+    },
     plot    = function(type = "chessboardjs", ...){
       stopifnot(type %in% c("chessboardjs", "ggplot"))
       if (type == "ggplot") e <- ggchessboard(self$fen(), ...)
@@ -212,39 +212,43 @@ Chess <- R6::R6Class(
   ct
 }
 
+#' @importFrom stringr str_detect
 .add_castlings_rows_to_history <- function(dfhist) {
-  # check if there are castlings
-  if (nrow(dfhist %>% filter_("color == \"w\"", "san == \"O-O\"")) == 1) {
-    row <- (dfhist %>% filter_("color == \"w\"", "san == \"O-O\""))[["number_move"]]
-    dfhist <- plyr::rbind.fill(
-      dfhist[1:row, ],
-      data_frame(color = "w", from = "h1", to = "f1", flags = "r",
-                 piece = "r", san = "O-O", captured = NA, number_move = row),
-      dfhist[(row + 1):nrow(dfhist), ])
-  }
-  if (nrow(dfhist %>% filter_("color == \"w\"", "san == \"O-O-O\"")) == 1) {
-    row <- (dfhist %>% filter_("color == \"w\"", "san == \"O-O-O\""))[["number_move"]]
-    dfhist <- plyr::rbind.fill(
-      dfhist[1:row, ],
-      data_frame(color = "w", from = "a1", to = "d1", flags = "r",
-                 piece = "r", san = "O-O-O", captured = NA, number_move = row),
-      dfhist[(row + 1):nrow(dfhist), ])
-  }
-  if (nrow(dfhist %>% filter_("color == \"b\"", "san == \"O-O\"")) == 1) {
-    row <- (dfhist %>% filter_("color == \"b\"", "san == \"O-O\""))[["number_move"]]
-    dfhist <- plyr::rbind.fill(
-      dfhist[1:row, ],
-      data_frame(color = "b", from = "h8", to = "f8", flags = "r",
-                 piece = "r", san = "O-O", captured = NA, number_move = row),
-      dfhist[(row + 1):nrow(dfhist), ])
-  }
-  if (nrow(dfhist %>% filter_("color == \"b\"", "san == \"O-O-O\"")) == 1) {
-    row <- (dfhist %>% filter_("color == \"b\"", "san == \"O-O-O\""))[["number_move"]]
-    dfhist <- plyr::rbind.fill(
-      dfhist[1:row, ],
-      data_frame(color = "b", from = "a8", to = "d8", flags = "r",
-                 piece = "r", san = "O-O-O", captured = NA, number_move = row),
-      dfhist[(row + 1):nrow(dfhist), ])
+
+  if (any(str_detect(dfhist[["san"]], "O-O"))) {
+
+    # check if there is castlings for white
+    if (nrow(dfhist %>% filter_("color == \"w\"", "stringr::str_detect(san, \"O-O\")")) == 1) {
+      row <- (dfhist %>% filter_("color == \"w\"", "stringr::str_detect(san, \"O-O\")"))[["number_move"]]
+
+      san_aux <- dfhist[["san"]][row]
+      flag_aux <- dfhist[["flags"]][row]
+      from_aux <- ifelse(str_detect(san_aux, "O-O-O"), "a1", "h1")
+      to_aux <- ifelse(str_detect(san_aux, "O-O-O"), "d1", "f1")
+
+      dfhist <- plyr::rbind.fill(
+        dfhist[1:row, ],
+        data_frame(color = "w", from = from_aux, to = to_aux, flags = flag_aux,
+                   piece = "r", san = san_aux, captured = NA, number_move = row),
+        dfhist[(row + 1):nrow(dfhist), ])
+    }
+
+    # check if there is castling for black
+    if (nrow(dfhist %>% filter_("color == \"b\"", "stringr::str_detect(san, \"O-O\")")) == 1) {
+      row <- (dfhist %>% filter_("color == \"b\"", "stringr::str_detect(san, \"O-O\")"))[["number_move"]]
+
+      san_aux <- dfhist[["san"]][row]
+      flag_aux <- dfhist[["flags"]][row]
+      from_aux <- ifelse(str_detect(san_aux, "O-O-O"), "a1", "h1")
+      to_aux <- ifelse(str_detect(san_aux, "O-O-O"), "d1", "f1")
+
+      dfhist <- plyr::rbind.fill(
+        dfhist[1:row, ],
+        data_frame(color = "b", from = from_aux, to = to_aux, flags = flag_aux,
+                   piece = "r", san = san_aux, captured = NA, number_move = row),
+        dfhist[(row + 1):nrow(dfhist), ])
+
+    }
   }
 
   dfhist <- tbl_df(dfhist)
