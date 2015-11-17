@@ -342,6 +342,8 @@ Chess <- R6::R6Class(
                         df_paths,
                         by = "start_position")
 
+  if (!"number_move_capture" %in% names(df_paths)) df_paths[["number_move_capture"]] <- NA
+
   df_paths <- cbind(df_paths %>% select_("-start_position", "-status", "-number_move_capture"),
                     df_paths %>% select_("status", "number_move_capture"))
 
