@@ -1,5 +1,10 @@
 library("rchess")
 
+pgn <- "1. e4 e5"
+chss <- Chess$new()
+chss$load_pgn(pgn)
+dfhist <- chss$history(verbose = TRUE)
+chss$history_detail() %>% View()
 
 
 #### Header & Get header ####

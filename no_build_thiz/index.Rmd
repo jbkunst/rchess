@@ -6,7 +6,6 @@ output:
     toc: yes
 ---
 <!-- README.md is generated from README.Rmd -->
-
 ```{r setup, echo = FALSE, warning=FALSE}
 # devtools::install_github("jbkunst/tufterhandout")
 library("rchess")
@@ -81,7 +80,6 @@ jQuery(document).ready(function() {
     margin-left: auto;
     margin-right: auto;
   }
-  
   
 </style>
 
@@ -337,7 +335,7 @@ head(chessopenings)
 
 ### Under the hood
 
-This package is basically a wrapper of [chessjs](https://github.com/jhlywa/chess.js) by [jhlywa](https://github.com/jhlywa).
+This package is mainly a wrapper of [chessjs](https://github.com/jhlywa/chess.js) by [jhlywa](https://github.com/jhlywa).
 
 The main parts in this package are:
 

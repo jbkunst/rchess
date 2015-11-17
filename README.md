@@ -6,17 +6,14 @@
 
 The [`rchess`](http://jkunst.com/rchess) package is a chess move, generation/validation, piece placement/movement, and check/checkmate/stalemate detection.
  
-This Packages is a wrapper for the chess.js javascript library
-by Jeff Hlywa. Also rchess integrates htmlwidget for plot chessboard using chessboardjs library.
+This Packages is a wrapper for the [chess.js](https://github.com/jhlywa/chess.js) javascript library
+and integrates htmlwidget for plot chessboard using [chessboardjs](http://chessboardjs.com/) library.
  
-For installation you can use:
+For installation you use:
 
 ```r
 install.packages("rchess")
-```
 
-Or:
-
-```r
+# Or
 devtools::install_github("jbkunst/rchess")
 ```
