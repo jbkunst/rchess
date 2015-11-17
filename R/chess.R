@@ -39,6 +39,7 @@ from <- to <- number_move <- NULL
 #'   \item{\code{undo}} Takeback the last halfmove, returning a move object if successful.
 #'   \item{\code{header}} Allows header information to be added to PGN output.
 #'        Any number of key value pairs can be passed to \code{header()}.
+#'   \item{\code{get_header}} Get header of the actual game via list object.
 #'   \item{\code{history_detail}} Return a detailed version for \code{history(verbose=TRUE)}.
 #'   \item{\code{summary}} Print a summary of the object.
 #'   \item{\code{plot}} Plot the object via chessboarjs. You can add \code{type} {ggplot}.
@@ -162,9 +163,12 @@ Chess <- R6::R6Class(
     },
     header = function(key, value){
       private$ct$assign("key", key)
-      private$ct$assign("value", value)
+      private$ct$assign("value", as.character(value))
       private$ct$eval("chess.header(key, value)")
       invisible(self)
+    },
+    get_header = function(){
+      private$ct$get("chess.header()")
     },
     #### internals
     history_detail = function(){

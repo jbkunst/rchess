@@ -46,6 +46,7 @@ Chees class.
   \item{\code{undo}} Takeback the last halfmove, returning a move object if successful.
   \item{\code{header}} Allows header information to be added to PGN output.
        Any number of key value pairs can be passed to \code{header()}.
+  \item{\code{get_header}} Get header of the actual game via list object.
   \item{\code{history_detail}} Return a detailed version for \code{history(verbose=TRUE)}.
   \item{\code{summary}} Print a summary of the object.
   \item{\code{plot}} Plot the object via chessboarjs. You can add \code{type} {ggplot}.

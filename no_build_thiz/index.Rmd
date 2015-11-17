@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
 </script>
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
 <style>
-  h1, h2, h3 {
+  h1, h2, h3, h4, .TOC > li {
     font-family : "Playfair Display", serif;
     color: #b58863;
   } 
@@ -56,6 +56,7 @@ jQuery(document).ready(function() {
   .level2 {
     padding-top: 20px;
   }
+  
     
   .back-to-top {
     font-family : "Playfair Display", serif;
@@ -69,6 +70,19 @@ jQuery(document).ready(function() {
     padding: 1em;
     display: none;
   }
+  
+  .html-widget-static-bound {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .main-container {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  
 </style>
 
 <a href="#" class="back-to-top">Back to Top</a>
@@ -101,17 +115,22 @@ devtools::install_github("jbkunst/rchess")
 
 ```{r}
 chss <- Chess$new()
-
 chss
+```
 
+Check the legal next moves:
+
+```{r}
 chss$moves()
 
 chss$moves(verbose = TRUE)
-
-chss$move("a3")
-
 ```
 
+Make a move:
+
+```{r}
+chss$move("a3")
+```
 
 We can concate some moves (and a captures)
 
@@ -131,6 +150,7 @@ plot(chss, type = "ggplot")
 ```
 
 
+There are function to get information of actual position:
 ```{r}
 chss$turn()
 
@@ -147,11 +167,17 @@ chss$undo()
 chss$history()
 
 chss$fen()
+```
 
+You can edit the header.
+```{r}
 chss$header("White", "You")
 
 chss$header("Black", "Me")
+```
 
+Get the pgn and plot the board in ascii format:
+```{r}
 cat(chss$pgn())
 
 chss$ascii()
@@ -168,7 +194,7 @@ fen <- "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
 
 chssfen$load(fen)
 
-chssfen$ascii()
+plot(chssfen)
 ```
 
 ### PGN
@@ -188,6 +214,8 @@ cat(chsspgn$pgn())
 chsspgn$history()
 
 chsspgn$history(verbose = TRUE)
+
+plot(chsspgn)
 ```
 
 ## Validation Functions
@@ -215,7 +243,7 @@ chss2$in_checkmate()
 ```{r}
 chss3 <- Chess$new("4k3/4P3/4K3/8/8/8/8/8 b - - 0 78")
 
-chss3$ascii()
+plot(chss3)
 
 chss3$in_stalemate()
 ```
@@ -240,16 +268,16 @@ chss4$history()
 
 ### Insufficient material
 ```{r}
-chess5 <- Chess$new("k7/8/n7/8/8/8/8/7K b - - 0 1")
+chss5 <- Chess$new("k7/8/n7/8/8/8/8/7K b - - 0 1")
 
-plot(chess5, type = "ggplot")
+plot(chss5)
 
-chess5$insufficient_material()
+chss5$insufficient_material()
 ```
 
 ## Helpers Functions
 
-Not all from the package is the wrapper for *chessjs*. There are some interesting functions.
+There some helper function to get more information 
 
 ### History Detail
 
@@ -259,14 +287,24 @@ This functions is a detailed version from the `history(verbose = TRUE)`.
 chsspgn$history_detail()
 ```
 
-We can check the final board status with the (last) fen and the
-`history_detail` filtering by `status == "game over"`
-
+### Plot a boad via ggplot
+You can plot a specific fen vía ggplot:
 ```{r}
 ggchessboard(chsspgn$fen())
+```
 
-library("dplyr")
-chsspgn$history_detail() %>% filter(status == "game over")
+### Auxiliar Data
+
+There function to retrieve some data which is easier to plot:
+
+#### Pieces
+```{r}
+rchess:::.chesspiecedata()
+```
+
+#### Board
+```{r}
+rchess:::.chessboarddata()
 ```
 
 ## Data
