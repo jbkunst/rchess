@@ -239,8 +239,8 @@ Chess <- R6::R6Class(
 
       san_aux <- dfhist[["san"]][row]
       flag_aux <- dfhist[["flags"]][row]
-      from_aux <- ifelse(str_detect(san_aux, "O-O-O"), "a1", "h1")
-      to_aux <- ifelse(str_detect(san_aux, "O-O-O"), "d1", "f1")
+      from_aux <- ifelse(str_detect(san_aux, "O-O-O"), "a8", "h8")
+      to_aux <- ifelse(str_detect(san_aux, "O-O-O"), "d8", "f8")
 
       dfhist <- plyr::rbind.fill(
         dfhist[1:row, ],
