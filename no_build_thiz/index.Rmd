@@ -100,7 +100,7 @@ The `rchess` package is a chess move, generation/validation, piece placement/mov
 
 ## Installation
 
-Via standart install:
+Via standar install:
 
 ```{r, eval=FALSE}
 install.packages("rchess")
@@ -116,7 +116,6 @@ devtools::install_github("jbkunst/rchess")
 
 ```{r}
 chss <- Chess$new()
-chss
 ```
 
 Check the legal next moves:
@@ -299,7 +298,7 @@ This functions is a detailed version from the `history(verbose = TRUE)`.
 chsspgn$history_detail()
 ```
 
-### Plot a boad via ggplot
+### Plot a board via ggplot
 You can plot a specific fen vía ggplot:
 ```{r}
 ggchessboard(chsspgn$fen())
