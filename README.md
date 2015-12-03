@@ -13,7 +13,6 @@ For installation you use:
 
 ```r
 install.packages("rchess")
-
 # Or
 devtools::install_github("jbkunst/rchess")
 ```
