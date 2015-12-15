@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 .Rprofile
+.V8history
 inst/db
 man-roxygen
 NEWS\.md
