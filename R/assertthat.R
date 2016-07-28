@@ -7,7 +7,7 @@ is_valid_fen <- function(x) {
   val$valid
 }
 
-assertthat::on_failure(is_valid_fen) <- function(call, env) {
+on_failure(is_valid_fen) <- function(call, env) {
   x <- call$x
   ct <- .get_context_chess_from_fen()
   ct$assign("fen", x)
@@ -19,9 +19,9 @@ is_valid_move <- function(x, mvs){
   x %in% mvs
 }
 
-assertthat::on_failure(is_valid_move) <- function(call, env) {
-  x <- call$x
-  paste0(x, " is not a possible move")
+#' @import assertthat
+on_failure(is_valid_move) <- function(call, env) {
+  paste0("is not a possible move")
 }
 
 is_chess_square <- function(x){
@@ -30,6 +30,6 @@ is_chess_square <- function(x){
   x %in% squares
 }
 
-assertthat::on_failure(is_chess_square) <- function(call, env) {
+on_failure(is_chess_square) <- function(call, env) {
   paste0(deparse(call$x), " is not a valid chess square")
 }

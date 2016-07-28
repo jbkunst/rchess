@@ -106,7 +106,7 @@ Chess <- R6::R6Class(
       private$ct$get(V8::JS("chess.insufficient_material()"))
     },
     move = function(move){
-      assertthat::assert_that(is_valid_move(move, self$moves()))
+      assertthat::assert_that(is_valid_move(x = move, mvs = self$moves()))
       strg <- sprintf("chess.move('%s')", move)
       private$ct$eval(V8::JS(strg))
       # return invisible(self) to concatenate moves

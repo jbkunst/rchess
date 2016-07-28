@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="stockfish.js"></script>
+  <script>
+    var stockfish = STOCKFISH();
+    stockfish.onmessage = function(event) { console.log(event.data ? event.data : event);};
+    stockfish.postMessage("go depth 2");
+    stockfish.postMessage("position fen r3kb1r/1pBnp1pp/p4p2/1N1n1b2/2BP4/5NP1/P4P1P/R1R3K1 w kq - 0 17");
+    stockfish.postMessage("go depth 5");
+  </script>
+</head>
+
+<body>
+</body>
