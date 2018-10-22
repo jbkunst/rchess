@@ -40,7 +40,8 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
     geom_text(aes_string(label = "text"), size = piecesize) +
     scale_fill_manual(values = cellcols) +
     coord_equal() +
-    theme(legend.position = "none")
+    theme(legend.position = "none") +
+    labs(x = "", y = "")
 
   p
 
