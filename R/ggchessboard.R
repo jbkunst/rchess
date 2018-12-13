@@ -5,6 +5,7 @@ x <- y <- NULL
 #' @param cellcols A 2 length vector fot the cell colors
 #' @param perspective A string to show the perspective (black, white)
 #' @param piecesize Size of the the unicode texts
+#' @param labelsize Size of the position indicators
 #' @return A ggplot object
 #' @import ggplot2
 #' @export
