@@ -41,7 +41,7 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
     scale_fill_manual(values = cellcols) +
     coord_equal() +
     theme(legend.position = "none", panel.background = element_blank()) +
-    scale_x_discrete(labels = letters[1:8])
+    scale_x_discrete(labels = letters[1:8]) +
     labs(x = "", y = "")
 
   p
