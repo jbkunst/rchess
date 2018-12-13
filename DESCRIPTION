@@ -7,7 +7,8 @@ Description: R package for chess validations, pieces movements and check
     Forsyth Edwards and Portable Game notations.
 Authors@R: as.person(c(
     "Joshua Kunst <jbkunst@gmail.com> [aut, cre]", 
-    "Reto Wyss <reto.wyss.ch@gmail.com> [ctb]"
+    "Reto Wyss <reto.wyss.ch@gmail.com> [ctb]",
+    "Ogan Mancarci <ogan.mancarci@gmail.com> [ctb]"
     ))    
 License: MIT + file LICENSE
 URL: https://github.com/jbkunst/rchess

@@ -5,6 +5,7 @@ x <- y <- NULL
 #' @param cellcols A 2 length vector fot the cell colors
 #' @param perspective A string to show the perspective (black, white)
 #' @param piecesize Size of the the unicode texts
+#' @param labelsize Size of the position indicators
 #' @return A ggplot object
 #' @import ggplot2
 #' @export
@@ -23,7 +24,8 @@ x <- y <- NULL
 ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
                          cellcols = c("#D2B48C", "#F5F5DC"),
                          perspective = "white",
-                         piecesize = 15){
+                         piecesize = 15,
+                         labelsize = 13){
 
   stopifnot(perspective %in% c("white", "black"))
 
@@ -40,7 +42,11 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
     geom_text(aes_string(label = "text"), size = piecesize) +
     scale_fill_manual(values = cellcols) +
     coord_equal() +
-    theme(legend.position = "none") +
+    theme(legend.position = "none",
+          panel.background = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text = element_text(size = labelsize)) +
+    scale_x_discrete(labels = letters[1:8]) +
     labs(x = "", y = "")
 
   p
