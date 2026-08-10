@@ -21,5 +21,6 @@ Imports:
     plyr,
     dplyr,
     assertthat,
-    stringr
+    stringr,
+    tibble
 RoxygenNote: 5.0.1
