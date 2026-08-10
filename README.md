@@ -1,18 +1,54 @@
-# ♛ `rchess` A chess package for R
+# ♛ `rchess` — Chess tools for R
 
-[![travis-status](https://api.travis-ci.org/jbkunst/rchess.svg)](https://travis-ci.org/jbkunst/rchess)
-[![version](http://www.r-pkg.org/badges/version/rchess)](http://www.r-pkg.org/pkg/rchess)
-[![downloads](http://cranlogs.r-pkg.org/badges/rchess)](http://www.r-pkg.org/pkg/rchess)
+[![R-CMD-check](https://github.com/jbkunst/rchess/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jbkunst/rchess/actions/workflows/R-CMD-check.yaml)
 
-The [`rchess`](http://jkunst.com/rchess) package is a chess move, generation/validation, piece placement/movement, and check/checkmate/stalemate detection.
- 
-This Packages is a wrapper for the [chess.js](https://github.com/jhlywa/chess.js) javascript library
-and integrates htmlwidget for plot chessboard using [chessboardjs](http://chessboardjs.com/) library.
- 
-For installation you use:
+`rchess` provides chess move generation and validation, piece placement and
+movement, game-state detection, and board visualization from R. It wraps the
+bundled [chess.js](https://github.com/jhlywa/chess.js) JavaScript library and
+includes both an HTML widget and a `ggplot2` board renderer.
+
+> **CRAN status:** `rchess` was archived on November 14, 2023. Until a new CRAN
+> release is prepared, install the maintained development version from GitHub.
+
+## Installation
 
 ```r
-install.packages("rchess")
-# Or
-devtools::install_github("jbkunst/rchess")
+# install.packages("pak")
+pak::pak("jbkunst/rchess")
 ```
+
+## Quick start
+
+```r
+library(rchess)
+
+game <- Chess$new()
+
+game$moves()
+game$move("e4")
+game$move("e5")
+game$fen()
+game$history()
+```
+
+Plot the current position with the HTML widget:
+
+```r
+plot(game)
+```
+
+Or use the `ggplot2` renderer:
+
+```r
+plot(game, type = "ggplot")
+```
+
+## Documentation
+
+Package documentation and examples are being rebuilt with pkgdown at
+<https://jbkunst.github.io/rchess/>.
+
+## Development
+
+Issues and pull requests are welcome at
+<https://github.com/jbkunst/rchess>.
