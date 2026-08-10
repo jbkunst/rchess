@@ -1,4 +1,6 @@
-from <- to <- number_move <- NULL
+from <- to <- number_move <- color <- san <- start_position <- status <- NULL
+number_move_capture <- piece <- name <- piece_number_move <- captured_by <- .id <- NULL
+
 #' Chess Class
 #'
 #' Chees class.
@@ -81,7 +83,10 @@ Chess <- R6::R6Class(
     history = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
       res <- private$ct$get("chess.history({ verbose: verb })")
-      if (verbose) res <- dplyr::tbl_df(res) %>% mutate(number_move = seq(nrow(.)))
+      if (verbose) {
+        res <- tibble::as_tibble(res)
+        res <- dplyr::mutate(res, number_move = seq_len(nrow(res)))
+      }
       res
     },
     game_over = function(){
@@ -115,7 +120,7 @@ Chess <- R6::R6Class(
     moves = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
       res <- private$ct$get("chess.moves({ verbose: verb })")
-      if (verbose) res <- dplyr::tbl_df(res)
+      if (verbose) res <- tibble::as_tibble(res)
       res
     },
     validate_fen = function(fen){
@@ -218,8 +223,11 @@ Chess <- R6::R6Class(
   if (any(str_detect(dfhist[["san"]], "O-O"))) {
 
     # check if there is castlings for white
-    if (nrow(dfhist %>% filter_("color == \"w\"", "stringr::str_detect(san, \"O-O\")")) == 1) {
-      row <- (dfhist %>% filter_("color == \"w\"", "stringr::str_detect(san, \"O-O\")"))[["number_move"]]
+    white_castling <- dfhist %>%
+      dplyr::filter(color == "w", stringr::str_detect(san, "O-O"))
+
+    if (nrow(white_castling) == 1) {
+      row <- white_castling[["number_move"]]
 
       san_aux <- dfhist[["san"]][row]
       flag_aux <- dfhist[["flags"]][row]
@@ -228,14 +236,17 @@ Chess <- R6::R6Class(
 
       dfhist <- plyr::rbind.fill(
         dfhist[1:row, ],
-        data_frame(color = "w", from = from_aux, to = to_aux, flags = flag_aux,
-                   piece = "r", san = san_aux, captured = NA, number_move = row),
+        tibble::tibble(color = "w", from = from_aux, to = to_aux, flags = flag_aux,
+                       piece = "r", san = san_aux, captured = NA, number_move = row),
         dfhist[(row + 1):nrow(dfhist), ])
     }
 
     # check if there is castling for black
-    if (nrow(dfhist %>% filter_("color == \"b\"", "stringr::str_detect(san, \"O-O\")")) == 1) {
-      row <- (dfhist %>% filter_("color == \"b\"", "stringr::str_detect(san, \"O-O\")"))[["number_move"]]
+    black_castling <- dfhist %>%
+      dplyr::filter(color == "b", stringr::str_detect(san, "O-O"))
+
+    if (nrow(black_castling) == 1) {
+      row <- black_castling[["number_move"]]
 
       san_aux <- dfhist[["san"]][row]
       flag_aux <- dfhist[["flags"]][row]
@@ -244,16 +255,14 @@ Chess <- R6::R6Class(
 
       dfhist <- plyr::rbind.fill(
         dfhist[1:row, ],
-        data_frame(color = "b", from = from_aux, to = to_aux, flags = flag_aux,
-                   piece = "r", san = san_aux, captured = NA, number_move = row),
+        tibble::tibble(color = "b", from = from_aux, to = to_aux, flags = flag_aux,
+                       piece = "r", san = san_aux, captured = NA, number_move = row),
         dfhist[(row + 1):nrow(dfhist), ])
 
     }
   }
 
-  dfhist <- tbl_df(dfhist)
-
-  dfhist
+  tibble::as_tibble(dfhist)
 }
 
 #' @importFrom graphics text
@@ -268,7 +277,7 @@ Chess <- R6::R6Class(
                        paste0(letters[seq(8)], 2),
                        paste0(letters[seq(8)], 1))
 
-  df_start_positions <- data_frame("start_position" = start_positions)
+  df_start_positions <- tibble::tibble("start_position" = start_positions)
 
   names(start_positions) <- start_positions
 
@@ -293,7 +302,7 @@ Chess <- R6::R6Class(
         game_is_over <- TRUE
 
         if (is.null(nrow(df_path))) {
-          df_path <- data_frame(from = pos_current, status = "game over")
+          df_path <- tibble::tibble(from = pos_current, status = "game over")
         } else {
           df_path <- df_path %>% mutate(status = c(rep(NA, nrow(df_path) - 1), "game over"))
         }
@@ -306,9 +315,9 @@ Chess <- R6::R6Class(
         piece_was_captured <- TRUE
 
         if (is.null(nrow(df_path))) {
-          df_path <- data_frame(from = pos_current,
-                                status = "captured",
-                                number_move_capture = dfhist_aux$number_move)
+          df_path <- tibble::tibble(from = pos_current,
+                                    status = "captured",
+                                    number_move_capture = dfhist_aux$number_move)
         } else {
           df_path <- df_path %>%
             mutate(status = c(rep(NA, nrow(df_path) - 1), "captured"),
@@ -319,9 +328,9 @@ Chess <- R6::R6Class(
       }
 
       df_path <- rbind(df_path,
-                       data_frame(from = pos_current,
-                                  to = dfhist_aux$to,
-                                  number_move = dfhist_aux$number_move))
+                       tibble::tibble(from = pos_current,
+                                      to = dfhist_aux$to,
+                                      number_move = dfhist_aux$number_move))
 
       pos_current <- dfhist_aux$to
       pos_nummove <- dfhist_aux$number_move
@@ -333,30 +342,34 @@ Chess <- R6::R6Class(
   }, dfhist)
 
   # rename id var
-  df_paths <- tbl_df(df_paths) %>% rename_("start_position" = ".id")
+  df_paths <- tibble::as_tibble(df_paths) %>%
+    dplyr::rename(start_position = .id)
 
   # calculating moves per pieces
   df_paths <- df_paths %>%
-    group_by_("start_position") %>%
+    dplyr::group_by(start_position) %>%
     mutate(piece_number_move = row_number()) %>%
     ungroup() %>%
-    arrange_("start_position")
+    dplyr::arrange(start_position)
 
-  df_paths <- full_join(.chesspiecedata() %>% select_("piece" = "name", "start_position"),
+  df_paths <- full_join(.chesspiecedata() %>%
+                          dplyr::select(piece = name, start_position),
                         df_paths,
                         by = "start_position")
 
   if (!"number_move_capture" %in% names(df_paths)) df_paths[["number_move_capture"]] <- NA
 
-  df_paths <- cbind(df_paths %>% select_("-start_position", "-status", "-number_move_capture"),
-                    df_paths %>% select_("status", "number_move_capture"))
+  df_paths <- cbind(df_paths %>%
+                      dplyr::select(-start_position, -status, -number_move_capture),
+                    df_paths %>%
+                      dplyr::select(status, number_move_capture))
 
-  df_paths <- tbl_df(df_paths)
+  df_paths <- tibble::as_tibble(df_paths)
 
   # adding the pieces was capture the others
   df_capture <- df_paths %>%
     filter(number_move %in% na.omit(df_paths$number_move_capture)) %>%
-    select_("captured_by" = "piece", "number_move_capture" = "number_move")
+    dplyr::select(captured_by = piece, number_move_capture = number_move)
 
   df_paths <- df_paths %>%
     left_join(df_capture, by = "number_move_capture")
