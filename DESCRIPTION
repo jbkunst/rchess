@@ -22,4 +22,6 @@ Imports:
     dplyr,
     assertthat,
     stringr
+Suggests:
+    shiny
 RoxygenNote: 5.0.1
