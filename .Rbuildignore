@@ -13,3 +13,4 @@ NEWS\.md
 ^revdep$
 ^README-.*\.png$
 devscripts/*
+^_pkgdown\.yml$
