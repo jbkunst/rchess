@@ -5,7 +5,6 @@
 .V8history
 inst/db
 man-roxygen
-NEWS\.md
 ^\.httr-oauth$
 ^cran-comments\.md$
 ^README\.Rmd$
