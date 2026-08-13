@@ -40,14 +40,14 @@
                B  = "\u2657", b = "\u265D",
                N  = "\u2658", n = "\u265E")
 
-  dfpieces <- data_frame(
+  dfpieces <- tibble::tibble(
     fen,
     start_position,
     name,
     name_long,
     color = c(rep("w", 16), rep("b", 16))) %>%
-    left_join(data_frame(fen = names(unicode),
-                         unicode = unicode), by = "fen") %>%
+    left_join(tibble::tibble(fen = names(unicode),
+                             unicode = unicode), by = "fen") %>%
     mutate(name_short = paste(fen, start_position))
 
   dfpieces
@@ -66,19 +66,19 @@
               B  = "\u2657", b = "\u265D",
               N  = "\u2658", n = "\u265E")
 
-  dpieces <- dplyr::data_frame(piece = names(pieces),
-                               text = pieces)
+  dpieces <- tibble::tibble(piece = names(pieces),
+                            text = pieces)
 
-  dchess <- dplyr::data_frame(idcell = seq(64),
-                              col    = rep(cols, times = 8),
-                              row    = rep(seq(8), each = 8),
-                              x      = rep(rows, times = 8),
-                              y      = rep(seq(8), each = 8),
-                              cell   = paste0(col, row),
-                              cc     = ifelse((x + y) %% 2, "w", "b"))
+  dchess <- tibble::tibble(idcell = seq(64),
+                           col    = rep(cols, times = 8),
+                           row    = rep(seq(8), each = 8),
+                           x      = rep(rows, times = 8),
+                           y      = rep(seq(8), each = 8),
+                           cell   = paste0(col, row),
+                           cc     = ifelse((x + y) %% 2, "w", "b"))
 
-  dfen <- dplyr::data_frame(idcell = rep(seq(8), 8) + rep(7:0, each = 8)*8,
-                            piece  = .parse_fen(fen))
+  dfen <- tibble::tibble(idcell = rep(seq(8), 8) + rep(7:0, each = 8)*8,
+                         piece  = .parse_fen(fen))
 
   dchess <- dchess %>%
     dplyr::left_join(dfen, by = "idcell") %>%
