@@ -1,0 +1,21 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+name: R-Wasm-check
+
+permissions:
+  contents: read
+
+jobs:
+  R-Wasm-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build package for WebAssembly
+        uses: r-wasm/actions/build-rwasm@v3
+        with:
+          packages: "."
