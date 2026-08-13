@@ -1,3 +1,4 @@
 test_that("PGN compatibility", {
-  expect_true(TRUE)
+  game <- Chess
+  expect_true(inherits(game, "R6ClassGenerator"))
 })
