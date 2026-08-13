@@ -1,4 +1,4 @@
-x <- y <- NULL
+x <- y <- cc <- text <- NULL
 #' Plot a fen representation chessboard via ggplot2
 #' @description Function to show the fen string in ggplot2.
 #' @param fen Fen notation of a chessboard
@@ -37,9 +37,9 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
     dplyr::mutate(x = factor(x, levels = lvls),
                   y = factor(y, levels = lvls))
 
-  p <- ggplot(dchess, aes_string("x", "y")) +
-    geom_tile(aes_string(fill = "cc")) +
-    geom_text(aes_string(label = "text"), size = piecesize) +
+  p <- ggplot(dchess, aes(x = x, y = y)) +
+    geom_tile(aes(fill = cc)) +
+    geom_text(aes(label = text), size = piecesize) +
     scale_fill_manual(values = cellcols) +
     coord_equal() +
     theme(legend.position = "none",
