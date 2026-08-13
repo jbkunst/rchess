@@ -1,0 +1,15 @@
+url: https://jbkunst.github.io/rchess/
+template:
+  bootstrap: 5
+reference:
+  - title: Chess game
+    contents:
+      - Chess
+  - title: Boards and plots
+    contents:
+      - chessboardjs
+      - ggchessboard
+  - title: Shiny
+    contents:
+      - chessboardjsOutput
+      - renderChessboardjs
