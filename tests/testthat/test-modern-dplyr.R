@@ -24,3 +24,14 @@ test_that("history detail handles castling", {
   expect_true(tibble::is_tibble(detail))
   expect_named(detail, c("piece", "from", "to", "number_move", "piece_number_move", "status", "number_move_capture", "captured_by"))
 })
+
+test_that("history detail uses modern tibble operations", {
+  game <- Chess$new()
+  game$move("e4")$move("d5")$move("exd5")
+
+  detail <- game$history_detail()
+
+  expect_s3_class(detail, "tbl_df")
+  expect_true(any(!is.na(detail$captured_by)))
+  expect_false(".id" %in% names(detail))
+})

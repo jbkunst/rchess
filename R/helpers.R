@@ -1,4 +1,4 @@
-#' @import dplyr
+#' @importFrom rlang .data
 .chesspiecedata <- function() {
 
   start_position <- c(
@@ -45,10 +45,12 @@
     start_position,
     name,
     name_long,
-    color = c(rep("w", 16), rep("b", 16))) %>%
-    left_join(tibble::tibble(fen = names(unicode),
-                             unicode = unicode), by = "fen") %>%
-    mutate(name_short = paste(fen, start_position))
+    color = c(rep("w", 16), rep("b", 16))) |>
+    dplyr::left_join(
+      tibble::tibble(fen = names(unicode), unicode = unicode),
+      by = "fen"
+    ) |>
+    dplyr::mutate(name_short = paste(.data$fen, .data$start_position))
 
   dfpieces
 
@@ -74,18 +76,18 @@
                            row    = rep(seq(8), each = 8),
                            x      = rep(rows, times = 8),
                            y      = rep(seq(8), each = 8),
-                           cell   = paste0(col, row),
-                           cc     = ifelse((x + y) %% 2, "w", "b"))
+                           cell   = paste0(col, row)) |>
+    dplyr::mutate(cc = ifelse((.data$x + .data$y) %% 2, "w", "b"))
 
   dfen <- tibble::tibble(idcell = rep(seq(8), 8) + rep(7:0, each = 8)*8,
                          piece  = .parse_fen(fen))
 
-  dchess <- dchess %>%
-    dplyr::left_join(dfen, by = "idcell") %>%
+  dchess <- dchess |>
+    dplyr::left_join(dfen, by = "idcell") |>
     dplyr::left_join(dpieces, by = "piece")
 
-  dchess <- dchess %>%
-    dplyr::mutate(text = ifelse(is.na(text), "", text))
+  dchess <- dchess |>
+    dplyr::mutate(text = ifelse(is.na(.data$text), "", .data$text))
 
   dchess
 

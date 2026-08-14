@@ -1,11 +1,11 @@
+## R CMD check results
+
+0 errors | 0 warnings | 0 notes
+
 ## Resubmission
-This is a resubmission. In this version I have:
 
-* Change DESCRIPTION to avoid non-standard words like js or htmlwidgets.
+This release resumes maintenance after the package was archived on CRAN. It
+updates compatibility with current R, dplyr, tibble, ggplot2, testthat,
+roxygen2, GitHub Actions, and pkgdown while preserving the public API.
 
-* More clearly identified the copyright holders in the DESCRIPTION
-  and LICENSE files.
-  
-* Removing "A Package Por" from the title
-
-* Adding required imports (na.omit, head, text)
+There are currently no known reverse dependency issues.

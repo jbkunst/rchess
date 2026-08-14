@@ -4,9 +4,8 @@
 \name{Chess}
 \alias{Chess}
 \title{Chess Class}
-\format{An \code{\link{R6Class}} generator object}
-\usage{
-Chess
+\format{
+An [R6::R6Class] generator object.
 }
 \description{
 Chees class.
@@ -49,9 +48,552 @@ Chees class.
   \item{\code{get_header}} Get header of the actual game via list object.
   \item{\code{history_detail}} Return a detailed version for \code{history(verbose=TRUE)}.
   \item{\code{summary}} Print a summary of the object.
-  \item{\code{plot}} Plot the object via chessboarjs. You can add \code{type} {ggplot}.
+  \item{\code{plot}} Plot the object with chessboard.js or ggplot2.
   \item{\code{print}} Print the summary ob the Chess object.
 }
 }
-\keyword{datasets}
 
+\section{Methods}{
+\subsection{Public methods}{
+  \itemize{
+    \item \href{#method-Chess-initialize}{\code{Chess$new()}}
+    \item \href{#method-Chess-init_ct}{\code{Chess$init_ct()}}
+    \item \href{#method-Chess-ascii}{\code{Chess$ascii()}}
+    \item \href{#method-Chess-clear}{\code{Chess$clear()}}
+    \item \href{#method-Chess-fen}{\code{Chess$fen()}}
+    \item \href{#method-Chess-pgn}{\code{Chess$pgn()}}
+    \item \href{#method-Chess-get}{\code{Chess$get()}}
+    \item \href{#method-Chess-history}{\code{Chess$history()}}
+    \item \href{#method-Chess-game_over}{\code{Chess$game_over()}}
+    \item \href{#method-Chess-in_check}{\code{Chess$in_check()}}
+    \item \href{#method-Chess-in_checkmate}{\code{Chess$in_checkmate()}}
+    \item \href{#method-Chess-in_draw}{\code{Chess$in_draw()}}
+    \item \href{#method-Chess-in_stalemate}{\code{Chess$in_stalemate()}}
+    \item \href{#method-Chess-in_threefold_repetition}{\code{Chess$in_threefold_repetition()}}
+    \item \href{#method-Chess-insufficient_material}{\code{Chess$insufficient_material()}}
+    \item \href{#method-Chess-move}{\code{Chess$move()}}
+    \item \href{#method-Chess-moves}{\code{Chess$moves()}}
+    \item \href{#method-Chess-validate_fen}{\code{Chess$validate_fen()}}
+    \item \href{#method-Chess-load}{\code{Chess$load()}}
+    \item \href{#method-Chess-load_pgn}{\code{Chess$load_pgn()}}
+    \item \href{#method-Chess-put}{\code{Chess$put()}}
+    \item \href{#method-Chess-remove}{\code{Chess$remove()}}
+    \item \href{#method-Chess-reset}{\code{Chess$reset()}}
+    \item \href{#method-Chess-square_color}{\code{Chess$square_color()}}
+    \item \href{#method-Chess-turn}{\code{Chess$turn()}}
+    \item \href{#method-Chess-undo}{\code{Chess$undo()}}
+    \item \href{#method-Chess-header}{\code{Chess$header()}}
+    \item \href{#method-Chess-get_header}{\code{Chess$get_header()}}
+    \item \href{#method-Chess-history_detail}{\code{Chess$history_detail()}}
+    \item \href{#method-Chess-summary}{\code{Chess$summary()}}
+    \item \href{#method-Chess-plot}{\code{Chess$plot()}}
+    \item \href{#method-Chess-print}{\code{Chess$print()}}
+    \item \href{#method-Chess-clone}{\code{Chess$clone()}}
+  }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-initialize}{}}}
+\subsection{\code{Chess$new()}}{
+  Create a game from a FEN position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$new(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{fen}}{A Forsyth-Edwards Notation string.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-init_ct"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-init_ct}{}}}
+\subsection{\code{Chess$init_ct()}}{
+  Initialize the underlying JavaScript chess context.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$init_ct(fen)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{fen}}{A Forsyth-Edwards Notation string.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-ascii"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-ascii}{}}}
+\subsection{\code{Chess$ascii()}}{
+  Print an ASCII representation of the board.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$ascii()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-clear"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-clear}{}}}
+\subsection{\code{Chess$clear()}}{
+  Remove all pieces from the board.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$clear()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-fen"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-fen}{}}}
+\subsection{\code{Chess$fen()}}{
+  Return the current FEN position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$fen()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-pgn"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-pgn}{}}}
+\subsection{\code{Chess$pgn()}}{
+  Return the game in Portable Game Notation.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$pgn()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-get"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-get}{}}}
+\subsection{\code{Chess$get()}}{
+  Return the piece on a square.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$get(square)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{square}}{A square such as `"e4"`.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-history"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-history}{}}}
+\subsection{\code{Chess$history()}}{
+  Return the moves already played.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$history(verbose = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{verbose}}{If `TRUE`, return detailed move records as a tibble.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-game_over"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-game_over}{}}}
+\subsection{\code{Chess$game_over()}}{
+  Test whether the game has ended.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$game_over()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-in_check"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-in_check}{}}}
+\subsection{\code{Chess$in_check()}}{
+  Test whether the active player is in check.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$in_check()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-in_checkmate"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-in_checkmate}{}}}
+\subsection{\code{Chess$in_checkmate()}}{
+  Test whether the active player is checkmated.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$in_checkmate()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-in_draw"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-in_draw}{}}}
+\subsection{\code{Chess$in_draw()}}{
+  Test whether the game is drawn.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$in_draw()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-in_stalemate"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-in_stalemate}{}}}
+\subsection{\code{Chess$in_stalemate()}}{
+  Test whether the active player is stalemated.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$in_stalemate()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-in_threefold_repetition"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-in_threefold_repetition}{}}}
+\subsection{\code{Chess$in_threefold_repetition()}}{
+  Test whether the position has repeated three times.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$in_threefold_repetition()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-insufficient_material"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-insufficient_material}{}}}
+\subsection{\code{Chess$insufficient_material()}}{
+  Test whether neither player has mating material.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$insufficient_material()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-move"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-move}{}}}
+\subsection{\code{Chess$move()}}{
+  Play a legal move.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$move(move)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{move}}{A move in Standard Algebraic Notation.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-moves"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-moves}{}}}
+\subsection{\code{Chess$moves()}}{
+  Return legal moves from the current position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$moves(verbose = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{verbose}}{If `TRUE`, return detailed move records as a tibble.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-validate_fen"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-validate_fen}{}}}
+\subsection{\code{Chess$validate_fen()}}{
+  Validate a FEN position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$validate_fen(fen)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{fen}}{A Forsyth-Edwards Notation string.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-load"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-load}{}}}
+\subsection{\code{Chess$load()}}{
+  Replace the current position with a FEN position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$load(fen)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{fen}}{A Forsyth-Edwards Notation string.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-load_pgn"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-load_pgn}{}}}
+\subsection{\code{Chess$load_pgn()}}{
+  Load a game from Portable Game Notation.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$load_pgn(pgn)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{pgn}}{A Portable Game Notation string.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-put"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-put}{}}}
+\subsection{\code{Chess$put()}}{
+  Place a piece on a square.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$put(type, color, square)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{type}}{One of `"k"`, `"q"`, `"r"`, `"b"`, `"n"`, or `"p"`.}
+      \item{\code{color}}{Either `"w"` or `"b"`.}
+      \item{\code{square}}{A square such as `"e4"`.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-remove"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-remove}{}}}
+\subsection{\code{Chess$remove()}}{
+  Remove and return the piece on a square.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$remove(square)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{square}}{A square such as `"e4"`.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-reset}{}}}
+\subsection{\code{Chess$reset()}}{
+  Reset the game to the standard starting position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$reset()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-square_color"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-square_color}{}}}
+\subsection{\code{Chess$square_color()}}{
+  Return whether a square is light or dark.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$square_color(square)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{square}}{A square such as `"e4"`.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-turn"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-turn}{}}}
+\subsection{\code{Chess$turn()}}{
+  Return the active color, `"w"` or `"b"`.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$turn()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-undo"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-undo}{}}}
+\subsection{\code{Chess$undo()}}{
+  Undo and return the last move.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$undo()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-header"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-header}{}}}
+\subsection{\code{Chess$header()}}{
+  Add a key-value pair to the PGN header.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$header(key, value)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A PGN header name.}
+      \item{\code{value}}{A value coercible to character.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-get_header"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-get_header}{}}}
+\subsection{\code{Chess$get_header()}}{
+  Return the PGN header as a list.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$get_header()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-history_detail"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-history_detail}{}}}
+\subsection{\code{Chess$history_detail()}}{
+  Return piece-by-piece move history as a tibble.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$history_detail()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-summary"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-summary}{}}}
+\subsection{\code{Chess$summary()}}{
+  Print a summary of the game.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$summary()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-plot}{}}}
+\subsection{\code{Chess$plot()}}{
+  Render the current position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$plot(type = "chessboardjs", ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{type}}{Either `"chessboardjs"` or `"ggplot"`.}
+      \item{\code{...}}{Additional arguments passed to the renderer.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-print}{}}}
+\subsection{\code{Chess$print()}}{
+  Print the game summary.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$print()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Chess-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Chess-clone}{}}}
+\subsection{\code{Chess$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Chess$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+}
