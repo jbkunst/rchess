@@ -1,0 +1,175 @@
+---
+title: "Complete rchess tour"
+description: >
+  Play games, load PGN and FEN positions, inspect game state, and render chess
+  boards with the HTML widget or ggplot2.
+---
+
+```{r setup, include=FALSE}
+library(rchess)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 5.5,
+  fig.height = 5.5,
+  dpi = 96
+)
+```
+
+This article updates the complete example that originally lived on the
+`gh-pages` branch. It follows a game from its initial position through move
+history, FEN and PGN loading, game-state validation, and visualization.
+
+## Start a game
+
+Create a game in the standard starting position and inspect its legal moves:
+
+```{r}
+game <- Chess$new()
+game$moves()
+game$moves(verbose = TRUE)
+```
+
+Moves use Standard Algebraic Notation and can be chained:
+
+```{r}
+game$move("e4")$move("e5")$move("Nf3")$move("Nc6")
+game$history()
+game$history(verbose = TRUE)
+```
+
+Inspect the current position and active side:
+
+```{r}
+game$turn()
+game$fen()
+game$get("e4")
+game$square_color("h1")
+```
+
+Undo the latest move or print the board in the console:
+
+```{r}
+game$undo()
+game$ascii()
+```
+
+## Render the board
+
+`plot()` returns an interactive chessboard.js widget by default:
+
+```{r widget}
+plot(game)
+```
+
+Use `type = "ggplot"` for a static ggplot2 board:
+
+```{r ggplot-board}
+plot(game, type = "ggplot")
+```
+
+You can also render any FEN position directly:
+
+```{r custom-board}
+fen <- "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
+ggchessboard(fen, perspective = "black")
+```
+
+## Load FEN positions
+
+Create a game from FEN or replace the position of an existing game:
+
+```{r}
+fen_game <- Chess$new(fen)
+fen_game$turn()
+fen_game$moves()
+
+fen_game$load("4k3/4P3/4K3/8/8/8/8/8 b - - 0 78")
+fen_game$in_stalemate()
+```
+
+## Load PGN games
+
+The package includes the famous Kasparov–Topalov game from Wijk aan Zee 1999:
+
+```{r}
+pgn_path <- system.file(
+  "extdata/pgn/kasparov_vs_topalov.pgn",
+  package = "rchess"
+)
+pgn <- paste(readLines(pgn_path, warn = FALSE), collapse = "\n")
+
+pgn_game <- Chess$new()
+pgn_game$load_pgn(pgn)
+pgn_game$get_header()
+head(pgn_game$history(verbose = TRUE))
+```
+
+Detailed history follows each original piece through the game and records
+captures:
+
+```{r}
+detail <- pgn_game$history_detail()
+detail
+```
+
+## Add PGN metadata
+
+Headers can be added before exporting a game:
+
+```{r}
+annotated <- Chess$new()
+annotated$move("e4")$move("e5")
+annotated$header("White", "Player One")
+annotated$header("Black", "Player Two")
+annotated$header("Site", "R session")
+annotated$get_header()
+cat(annotated$pgn())
+```
+
+## Validate game state
+
+Checkmate:
+
+```{r}
+mate <- Chess$new(
+  "rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3"
+)
+mate$in_check()
+mate$in_checkmate()
+```
+
+Threefold repetition:
+
+```{r}
+repetition <- Chess$new()
+repetition$move("Nf3")$move("Nf6")$move("Ng1")$move("Ng8")
+repetition$move("Nf3")$move("Nf6")$move("Ng1")$move("Ng8")
+repetition$in_threefold_repetition()
+```
+
+Insufficient material:
+
+```{r}
+material <- Chess$new("k7/8/n7/8/8/8/8/7K b - - 0 1")
+material$insufficient_material()
+```
+
+## Included data
+
+`rchess` includes opening classifications and FIDE World Cup games:
+
+```{r}
+data("chessopenings", package = "rchess")
+data("chesswc", package = "rchess")
+
+head(chessopenings)
+dplyr::count(chesswc, event)
+```
+
+## Under the hood
+
+`rchess` combines the bundled chess.js rules engine with V8 and an R6 API.
+Boards are rendered either with the chessboard.js HTML widget or with ggplot2.
+This keeps game logic, state inspection, and visualization available through a
+single R object.

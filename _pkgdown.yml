@@ -6,12 +6,17 @@ template:
     primary: "#8b5e3c"
     link-color: "#7a4f2d"
 development:
-  mode: auto
+  mode: release
 home:
   title: Chess tools for R
   description: >
     Chess move generation, validation, game-state inspection, and board
     visualization from R.
+articles:
+  - title: Get started
+    navbar: ~
+    contents:
+      - articles/rchess-tour
 reference:
   - title: Chess game
     desc: Create games, make moves, and inspect their state.
