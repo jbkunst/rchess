@@ -57,6 +57,10 @@ game$history(verbose = TRUE)
 game$history_detail()
 ```
 
+For a complete walkthrough—based on the original `gh-pages` example—see
+the [complete rchess
+tour](https://jkunst.com/rchess/articles/rchess-tour.html).
+
 ## Documentation
 
 The full function reference and examples are available on the [pkgdown

@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jbkunst/rchess/blob/v0.1.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jbkunst/rchess/blob/master/DESCRIPTION)
 
 Kunst J (2026). *rchess: Chess Move Generation, Validation, and
 Visualization*. R package version 0.1.1, <https://jkunst.com/rchess/>.
