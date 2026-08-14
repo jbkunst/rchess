@@ -4,10 +4,13 @@
 \alias{ggchessboard}
 \title{Plot a fen representation chessboard via ggplot2}
 \usage{
-
-  ggchessboard(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-  cellcols = c("#D2B48C", "#F5F5DC"), perspective = "white",
-  piecesize = 15)
+ggchessboard(
+  fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+  cellcols = c("#D2B48C", "#F5F5DC"),
+  perspective = "white",
+  piecesize = 15,
+  labelsize = 13
+)
 }
 \arguments{
 \item{fen}{Fen notation of a chessboard}
@@ -17,6 +20,8 @@
 \item{perspective}{A string to show the perspective (black, white)}
 
 \item{piecesize}{Size of the the unicode texts}
+
+\item{labelsize}{Size of the position indicators}
 }
 \value{
 A ggplot object
@@ -26,14 +31,13 @@ Function to show the fen string in ggplot2.
 }
 \examples{
 
-ggchessboard()
+board <- ggchessboard()
 
-ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
+board <- ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
 
-ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
+board <- ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
              cellcols = c("#CCCCCC", "#FAFAFA"),
              piecesize = 17,
              perspective = "black")
 
 }
-

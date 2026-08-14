@@ -4,9 +4,11 @@
 \name{chessopenings}
 \alias{chessopenings}
 \title{Chess openings data}
-\format{A \code{data frame} with 544 observations and 3 variables.}
+\format{
+A \code{data frame} with 544 observations and 3 variables.
+}
 \usage{
-chessopenings
+data(chessopenings)
 }
 \description{
 This data comes from the chess Chess Opening Theory wikibook \url{https://en.wikibooks.org/wiki/Chess_Opening_Theory}.
@@ -37,9 +39,9 @@ The oppening were parse using \code{rvest} package.
 
 }
 }
+
 \examples{
 data(chessopenings)
-library("dplyr")
 head(chessopenings)
 }
-
+\keyword{datasets}

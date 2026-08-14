@@ -24,12 +24,8 @@
 #'
 #' }
 #'
-#' @docType data
-#' @name chessopenings
-#' @usage chessopenings
 #' @format A \code{data frame} with 544 observations and 3 variables.
 #' @examples
 #' data(chessopenings)
-#' library("dplyr")
 #' head(chessopenings)
-NULL
+"chessopenings"

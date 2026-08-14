@@ -1,12 +1,9 @@
-from <- to <- number_move <- color <- san <- start_position <- status <- NULL
-number_move_capture <- piece <- name <- piece_number_move <- captured_by <- .id <- NULL
-
 #' Chess Class
 #'
 #' Chees class.
 #' @docType class
-#' @import R6 dplyr
-#' @format An \code{\link{R6Class}} generator object
+#' @import R6
+#' @format An [R6::R6Class] generator object.
 #' @section Methods:
 #' \itemize{
 #'   \item{\code{new}} Creating a new instance of Chess class.
@@ -44,7 +41,7 @@ number_move_capture <- piece <- name <- piece_number_move <- captured_by <- .id 
 #'   \item{\code{get_header}} Get header of the actual game via list object.
 #'   \item{\code{history_detail}} Return a detailed version for \code{history(verbose=TRUE)}.
 #'   \item{\code{summary}} Print a summary of the object.
-#'   \item{\code{plot}} Plot the object via chessboarjs. You can add \code{type} {ggplot}.
+#'   \item{\code{plot}} Plot the object with chessboard.js or ggplot2.
 #'   \item{\code{print}} Print the summary ob the Chess object.
 #' }
 #' @export
@@ -54,32 +51,44 @@ Chess <- R6::R6Class(
     ct = NULL
   ),
   public = list(
+    #' @description Create a game from a FEN position.
+    #' @param fen A Forsyth-Edwards Notation string.
     initialize = function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
       stopifnot(is_valid_fen(fen))
       self$init_ct(fen)
       invisible(self)
     },
+    #' @description Initialize the underlying JavaScript chess context.
+    #' @param fen A Forsyth-Edwards Notation string.
     init_ct = function(fen){
       private$ct <- .get_context_chess_from_fen(fen)
     },
     ### chessjs api
+    #' @description Print an ASCII representation of the board.
     ascii = function(){
       cat(private$ct$get("chess.ascii()"))
     },
+    #' @description Remove all pieces from the board.
     clear = function(){
       private$ct$eval(V8::JS("chess.clear()"))
     },
+    #' @description Return the current FEN position.
     fen = function(){
       private$ct$get(V8::JS("chess.fen()"))
     },
+    #' @description Return the game in Portable Game Notation.
     pgn = function(){
       private$ct$get("chess.pgn({ max_width: 60 })")
     },
+    #' @description Return the piece on a square.
+    #' @param square A square such as `"e4"`.
     get = function(square){
       assertthat::assert_that(is_chess_square(square))
       strg <- sprintf("chess.get('%s')", square)
       private$ct$get(V8::JS(strg))
     },
+    #' @description Return the moves already played.
+    #' @param verbose If `TRUE`, return detailed move records as a tibble.
     history = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
       res <- private$ct$get("chess.history({ verbose: verb })")
@@ -89,27 +98,36 @@ Chess <- R6::R6Class(
       }
       res
     },
+    #' @description Test whether the game has ended.
     game_over = function(){
       private$ct$get(V8::JS("chess.game_over()"))
     },
+    #' @description Test whether the active player is in check.
     in_check = function(){
       private$ct$get(V8::JS("chess.in_check()"))
     },
+    #' @description Test whether the active player is checkmated.
     in_checkmate = function(){
       private$ct$get(V8::JS("chess.in_checkmate()"))
     },
+    #' @description Test whether the game is drawn.
     in_draw = function(){
       private$ct$get(V8::JS("chess.in_draw()"))
     },
+    #' @description Test whether the active player is stalemated.
     in_stalemate = function(){
       private$ct$get(V8::JS("chess.in_stalemate()"))
     },
+    #' @description Test whether the position has repeated three times.
     in_threefold_repetition = function(){
       private$ct$get(V8::JS("chess.in_threefold_repetition()"))
     },
+    #' @description Test whether neither player has mating material.
     insufficient_material = function(){
       private$ct$get(V8::JS("chess.insufficient_material()"))
     },
+    #' @description Play a legal move.
+    #' @param move A move in Standard Algebraic Notation.
     move = function(move){
       assertthat::assert_that(is_valid_move(x = move, mvs = self$moves()))
       strg <- sprintf("chess.move('%s')", move)
@@ -117,27 +135,39 @@ Chess <- R6::R6Class(
       # return invisible(self) to concatenate moves
       invisible(self)
     },
+    #' @description Return legal moves from the current position.
+    #' @param verbose If `TRUE`, return detailed move records as a tibble.
     moves = function(verbose = FALSE){
       private$ct$assign("verb", verbose)
       res <- private$ct$get("chess.moves({ verbose: verb })")
       if (verbose) res <- tibble::as_tibble(res)
       res
     },
+    #' @description Validate a FEN position.
+    #' @param fen A Forsyth-Edwards Notation string.
     validate_fen = function(fen){
       stopifnot((is_valid_fen(fen)))
       private$ct$assign("fen", fen)
       private$ct$get("chess.validate_fen(fen)")
     },
+    #' @description Replace the current position with a FEN position.
+    #' @param fen A Forsyth-Edwards Notation string.
     load = function(fen){
       stopifnot((is_valid_fen(fen)))
       private$ct$assign("fen", fen)
       private$ct$get("chess.load(fen)")
     },
+    #' @description Load a game from Portable Game Notation.
+    #' @param pgn A Portable Game Notation string.
     load_pgn = function(pgn){
       assertthat::is.string(pgn)
       private$ct$assign("pgn", pgn)
       private$ct$get("chess.load_pgn(pgn)")
     },
+    #' @description Place a piece on a square.
+    #' @param type One of `"k"`, `"q"`, `"r"`, `"b"`, `"n"`, or `"p"`.
+    #' @param color Either `"w"` or `"b"`.
+    #' @param square A square such as `"e4"`.
     put = function(type, color, square){
       assertthat::assert_that(is_chess_square(square))
       assertthat::assert_that(color %in% c("w", "b"))
@@ -147,40 +177,53 @@ Chess <- R6::R6Class(
       private$ct$assign("square", square)
       private$ct$get("chess.put({ type: type, color: color }, square)")
     },
+    #' @description Remove and return the piece on a square.
+    #' @param square A square such as `"e4"`.
     remove = function(square){
       assertthat::assert_that(is_chess_square(square))
       strg <- sprintf("chess.remove('%s')", square)
       private$ct$get(strg)
     },
+    #' @description Reset the game to the standard starting position.
     reset = function(){
       private$ct$eval("chess.reset();")
     },
+    #' @description Return whether a square is light or dark.
+    #' @param square A square such as `"e4"`.
     square_color = function(square){
       assertthat::assert_that(is_chess_square(square))
       strg <- sprintf("chess.square_color('%s')", square)
       private$ct$get(V8::JS(strg))
     },
+    #' @description Return the active color, `"w"` or `"b"`.
     turn = function(){
       private$ct$get(V8::JS("chess.turn()"))
     },
+    #' @description Undo and return the last move.
     undo = function(){
       private$ct$get(V8::JS("chess.undo()"))
     },
+    #' @description Add a key-value pair to the PGN header.
+    #' @param key A PGN header name.
+    #' @param value A value coercible to character.
     header = function(key, value){
       private$ct$assign("key", key)
       private$ct$assign("value", as.character(value))
       private$ct$eval("chess.header(key, value)")
       invisible(self)
     },
+    #' @description Return the PGN header as a list.
     get_header = function(){
       private$ct$get("chess.header()")
     },
     #### internals
+    #' @description Return piece-by-piece move history as a tibble.
     history_detail = function(){
       resp <- .history_detail(self$history(verbose = TRUE))
       resp
     },
     #### generic methods
+    #' @description Print a summary of the game.
     summary = function(){
 
       cat("\nTurn\n")
@@ -199,12 +242,16 @@ Chess <- R6::R6Class(
       cat(self$ascii())
 
     },
+    #' @description Render the current position.
+    #' @param type Either `"chessboardjs"` or `"ggplot"`.
+    #' @param ... Additional arguments passed to the renderer.
     plot    = function(type = "chessboardjs", ...){
       stopifnot(type %in% c("chessboardjs", "ggplot"))
       if (type == "ggplot") e <- ggchessboard(self$fen(), ...)
       if (type == "chessboardjs") e <- chessboardjs(self$fen(), ...)
       e
     },
+    #' @description Print the game summary.
     print   = function(){
       self$summary()
     }))
@@ -223,8 +270,8 @@ Chess <- R6::R6Class(
   if (any(str_detect(dfhist[["san"]], "O-O"))) {
 
     # check if there is castlings for white
-    white_castling <- dfhist %>%
-      dplyr::filter(color == "w", stringr::str_detect(san, "O-O"))
+    white_castling <- dfhist |>
+      dplyr::filter(.data$color == "w", stringr::str_detect(.data$san, "O-O"))
 
     if (nrow(white_castling) == 1) {
       row <- white_castling[["number_move"]]
@@ -234,7 +281,7 @@ Chess <- R6::R6Class(
       from_aux <- ifelse(str_detect(san_aux, "O-O-O"), "a1", "h1")
       to_aux <- ifelse(str_detect(san_aux, "O-O-O"), "d1", "f1")
 
-      dfhist <- plyr::rbind.fill(
+      dfhist <- dplyr::bind_rows(
         dfhist[1:row, ],
         tibble::tibble(color = "w", from = from_aux, to = to_aux, flags = flag_aux,
                        piece = "r", san = san_aux, captured = NA, number_move = row),
@@ -242,8 +289,8 @@ Chess <- R6::R6Class(
     }
 
     # check if there is castling for black
-    black_castling <- dfhist %>%
-      dplyr::filter(color == "b", stringr::str_detect(san, "O-O"))
+    black_castling <- dfhist |>
+      dplyr::filter(.data$color == "b", stringr::str_detect(.data$san, "O-O"))
 
     if (nrow(black_castling) == 1) {
       row <- black_castling[["number_move"]]
@@ -253,7 +300,7 @@ Chess <- R6::R6Class(
       from_aux <- ifelse(str_detect(san_aux, "O-O-O"), "a8", "h8")
       to_aux <- ifelse(str_detect(san_aux, "O-O-O"), "d8", "f8")
 
-      dfhist <- plyr::rbind.fill(
+      dfhist <- dplyr::bind_rows(
         dfhist[1:row, ],
         tibble::tibble(color = "b", from = from_aux, to = to_aux, flags = flag_aux,
                        piece = "r", san = san_aux, captured = NA, number_move = row),
@@ -281,7 +328,7 @@ Chess <- R6::R6Class(
 
   names(start_positions) <- start_positions
 
-  df_paths <- plyr::ldply(start_positions,  function(start_position = "g1", dfhist) {
+  paths <- lapply(start_positions, function(start_position, dfhist) {
     # start_position <- "g1"
     pos_current <- start_position
     pos_nummove <- 0
@@ -292,10 +339,12 @@ Chess <- R6::R6Class(
 
     while (!piece_was_captured & !game_is_over) {
 
-      dfhist_aux <- dfhist %>%
-        filter(from == pos_current | to == pos_current,
-               number_move > pos_nummove) %>%
-        head(1)
+      dfhist_aux <- dfhist |>
+        dplyr::filter(
+          .data$from == pos_current | .data$to == pos_current,
+          .data$number_move > pos_nummove
+        ) |>
+        utils::head(1)
 
       # game is over?
       if (nrow(dfhist_aux) == 0) {
@@ -304,7 +353,8 @@ Chess <- R6::R6Class(
         if (is.null(nrow(df_path))) {
           df_path <- tibble::tibble(from = pos_current, status = "game over")
         } else {
-          df_path <- df_path %>% mutate(status = c(rep(NA, nrow(df_path) - 1), "game over"))
+          df_path <- df_path |>
+            dplyr::mutate(status = c(rep(NA, nrow(df_path) - 1), "game over"))
         }
 
         break
@@ -319,9 +369,11 @@ Chess <- R6::R6Class(
                                     status = "captured",
                                     number_move_capture = dfhist_aux$number_move)
         } else {
-          df_path <- df_path %>%
-            mutate(status = c(rep(NA, nrow(df_path) - 1), "captured"),
-                   number_move_capture = c(rep(NA, nrow(df_path) - 1), dfhist_aux$number_move))
+          df_path <- df_path |>
+            dplyr::mutate(
+              status = c(rep(NA, nrow(df_path) - 1), "captured"),
+              number_move_capture = c(rep(NA, nrow(df_path) - 1), dfhist_aux$number_move)
+            )
         }
 
         break
@@ -339,40 +391,40 @@ Chess <- R6::R6Class(
 
     df_path
 
-  }, dfhist)
+  }, dfhist = dfhist)
 
-  # rename id var
-  df_paths <- tibble::as_tibble(df_paths) %>%
-    dplyr::rename(start_position = .id)
+  df_paths <- dplyr::bind_rows(paths, .id = "start_position")
 
   # calculating moves per pieces
-  df_paths <- df_paths %>%
-    dplyr::group_by(start_position) %>%
-    mutate(piece_number_move = row_number()) %>%
-    ungroup() %>%
-    dplyr::arrange(start_position)
+  df_paths <- df_paths |>
+    dplyr::group_by(.data$start_position) |>
+    dplyr::mutate(piece_number_move = dplyr::row_number()) |>
+    dplyr::ungroup() |>
+    dplyr::arrange(.data$start_position)
 
-  df_paths <- full_join(.chesspiecedata() %>%
-                          dplyr::select(piece = name, start_position),
-                        df_paths,
-                        by = "start_position")
+  df_paths <- dplyr::full_join(
+    .chesspiecedata() |>
+      dplyr::select(piece = "name", "start_position"),
+    df_paths,
+    by = "start_position"
+  )
 
   if (!"number_move_capture" %in% names(df_paths)) df_paths[["number_move_capture"]] <- NA
 
-  df_paths <- cbind(df_paths %>%
-                      dplyr::select(-start_position, -status, -number_move_capture),
-                    df_paths %>%
-                      dplyr::select(status, number_move_capture))
+  df_paths <- cbind(df_paths |>
+                      dplyr::select(-dplyr::all_of(c("start_position", "status", "number_move_capture"))),
+                    df_paths |>
+                      dplyr::select(dplyr::all_of(c("status", "number_move_capture"))))
 
   df_paths <- tibble::as_tibble(df_paths)
 
   # adding the pieces was capture the others
-  df_capture <- df_paths %>%
-    filter(number_move %in% na.omit(df_paths$number_move_capture)) %>%
-    dplyr::select(captured_by = piece, number_move_capture = number_move)
+  df_capture <- df_paths |>
+    dplyr::filter(.data$number_move %in% stats::na.omit(df_paths$number_move_capture)) |>
+    dplyr::select(captured_by = "piece", number_move_capture = "number_move")
 
-  df_paths <- df_paths %>%
-    left_join(df_capture, by = "number_move_capture")
+  df_paths <- df_paths |>
+    dplyr::left_join(df_capture, by = "number_move_capture")
 
   df_paths
 

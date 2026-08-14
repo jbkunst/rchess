@@ -1,6 +1,7 @@
-#' Package por chess move, generation/validation, piece placement/movement, and
-#' check/checkmate/stalemate detection
+#' Chess tools for R
 #'
-#' @docType package
-#' @name rchess
-NULL
+#' Chess move generation and validation, piece placement and movement,
+#' game-state inspection, and board visualization.
+#'
+#' @keywords internal
+"_PACKAGE"

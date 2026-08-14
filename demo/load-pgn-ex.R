@@ -9,4 +9,5 @@ chsspgn$load_pgn(pgn)
 
 chsspgn$history_detail()
 
-chsspgn$history_detail() %>% filter(!is.na(status))
+chsspgn$history_detail() |>
+  dplyr::filter(!is.na(status))

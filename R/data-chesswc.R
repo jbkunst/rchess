@@ -1,6 +1,6 @@
 #' FIDE World Cups data
 #'
-#' This data comes from the \url{http://www.theweekinchess.com/} site and
+#' This data comes from the \url{https://theweekinchess.com/} site and
 #' represent 1,266 games in the FIDE World Cupo 11, 13 and 15.  The data
 #' has been parsed from the downloaded pgn files using \url{https://github.com/jbkunst/chess-db}
 #' scripts.
@@ -9,9 +9,9 @@
 #'
 #' \itemize{
 #'
-#'  \item http://www.theweekinchess.com/chessnews/events/fide-world-cup-2015
-#'  \item http://www.theweekinchess.com/chessnews/events/fide-world-cup-tromso-2013
-#'  \item http://www.theweekinchess.com/chessnews/events/fide-world-cup-khanty-mansiysk-2011
+#'  \item https://theweekinchess.com/chessnews/events/fide-world-cup-2015
+#'  \item https://theweekinchess.com/chessnews/events/fide-world-cup-tromso-2013
+#'  \item https://theweekinchess.com/chessnews/events/fide-world-cup-khanty-mansiysk-2011
 #'
 #' }
 #'
@@ -33,12 +33,8 @@
 #'
 #' }
 #'
-#' @docType data
-#' @name chesswc
-#' @usage chesswc
 #' @format A \code{data frame} with 1,266 observations and 11 variables.
 #' @examples
 #' data(chesswc)
-#' library("dplyr")
-#' count(chesswc, event)
-NULL
+#' dplyr::count(chesswc, event)
+"chesswc"

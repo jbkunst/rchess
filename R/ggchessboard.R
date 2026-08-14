@@ -1,4 +1,3 @@
-x <- y <- cc <- text <- NULL
 #' Plot a fen representation chessboard via ggplot2
 #' @description Function to show the fen string in ggplot2.
 #' @param fen Fen notation of a chessboard
@@ -7,15 +6,14 @@ x <- y <- cc <- text <- NULL
 #' @param piecesize Size of the the unicode texts
 #' @param labelsize Size of the position indicators
 #' @return A ggplot object
-#' @import ggplot2
 #' @export
 #' @examples
 #'
-#' ggchessboard()
+#' board <- ggchessboard()
 #'
-#' ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
+#' board <- ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
 #'
-#' ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
+#' board <- ggchessboard(fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
 #'              cellcols = c("#CCCCCC", "#FAFAFA"),
 #'              piecesize = 17,
 #'              perspective = "black")
@@ -33,21 +31,25 @@ ggchessboard <- function(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ
 
   lvls <- if (perspective == "white") 1:8 else 8:1
 
-  dchess <- dchess %>%
-    dplyr::mutate(x = factor(x, levels = lvls),
-                  y = factor(y, levels = lvls))
+  dchess <- dchess |>
+    dplyr::mutate(
+      x = factor(.data$x, levels = lvls),
+      y = factor(.data$y, levels = lvls)
+    )
 
-  p <- ggplot(dchess, aes(x = x, y = y)) +
-    geom_tile(aes(fill = cc)) +
-    geom_text(aes(label = text), size = piecesize) +
-    scale_fill_manual(values = cellcols) +
-    coord_equal() +
-    theme(legend.position = "none",
-          panel.background = element_blank(),
-          axis.ticks = element_blank(),
-          axis.text = element_text(size = labelsize)) +
-    scale_x_discrete(labels = letters[1:8]) +
-    labs(x = "", y = "")
+  p <- ggplot2::ggplot(dchess, ggplot2::aes(x = .data$x, y = .data$y)) +
+    ggplot2::geom_tile(ggplot2::aes(fill = .data$cc)) +
+    ggplot2::geom_text(ggplot2::aes(label = .data$text), size = piecesize) +
+    ggplot2::scale_fill_manual(values = cellcols) +
+    ggplot2::coord_equal() +
+    ggplot2::theme(
+      legend.position = "none",
+      panel.background = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_blank(),
+      axis.text = ggplot2::element_text(size = labelsize)
+    ) +
+    ggplot2::scale_x_discrete(labels = letters[1:8]) +
+    ggplot2::labs(x = "", y = "")
 
   p
 

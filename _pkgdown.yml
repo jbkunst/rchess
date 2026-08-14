@@ -1,15 +1,34 @@
-url: https://jbkunst.github.io/rchess/
+url: https://jkunst.com/rchess/
 template:
   bootstrap: 5
+  bootswatch: sandstone
+  bslib:
+    primary: "#8b5e3c"
+    link-color: "#7a4f2d"
+development:
+  mode: auto
+home:
+  title: Chess tools for R
+  description: >
+    Chess move generation, validation, game-state inspection, and board
+    visualization from R.
 reference:
   - title: Chess game
+    desc: Create games, make moves, and inspect their state.
     contents:
       - Chess
   - title: Boards and plots
+    desc: Render chess positions as widgets or ggplot2 graphics.
     contents:
       - chessboardjs
       - ggchessboard
   - title: Shiny
+    desc: Use interactive chessboards in Shiny applications.
     contents:
       - chessboardjsOutput
       - renderChessboardjs
+  - title: Data
+    desc: Included chess games and opening classifications.
+    contents:
+      - chessopenings
+      - chesswc

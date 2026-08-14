@@ -13,3 +13,4 @@ man-roxygen
 ^README-.*\.png$
 devscripts/*
 ^_pkgdown\.yml$
+^docs$
