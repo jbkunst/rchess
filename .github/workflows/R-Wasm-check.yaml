@@ -20,7 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Build package for WebAssembly
-        uses: r-wasm/actions/build-rwasm@v3
-        with:
-          packages: "."
-          webr-image: ghcr.io/r-wasm/webr:v0.6.0
+        run: |
+          docker run --rm \
+            -v "$PWD:/github/workspace" \
+            -w /github/workspace \
+            ghcr.io/r-wasm/webr:v0.6.0 \
+            Rscript -e 'rwasm::add_pkg(".", repo_dir = "_site", remotes = NULL, compress = TRUE); rwasm::make_vfs_library(out_dir = ".", repo_dir = "_site", compress = TRUE)'
