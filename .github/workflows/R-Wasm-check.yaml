@@ -23,3 +23,4 @@ jobs:
         uses: r-wasm/actions/build-rwasm@v3
         with:
           packages: "."
+          webr-image: ghcr.io/r-wasm/webr:v0.6.0
