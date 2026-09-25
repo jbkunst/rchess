@@ -19,20 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Diagnose webR apt sources
-        run: |
-          docker run --rm ghcr.io/r-wasm/webr:v0.6.0 bash -lc '
-            cat /etc/os-release
-            echo "--- apt sources ---"
-            grep -Rhv "^[[:space:]]*#" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || true
-            echo "--- apt update ---"
-            apt-get update || true
-          '
-
       - name: Build package for WebAssembly
         run: |
           docker run --rm \
             -v "$PWD:/github/workspace" \
             -w /github/workspace \
             ghcr.io/r-wasm/webr:v0.6.0 \
-            Rscript -e 'rwasm::add_pkg(".", repo_dir = "_site", remotes = NULL, compress = TRUE); rwasm::make_vfs_library(out_dir = ".", repo_dir = "_site", compress = TRUE)'
+            bash -lc '
+              rm -f /etc/apt/sources.list.d/rig.list
+              Rscript -e "rwasm::add_pkg(\".\", repo_dir = \"_site\", remotes = NULL, compress = TRUE); rwasm::make_vfs_library(out_dir = \".\", repo_dir = \"_site\", compress = TRUE)"
+            '
