@@ -10,7 +10,7 @@ an HTML widget and a `ggplot2` board renderer.
 
 ## Motivation
 
-`rchess` started from a simple gap: I wanted chess logic and board visualization available directly from R and could not find an R package covering the workflow I needed. Wrapping `chess.js` provided the game logic while R could handle analysis and visualization, including both an interactive widget and a `ggplot2` representation.
+`rchess` brings chess logic and board visualization to R by wrapping `chess.js`, with both interactive and `ggplot2` representations.
 
 > **Package status:** `rchess` was archived on CRAN on November 14, 2023.
 > Install the maintained development version from GitHub while a new CRAN
